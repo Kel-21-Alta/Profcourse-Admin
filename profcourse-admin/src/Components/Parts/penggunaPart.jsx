@@ -1,4 +1,4 @@
-export default function DashboardPart(props){
+export default function PenggunaPart(props){
     return (
         <div className="mx-5 my-3">
             <h2 className="fw-bold">Dashboard</h2>
