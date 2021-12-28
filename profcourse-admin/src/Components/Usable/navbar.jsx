@@ -1,9 +1,6 @@
 import Logo from "../../assets/profcourseLogo.png"
 
 export default function Sidebar(props){
-    const getNavLinkClass = (path) => {
-    return props.location.pathname === path ? "active" : "";
-  };
     return (
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-secondary">
         <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100">
