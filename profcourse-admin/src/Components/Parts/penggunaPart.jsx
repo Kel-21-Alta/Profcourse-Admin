@@ -1,66 +1,46 @@
+import User from "../../assets/carbon_user-avatar-filled.png"
 export default function PenggunaPart(props){
     return (
         <div className="mx-5 my-3">
-            <h2 className="fw-bold">Dashboard</h2>
-            <div className="container my-4">
-            <div className="row mx-auto justify-content-center">
-            <div class="card col-md-3 mx-4 shadow border-0 rounded py-4 my-2">
-                <div class="card-body text-center">
-                    <h1 className="fw-bold ">12</h1>
-                    <h3 className="">Kursus</h3>
+            <h2 className="fw-bold">Pengguna</h2>
+            <div className="d-flex justify-content-end gap-2 me-5 my-2">
+                <button className="btn btn-thirtiery shadow">Unduh Report Pengguna</button>
+                <button className="btn btn-thirtiery shadow">Buat Pengguna</button>
+            </div>
+            <div className="d-flex my-2">
+                <div className="py-2">
+                    <input type="text" className="form-control-sm px-3" id="searchPengguna" name="searchPengguna"  placeholder="Cari Pengguna" style={{'border-radius':'30px','background-color':'#E5E5E5','border':'none'}}/>
                 </div>
-            </div>
-            <div class="card col-md-3 mx-4 shadow border-0 py-4 my-2">
-                <div class="card-body text-center">
-                    <h1 className="fw-bold">129</h1>
-                    <h3 className="">Pengguna</h3>
-                </div>
-            </div>
-            <div class="card col-md-3 mx-4 shadow border-0 py-4 my-2">
-                <div class="card-body text-center">
-                    <h1 className="fw-bold">9</h1>
-                    <h3 className="">Spesialisasi</h3>
-                </div>
-            </div>
-            </div>
-            </div>
-            <div className="mt-4">
-                <h6 className="fw-bold">Leaderboards</h6>
+                <div class="d-flex justify-content-end w-100 py-2 px-5">
+                <div className="mx-2">urutkan:</div>
                 <div>
-                <table class="table table-striped">
-                <thead>
-                    <tr>
-                    <th scope="col">Rank</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">Kelas Diambil</th>
-                    <th scope="col">Total Point</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>5</td>
-                    <td>50</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>6</td>
-                    <td>45</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td>Larry the Bird</td>
-                    <td>4</td>
-                    <td>30</td>
-                    </tr>
-                </tbody>
-                </table>
-                <div className="d-flex justify-content-end">
-                <button type="button"class="btn btn-thirtiery align-item-end">lebih banyak</button>
+                <select className="form-select form-select-sm d-block" aria-label=".form-select-sm example" style={{'border-radius':'30px',}}>
+                    <option selected>A-Z</option>
+                    <option value="1">Z-A</option>
+                    <option value="2">Poin Tertinggi</option>
+                    <option value="3">Poin Terendah</option>
+                    <option value="3">Terbaru</option>
+                </select>
                 </div>
                 </div>
+            </div>
+            <div className="">
+            <div class="card border-0 shadow-lg my-1" style={{'border-radius':'30px',}}>
+  <div class="card-body d-flex">
+    <img src={ User }></img>
+    <div className="fw-bold">John Smith</div>
+  </div>
+</div>
+<div class="card border-0 shadow-lg my-1" style={{'border-radius':'30px',}}>
+  <div class="card-body">
+    This is some text within a card body.
+  </div>
+</div>
+<div class="card border-0 shadow-lg my-1" style={{'border-radius':'30px',}}>
+  <div class="card-body">
+    This is some text within a card body.
+  </div>
+</div>
             </div>
         </div>
    

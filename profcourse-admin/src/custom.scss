@@ -13,4 +13,11 @@ $theme-colors: map-merge(
   $theme-colors
 );
 $thirtiery: #3252DF;
+$input-bg: #F5F6F8 !default;
+$input-border-width: 0 !default;
+$box-shadow:                  0 .5rem 1rem rgba(#3252DF, .4);
+div {
+  font-family: "Poppins", sans-serif;
+}
+
 @import '~bootstrap/scss/bootstrap.scss';
