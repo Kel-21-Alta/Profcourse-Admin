@@ -4,14 +4,16 @@ import {
   } from "react-router-dom";
 import Dashboard from "./pages/dashboard";
 import Login from "./pages/login";
+import LupaPassword from "./pages/lupa-password";
 import Pengguna from "./pages/pengguna";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Login/>}/>
+      <Route path="/login" element={<Login/>}/>
       <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/pengguna" element={<Pengguna/>}/>
+      <Route path="/login/lupa-password" element={<LupaPassword/>}/>
     </Routes>
   );
 }

@@ -1,6 +1,6 @@
 import LoginImage from "../assets/Group1.png";
 import { Link } from "react-router-dom";
-export default function Login(){
+export default function LupaPassword(){
     return (
         <div
         className=" bg-thirtiery m-0 d-flex justify-content-center align-items-center"
@@ -18,7 +18,7 @@ export default function Login(){
                         <div className="px-5 py-lg-5 mx-lg-5 my-5 justify-content-center align-items-center">
                     <div className="d-flex">
                     <div className="w-100 text-center">
-                      <h3 className="mb-4 fw-bold">Admin Login</h3>
+                      <h3 className="mb-4 fw-bold">Lupa Password</h3>
                     </div>
                   </div>
                   <form action="#" className="">
@@ -33,33 +33,21 @@ export default function Login(){
                         required
                       />
                     </div>
-                    <div className="form-group mb-3">
-                      <label className="fw-normal" htmlFor="password">
-                        Kata Sandi
-                      </label>
-                      <input
-                        type="password"
-                        className="form-control"
-                        placeholder="masukkan password anda"
-                        required
-                      />
-                    </div>
-                    <div className="form-group">
-                      <div
-                        className="w-100 text-right d-flex justify-content-end"
-                        style={{ fontSize: "10px" }}
-                      >
-                        <Link to="lupa-password"> <button type="link" href="/" className="btn btn-link" style={{ fontSize: "12px" }}>
-                          Lupa password?
-                        </button></Link>
-                      </div>
-                    </div>
                     <div className="form-group text-center">
                       <button className="btn btn-thirtiery w-100 shadow" >
-                        Masuk
+                        Reset Kata Sandi
                       </button>
                     </div>
                   </form>
+                  <div className="form-group">
+                      <div
+                        className="w-100 text-right d-flex justify-content-center"
+                      >
+                        <Link to="/login"> <button type="link" href="/" className="btn btn-link" style={{ fontSize: "12px" }}>
+                          Masuk lewat sini.
+                        </button></Link>
+                      </div>
+                    </div>
                   </div>
                 </div>
                     </div>

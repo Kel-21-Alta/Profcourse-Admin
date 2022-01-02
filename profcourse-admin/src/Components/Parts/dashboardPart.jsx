@@ -4,19 +4,19 @@ export default function DashboardPart(props){
             <h2 className="fw-bold">Dashboard</h2>
             <div className="container my-4">
             <div className="row mx-auto justify-content-center">
-            <div class="card col-md-3 mx-4 shadow border-0 rounded py-4 my-2">
+            <div class="card col-md-3 mx-4 shadow border-0   py-4 my-2" style={{'border-radius':'15px',}}>
                 <div class="card-body text-center">
                     <h1 className="fw-bold ">12</h1>
                     <h3 className="">Kursus</h3>
                 </div>
             </div>
-            <div class="card col-md-3 mx-4 shadow border-0 py-4 my-2">
+            <div class="card col-md-3 mx-4 shadow border-0 py-4 my-2" style={{'border-radius':'15px',}}>
                 <div class="card-body text-center">
                     <h1 className="fw-bold">129</h1>
                     <h3 className="">Pengguna</h3>
                 </div>
             </div>
-            <div class="card col-md-3 mx-4 shadow border-0 py-4 my-2">
+            <div class="card col-md-3 mx-4 shadow border-0 py-4 my-2" style={{'border-radius':'15px',}}>
                 <div class="card-body text-center">
                     <h1 className="fw-bold">9</h1>
                     <h3 className="">Spesialisasi</h3>
@@ -58,7 +58,7 @@ export default function DashboardPart(props){
                 </tbody>
                 </table>
                 <div className="d-flex justify-content-end">
-                <button type="button"class="btn btn-thirtiery align-item-end">lebih banyak</button>
+                <button type="button"class="btn btn-thirtiery align-item-end shadow">lebih banyak</button>
                 </div>
                 </div>
             </div>
