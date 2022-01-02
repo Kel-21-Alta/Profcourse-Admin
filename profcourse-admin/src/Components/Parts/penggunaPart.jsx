@@ -1,11 +1,12 @@
 import User from "../../assets/carbon_user-avatar-filled.png"
+import { Link } from "react-router-dom";
 export default function PenggunaPart(props){
     return (
         <div className="mx-5 my-3">
             <h2 className="fw-bold">Pengguna</h2>
             <div className="d-flex justify-content-end gap-2 me-5 my-2">
                 <button className="btn btn-thirtiery shadow">Unduh Report Pengguna</button>
-                <button className="btn btn-thirtiery shadow">Buat Pengguna</button>
+                <Link to="/buat"><button className="btn btn-thirtiery shadow">Buat Pengguna</button></Link>
             </div>
             <div className="d-flex my-2">
                 <div className="py-2">
