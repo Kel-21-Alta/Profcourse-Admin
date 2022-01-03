@@ -1,18 +1,17 @@
-import DashboardPart from "../Components/Parts/dashboardPart";
+import BuatPenggunaPart from "../Components/Parts/buatPenggunaPart";
 import AdminTab from "../Components/Usable/adminTab";
 import Sidebar from "../Components/Usable/navbar";
 
-export default function Dashboard(props){
+export default function BuatPengguna(){
     return (
         <div class="container-fluid">
             <div class="row flex-nowrap">
                 <Sidebar/>
                 <div class="col py-3">
                     <AdminTab/>
-                    <DashboardPart/>
+                    <BuatPenggunaPart/>
                 </div>
             </div>
        </div>
     );
 }
- 
