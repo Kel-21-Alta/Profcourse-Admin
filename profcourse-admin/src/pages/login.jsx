@@ -1,6 +1,80 @@
 import LoginImage from "../assets/Group1.png";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react"
+import axios from 'axios';
+
 export default function Login(){
+  var newErrorMessage = {
+    email : "",
+    password: "",
+  }
+  function loginAdmin(email,password) {
+    axios.post('http://3.133.85.122:9090/api/v1/admin/login', {
+      "email": email,
+      "password": password
+    })
+    .then(function (response) {
+      console.log(response.data.data);
+    })
+    .catch(function (error) {
+      console.log(error.response.data.code);
+      if(error.response.data.code === 400){
+        newErrorMessage = ({
+          email: JSON.stringify(error.response.data.message)
+        })
+      }else if(error.response.data.code === 403){
+        newErrorMessage = ({
+          ...newErrorMessage,
+          password: JSON.stringify(error.response.data.message)
+        })
+      }
+      console.log("newError",newErrorMessage)
+      setErrorMessage(newErrorMessage)
+      console.log("error",errorMessage)
+    });;
+  }
+
+const [login, setLogin] = useState({
+    email : "",
+    password: "",
+});
+const [errorMessage, setErrorMessage] = useState({
+  email : "",
+  password: "",
+});
+
+const onChange = (e) => {
+  console.log(e)
+  setLogin({
+    ...login,
+    [e.target.name]: e.target.value,
+  })
+  
+};
+
+const handleSubmit = (e) => {
+
+      const newLogin = login
+      console.log(newLogin)
+      loginAdmin(newLogin.email,newLogin.password)
+      e.preventDefault();
+};
+
+function addClass(name) {
+  var element = document.getElementById(name);
+  console.log(element)
+  element.classList.add("is-invalid");
+}
+
+function removeClass(name) {
+  var element = document.getElementById(name);
+  element.classList.remove("is-invalid");
+}
+useEffect(() =>{
+  if(errorMessage.password !== ""){
+    addClass("password")
+  }
+},)
     return (
         <div
         className=" bg-thirtiery m-0 d-flex justify-content-center align-items-center"
@@ -21,28 +95,40 @@ export default function Login(){
                       <h3 className="mb-4 fw-bold">Admin Login</h3>
                     </div>
                   </div>
-                  <form action="#" className="">
+                  <form onSubmit={handleSubmit} className="needs-validation" novalidate >
                     <div className="form-group mb-3">
                       <label className="fw-normal" htmlFor="Email">
                         Email
                       </label>
                       <input
+                        id="email"
+                        name="email"
                         type="email"
                         className="form-control"
                         placeholder="Masukkan email anda"
+                        onChange={onChange}
                         required
                       />
+                      <div id="validationServerEmailFeedback" class="invalid-feedback">
+        {errorMessage.email}
+      </div>
                     </div>
                     <div className="form-group mb-3">
                       <label className="fw-normal" htmlFor="password">
                         Kata Sandi
                       </label>
                       <input
+                        id="password"
+                        name="password"
                         type="password"
                         className="form-control"
                         placeholder="masukkan password anda"
+                        onChange={onChange}
                         required
                       />
+                      <div id="validationServerPasswordFeedback" class="invalid-feedback">
+        {errorMessage.password}
+      </div>
                     </div>
                     <div className="form-group">
                       <div
@@ -55,7 +141,7 @@ export default function Login(){
                       </div>
                     </div>
                     <div className="form-group text-center">
-                      <button className="btn btn-thirtiery w-100 shadow" >
+                      <button className="btn btn-thirtiery w-100 shadow" type="submit" >
                         Masuk
                       </button>
                     </div>
