@@ -1,31 +1,40 @@
 import LoginImage from "../assets/Group1.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react"
 import axios from 'axios';
 
 export default function Login(){
+  const navigate = useNavigate()
   var newErrorMessage = {
     email : "",
     password: "",
   }
+  var newLoginMessage = {
+    token : "",
+  }
+
   function loginAdmin(email,password) {
     axios.post('http://3.133.85.122:9090/api/v1/admin/login', {
       "email": email,
       "password": password
     })
     .then(function (response) {
-      console.log(response.data.data);
+      console.log(response.data.data.token);
+      newLoginMessage ={
+        token : response.data.data.token
+      }
+      console.log(newLoginMessage.token)
+      setLoginMessage(newLoginMessage)
     })
     .catch(function (error) {
       console.log(error.response.data.code);
       if(error.response.data.code === 400){
         newErrorMessage = ({
-          email: JSON.stringify(error.response.data.message)
+          email: error.response.data.message
         })
       }else if(error.response.data.code === 403){
         newErrorMessage = ({
-          ...newErrorMessage,
-          password: JSON.stringify(error.response.data.message)
+          password: error.response.data.message
         })
       }
       console.log("newError",newErrorMessage)
@@ -42,6 +51,9 @@ const [errorMessage, setErrorMessage] = useState({
   email : "",
   password: "",
 });
+const [loginMessage, setLoginMessage] = useState({
+  token : "",
+});
 
 const onChange = (e) => {
   console.log(e)
@@ -53,10 +65,12 @@ const onChange = (e) => {
 };
 
 const handleSubmit = (e) => {
-
+      removeClass("email")
+      removeClass("password")
       const newLogin = login
       console.log(newLogin)
       loginAdmin(newLogin.email,newLogin.password)
+      
       e.preventDefault();
 };
 
@@ -71,10 +85,25 @@ function removeClass(name) {
   element.classList.remove("is-invalid");
 }
 useEffect(() =>{
-  if(errorMessage.password !== ""){
+  console.log("useEffect",errorMessage)
+  if(errorMessage.password){
     addClass("password")
+
+  }else if(errorMessage.email){
+    addClass("email")
   }
-},)
+},[errorMessage])
+
+const goTo = () => {
+  navigate(`/dashboard`)
+}
+
+useEffect(() =>{
+  console.log("useEffect",loginMessage)
+  if(loginMessage.token !== ""){
+    goTo()
+  }
+})
     return (
         <div
         className=" bg-thirtiery m-0 d-flex justify-content-center align-items-center"
