@@ -2,32 +2,29 @@ import LoginImage from "../assets/Group1.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react"
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 export default function Login(){
   const navigate = useNavigate()
+  //message variables
   var newErrorMessage = {
     email : "",
     password: "",
   }
-  var newLoginMessage = {
-    token : "",
-  }
-
+  //cookies
+  const [cookies, setCookie] = useCookies(['user']);
+  //axios fetching
   function loginAdmin(email,password) {
     axios.post('http://3.133.85.122:9090/api/v1/admin/login', {
       "email": email,
       "password": password
     })
     .then(function (response) {
-      console.log(response.data.data.token);
-      newLoginMessage ={
-        token : response.data.data.token
-      }
-      console.log(newLoginMessage.token)
-      setLoginMessage(newLoginMessage)
+      setCookie('userData',response.data.data,{ path: '/',sameSite:'lax'});
+      setIsLoading(false)
+      goTo()
     })
     .catch(function (error) {
-      console.log(error.response.data.code);
       if(error.response.data.code === 400){
         newErrorMessage = ({
           email: error.response.data.message
@@ -37,12 +34,11 @@ export default function Login(){
           password: error.response.data.message
         })
       }
-      console.log("newError",newErrorMessage)
       setErrorMessage(newErrorMessage)
-      console.log("error",errorMessage)
+      setIsLoading(false)
     });;
   }
-
+//hooks
 const [login, setLogin] = useState({
     email : "",
     password: "",
@@ -51,10 +47,9 @@ const [errorMessage, setErrorMessage] = useState({
   email : "",
   password: "",
 });
-const [loginMessage, setLoginMessage] = useState({
-  token : "",
-});
+const [isLoading, setIsLoading] = useState(false);
 
+//functions
 const onChange = (e) => {
   console.log(e)
   setLogin({
@@ -65,12 +60,11 @@ const onChange = (e) => {
 };
 
 const handleSubmit = (e) => {
+      setIsLoading(true)
       removeClass("email")
       removeClass("password")
       const newLogin = login
-      console.log(newLogin)
       loginAdmin(newLogin.email,newLogin.password)
-      
       e.preventDefault();
 };
 
@@ -84,26 +78,27 @@ function removeClass(name) {
   var element = document.getElementById(name);
   element.classList.remove("is-invalid");
 }
-useEffect(() =>{
-  console.log("useEffect",errorMessage)
-  if(errorMessage.password){
-    addClass("password")
-
-  }else if(errorMessage.email){
-    addClass("email")
-  }
-},[errorMessage])
 
 const goTo = () => {
   navigate(`/dashboard`)
 }
 
+//effects
 useEffect(() =>{
-  console.log("useEffect",loginMessage)
-  if(loginMessage.token !== ""){
+  console.log("useEffect",errorMessage)
+  if(errorMessage.password && !(isLoading)){
+    addClass("password")
+  }else if(errorMessage.email && !(isLoading)){
+    addClass("email")
+  }
+},)
+
+useEffect(() =>{
+  if(cookies.userData){
     goTo()
   }
-})
+},)
+
     return (
         <div
         className=" bg-thirtiery m-0 d-flex justify-content-center align-items-center"
@@ -124,7 +119,7 @@ useEffect(() =>{
                       <h3 className="mb-4 fw-bold">Admin Login</h3>
                     </div>
                   </div>
-                  <form onSubmit={handleSubmit} className="needs-validation" novalidate >
+                  {isLoading ? <div className="text-center">Loading...</div>:(<form onSubmit={handleSubmit} className="needs-validation" novalidate >
                     <div className="form-group mb-3">
                       <label className="fw-normal" htmlFor="Email">
                         Email
@@ -135,6 +130,7 @@ useEffect(() =>{
                         type="email"
                         className="form-control"
                         placeholder="Masukkan email anda"
+                        value={login.email}
                         onChange={onChange}
                         required
                       />
@@ -152,6 +148,7 @@ useEffect(() =>{
                         type="password"
                         className="form-control"
                         placeholder="masukkan password anda"
+                        value={login.password}
                         onChange={onChange}
                         required
                       />
@@ -174,7 +171,8 @@ useEffect(() =>{
                         Masuk
                       </button>
                     </div>
-                  </form>
+                  </form>)}
+                  
                   </div>
                 </div>
                     </div>

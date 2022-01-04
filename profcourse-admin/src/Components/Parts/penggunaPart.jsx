@@ -28,7 +28,7 @@ export default function PenggunaPart(props){
             <div className="">
             <div class="card border-0 shadow-lg my-1" style={{'border-radius':'30px',}}>
   <div class="card-body d-flex">
-    <img src={ User }></img>
+    <img src={ User } alt="user"></img>
     <div className="fw-bold">John Smith</div>
   </div>
 </div>
