@@ -11,11 +11,11 @@ import Pengguna from "./pages/pengguna";
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={<Login/>}/>
+      <Route path="/" element={<Login/>}/>
       <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/pengguna" element={<Pengguna/>}/>
       <Route path="/pengguna/buat" element={<BuatPengguna/>}/>
-      <Route path="/login/lupa-password" element={<LupaPassword/>}/>
+      <Route path="/lupa-password" element={<LupaPassword/>}/>
     </Routes>
   );
 }
