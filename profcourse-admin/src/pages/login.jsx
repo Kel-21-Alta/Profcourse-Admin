@@ -119,7 +119,7 @@ useEffect(() =>{
                       <h3 className="mb-4 fw-bold">Admin Login</h3>
                     </div>
                   </div>
-                  {isLoading ? <div className="text-center">Loading...</div>:(<form onSubmit={handleSubmit} className="needs-validation" novalidate >
+                  {isLoading ? <div className="text-center">Loading...</div>:(<form onSubmit={handleSubmit} className="needs-validation" novalidate onkeydown="return event.key != 'Enter';" >
                     <div className="form-group mb-3">
                       <label className="fw-normal" htmlFor="Email">
                         Email
@@ -161,7 +161,7 @@ useEffect(() =>{
                         className="w-100 text-right d-flex justify-content-end"
                         style={{ fontSize: "10px" }}
                       >
-                        <Link to="lupa-password"> <button type="link" href="/" className="btn btn-link" style={{ fontSize: "12px" }}>
+                        <Link to="lupa-password"> <button className="btn btn-link" style={{ fontSize: "12px" }}>
                           Lupa password?
                         </button></Link>
                       </div>
