@@ -1,15 +1,23 @@
 import { useState } from "react"
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
+import { Link } from "react-router-dom";
 
 export default function BuatPenggunaPart(){
-
+  //cookies
+  const [cookies] = useCookies();
+  var jwtToken = cookies.userData.token
   //axios fetching
   function registerUser(name,email) {
     axios.post('http://3.133.85.122:9090/api/v1/users', {
       "name": name,
       "email": email,
       "role" : 2
-    })
+    }, {
+      headers: {
+         Authorization: `Bearer ${jwtToken}`
+      }
+   })
     .then(function (response) {
       console.log(response)
       setIsLoading(false)
@@ -88,9 +96,9 @@ const handleSubmit = (e) => {
                       </div>
                     </div>
                     <div className="form-group d-flex justify-content-end gap-2 my-2">
-                    <button className="btn btn-danger shadow" >
-                        Batal
-                      </button>
+                   <Link to="/pengguna"> <button className="btn btn-danger shadow" >
+                        Kembali
+                      </button></Link>
                       <button type="submit" className="btn btn-thirtiery shadow" >
                         Simpan
                       </button>
