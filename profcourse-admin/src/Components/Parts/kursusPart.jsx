@@ -18,31 +18,56 @@ export default function KursusPart(props){
                 <select className="form-select form-select-sm d-block" aria-label=".form-select-sm example" style={{'border-radius':'30px',}}>
                     <option selected>A-Z</option>
                     <option value="1">Z-A</option>
-                    <option value="2">Poin Tertinggi</option>
-                    <option value="3">Poin Terendah</option>
+                    <option value="2">Terpopuler</option>
                     <option value="3">Terbaru</option>
+                    <option value="3">Ulasan Tinggi</option>
                 </select>
                 </div>
                 </div>
             </div>
-            <div className="">
-            <div class="card border-0 shadow-lg my-1" style={{'border-radius':'30px',}}>
-  <div class="card-body d-flex">
-    <img src={ User } alt="user"></img>
-    <div className="fw-bold">John Smith</div>
-  </div>
-</div>
-<div class="card border-0 shadow-lg my-1" style={{'border-radius':'30px',}}>
+            <div className="container mx-3 p-0">
+            <div className="row row-cols-1 row-cols-md-4 gap-3 text-center">
+            <div class="card shadow col p-0 h-25" style={{'border-radius':'15px','border':'none',maxWidth: '17rem',}}>
+            <img src="https://static.republika.co.id/uploads/images/inpicture_slide/coding-ilustrasi-_160406100902-246.jpg" class="card-img-top p-0 m-0 w-100" alt="..." style={{ objectFit: "cover", 'border-radius':'15px 15px 0px 0px' }}/>
   <div class="card-body">
-    This is some text within a card body.
+    <h5 class="card-title">Data Science</h5>
+    <div className="d-flex justify-content-center">
+    <select className="form-select form-select-sm d-block my-3 w-50" aria-label=".form-select-sm example" style={{'border-radius':'30px',}}>
+                    <option selected>Draft</option>
+                    <option value="1">Publish</option>
+                </select>
+    </div>
+    <div className="">
+    <a href="#" class="btn btn-thirtiery align-self-end">Detail Kursus</a>
+    </div>
   </div>
-</div>
-<div class="card border-0 shadow-lg my-1" style={{'border-radius':'30px',}}>
+  </div>
+  <div class="card shadow col p-0" style={{'border-radius':'15px','border':'none', maxWidth: '17rem'}}>
+            <img src="https://static.republika.co.id/uploads/images/inpicture_slide/coding-ilustrasi-_160406100902-246.jpg" class="card-img-top p-0 m-0 w-100" alt="..." style={{ objectFit: "cover", 'border-radius':'15px 15px 0px 0px' }}/>
   <div class="card-body">
-    This is some text within a card body.
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+  </div>
+  <div class="card shadow col p-0" style={{'border-radius':'15px','border':'none', maxWidth: '17rem'}}>
+            <img src="https://static.republika.co.id/uploads/images/inpicture_slide/coding-ilustrasi-_160406100902-246.jpg" class="card-img-top p-0 m-0 w-100" alt="..." style={{ objectFit: "cover", 'border-radius':'15px 15px 0px 0px' }}/>
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+  </div>
+  <div class="card shadow col p-0" style={{'border-radius':'15px','border':'none',maxWidth: '17rem'}}>
+            <img src="https://static.republika.co.id/uploads/images/inpicture_slide/coding-ilustrasi-_160406100902-246.jpg" class="card-img-top p-0 m-0 w-100" alt="..." style={{ objectFit: "cover", 'border-radius':'15px 15px 0px 0px' }}/>
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
   </div>
 </div>
-            </div>
+</div>
         </div>
    
     );
