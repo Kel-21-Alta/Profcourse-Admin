@@ -8,6 +8,26 @@ export default function KursusPart(props){
                 <button className="btn btn-thirtiery shadow">Buat Kursus</button>
                 <Link to="buat"><button className="btn btn-thirtiery shadow">Buat Spesialisasi</button></Link>
             </div>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Kursus</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Spesialisasi</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Publik</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Draf</button>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"></div>
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"></div>
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"></div>
+</div>
+
             <div className="d-flex my-2">
                 <div className="py-2">
                     <input type="text" className="form-control-sm px-3" id="searchPengguna" name="searchPengguna"  placeholder="Cari Kursus" style={{'border-radius':'30px','background-color':'#E5E5E5','border':'none'}}/>
@@ -26,8 +46,8 @@ export default function KursusPart(props){
                 </div>
             </div>
             <div className="container mx-3 p-0">
-            <div className="row row-cols-1 row-cols-md-4 gap-3 text-center">
-            <div class="card shadow col p-0 h-25" style={{'border-radius':'15px','border':'none',maxWidth: '17rem',}}>
+            <div className="row row-cols-1 row-cols-md-3 gap-5 text-center">
+            <div class="card shadow col p-0 h-25" style={{'border-radius':'15px','border':'none',maxWidth: '20rem',}}>
             <img src="https://static.republika.co.id/uploads/images/inpicture_slide/coding-ilustrasi-_160406100902-246.jpg" class="card-img-top p-0 m-0 w-100" alt="..." style={{ objectFit: "cover", 'border-radius':'15px 15px 0px 0px' }}/>
   <div class="card-body">
     <h5 class="card-title">Data Science</h5>
@@ -40,30 +60,6 @@ export default function KursusPart(props){
     <div className="">
     <a href="#" class="btn btn-thirtiery align-self-end">Detail Kursus</a>
     </div>
-  </div>
-  </div>
-  <div class="card shadow col p-0" style={{'border-radius':'15px','border':'none', maxWidth: '17rem'}}>
-            <img src="https://static.republika.co.id/uploads/images/inpicture_slide/coding-ilustrasi-_160406100902-246.jpg" class="card-img-top p-0 m-0 w-100" alt="..." style={{ objectFit: "cover", 'border-radius':'15px 15px 0px 0px' }}/>
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-  </div>
-  <div class="card shadow col p-0" style={{'border-radius':'15px','border':'none', maxWidth: '17rem'}}>
-            <img src="https://static.republika.co.id/uploads/images/inpicture_slide/coding-ilustrasi-_160406100902-246.jpg" class="card-img-top p-0 m-0 w-100" alt="..." style={{ objectFit: "cover", 'border-radius':'15px 15px 0px 0px' }}/>
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-  </div>
-  <div class="card shadow col p-0" style={{'border-radius':'15px','border':'none',maxWidth: '17rem'}}>
-            <img src="https://static.republika.co.id/uploads/images/inpicture_slide/coding-ilustrasi-_160406100902-246.jpg" class="card-img-top p-0 m-0 w-100" alt="..." style={{ objectFit: "cover", 'border-radius':'15px 15px 0px 0px' }}/>
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
   </div>
   </div>
 </div>
