@@ -81,7 +81,7 @@ export default function KursusPart(props) {
                       width={342}
                       style={{ objectFit: "cover" }}
                     />
-                    <input type="file" name="" id="file" className="btn btn-thirtiery"/>
+                    <input type="file" name="file" id="file" className="btn btn-thirtiery"/>
                   </div>
                   <div className="col-md-6">
                     <form action="#" className="signin-form">
@@ -110,7 +110,7 @@ export default function KursusPart(props) {
                 <a
                   type="button"
                   className="btn btn-thirtiery"
-                  href="/buat-kursus"
+                  href="buat-kursus"
                 >
                   Lanjut
                 </a>

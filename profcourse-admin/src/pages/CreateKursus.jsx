@@ -7,7 +7,7 @@ import Star from "../Components/Usable/Star";
 export default function CreateKursus() {
   return (
     <>
-      <div className="container-fluid p-0">
+      <div className="container-fluid">
         <div class="row flex-nowrap">
           <Sidebar />
           <div class="col py-3">
@@ -42,7 +42,8 @@ export default function CreateKursus() {
                   cara mengubah data menjadi kesatuan informasi yang dapat
                   dipahami semua orang.
                 </p>
-                <button className="btn btn-thirtiery">Tambah Modul</button>
+                <button className="btn btn-thirtiery" data-toggle="modal"
+                          data-target="#buatmodul">Tambah Modul</button>
                 <div
                   className="container py-3 px-4 rounded mt-4"
                   style={{ width: "100%", backgroundColor: "#DEE2E6" }}
@@ -58,14 +59,14 @@ export default function CreateKursus() {
                         <button
                           className="btn mx-4"
                           data-toggle="modal"
-                          data-target="#exampleModalCreate1"
+                          data-target="#updatemodul"
                         >
                           Ubah
                         </button>
                         <button
                           className="btn"
                           data-toggle="modal"
-                          data-target="#exampleModalCreate1"
+                          data-target="#hapus"
                         >
                           Hapus
                         </button>
@@ -78,24 +79,44 @@ export default function CreateKursus() {
                       <ul>
                         <li>
                           <div>
-                            Modul
+                            Materi
                             <div className="text-end">
-                              <Link to="/saew" className="mx-4">
-                                Ubah
-                              </Link>
-                              <Link to="/saew">Hapus</Link>
+                            <button
+                          className="btn mx-4"
+                          data-toggle="modal"
+                          data-target="#updatemateri"
+                        >
+                          Ubah
+                        </button>
+                              <button
+                          className="btn"
+                          data-toggle="modal"
+                          data-target="#hapusmateri"
+                        >
+                          Hapus
+                        </button>
                             </div>
                           </div>
                         </li>
                         <hr />
                         <li>
                           <div>
-                            Modul
+                            Materi
                             <div className="text-end">
-                              <Link to="/saew" className="mx-4">
-                                Ubah
-                              </Link>
-                              <Link to="/saew">Hapus</Link>
+                            <button
+                          className="btn mx-4"
+                          data-toggle="modal"
+                          data-target="#updatemateri"
+                        >
+                          Ubah
+                        </button>
+                              <button
+                          className="btn"
+                          data-toggle="modal"
+                          data-target="#hapusmateri"
+                        >
+                          Hapus
+                        </button>
                             </div>
                           </div>
                         </li>
@@ -103,7 +124,8 @@ export default function CreateKursus() {
                     </div>
                   </div>
                   <div className="text-end">
-                    <button className="btn btn-thirtiery">Tambah Materi</button>
+                    <button className="btn btn-thirtiery" data-toggle="modal"
+                          data-target="#buatmateri">Tambah Materi</button>
                   </div>
                 </div>
               </div>
@@ -139,21 +161,23 @@ export default function CreateKursus() {
           </div>
         </div>
       </div>
-      {/* MODAL BUAT COURSE */}
+
+
+      {/* MODAL MODAL */}
       <div>
-        {/* Modal Hapus*/}
+        {/* Modal Buat Modul*/}
         <div
           className="modal fade"
-          id="exampleModalCreate1"
+          id="buatmodul"
           tabIndex={-1}
-          aria-labelledby="exampleModalLabel"
+          aria-labelledby="buatmodul"
           aria-hidden="true"
         >
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
-                  Membuat Kursus
+                  Buat Modul
                 </h5>
                 <button
                   type="button"
@@ -165,46 +189,18 @@ export default function CreateKursus() {
                 </button>
               </div>
               <div className="modal-body">
-                <div className="row">
-                  <div className="col-md-6">
-                    <img
-                      src="https://picsum.photos/200/300"
-                      className="card-img my-3"
-                      alt="..."
-                      height={180}
-                      width={342}
-                      style={{ objectFit: "cover" }}
-                    />
-                    <input type="file" name="" id="" />
-                  </div>
-                  <div className="col-md-6">
-                    <form action="#" className="signin-form">
-                      <div className="form-group mb-3">
-                        <div>
-                          <label htmlFor="exampleFormControlSelect1">
-                            Bidang Kursus
-                          </label>
-                          <select
-                            className="form-control"
-                            id="exampleFormControlSelect1"
-                          >
-                            <option>Kursus Online</option>
-                            <option>Konseling</option>
-                            <option>Training</option>
-                          </select>
-                        </div>
-                      </div>
+                    <form action="#" className="p-3">
                       <div className="form-group mb-3">
                         <label
                           className="font-weight-normal"
                           htmlFor="topikKursus"
                         >
-                          Topik Kursus
+                          Judul Modul
                         </label>
                         <input
                           type="text"
                           className="form-control"
-                          placeholder="Topik kursus anda..."
+                          placeholder="Judul modul anda..."
                           required
                         />
                       </div>
@@ -214,8 +210,7 @@ export default function CreateKursus() {
                           </Button>
                         </div> */}
                     </form>
-                  </div>
-                </div>
+                 
               </div>
               <div className="modal-footer">
                 <a
@@ -223,21 +218,83 @@ export default function CreateKursus() {
                   className="btn btn-primary"
                   href="/buat-kursus"
                 >
-                  Lanjut
+                  Submit
                 </a>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {/* END MODAL BUAT COURSE */}
+
+      <div>
+        {/* Modal Update Modul*/}
+        <div
+          className="modal fade"
+          id="updatemodul"
+          tabIndex={-1}
+          aria-labelledby="updatemodul"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Edit Modul
+                </h5>
+                <button
+                  type="button"
+                  className="btn"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                    <form action="#" className="p-3">
+                      <div className="form-group mb-3">
+                        <label
+                          className="font-weight-normal"
+                          htmlFor="topikKursus"
+                        >
+                          Judul Modul
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Judul modul anda..."
+                          required
+                        />
+                      </div>
+                      {/* <div className="form-group text-right">
+                          <Button className="btn" isPrimary hasShadow>
+                            Ajukan Kursus
+                          </Button>
+                        </div> */}
+                    </form>
+                 
+              </div>
+              <div className="modal-footer">
+                <a
+                  type="button"
+                  className="btn btn-primary"
+                  href="/buat-kursus"
+                >
+                  Submit
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div>
         {/* Modal Hapus*/}
         <div
           className="modal fade"
-          id="exampleModal"
+          id="hapus"
           tabIndex={-1}
-          aria-labelledby="exampleModalLabel"
+          aria-labelledby="hapus"
           aria-hidden="true"
         >
           <div className="modal-dialog modal-dialog-centered">
@@ -248,7 +305,7 @@ export default function CreateKursus() {
                 </h5>
                 <button
                   type="button"
-                  className="close"
+                  className="btn"
                   data-dismiss="modal"
                   aria-label="Close"
                 >
@@ -256,7 +313,7 @@ export default function CreateKursus() {
                 </button>
               </div>
               <div className="modal-body">
-                Apakah anda yakin untuk menghapus request course ini?
+                Apakah anda yakin untuk menghapus <b>modul 1</b> ini?
               </div>
               <div className="modal-footer">
                 <button
@@ -274,6 +331,200 @@ export default function CreateKursus() {
           </div>
         </div>
       </div>
+
+      <div>
+        {/* Modal Buat Modul*/}
+        <div
+          className="modal fade"
+          id="buatmateri"
+          tabIndex={-1}
+          aria-labelledby="buatmateri"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Buat Modul
+                </h5>
+                <button
+                  type="button"
+                  className="btn"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div className="modal-body">
+              <form action="#" className="p-3">
+                      <div className="form-group mb-3">
+                        <label
+                          className="font-weight-normal"
+                          htmlFor="tipemateri"
+                        >
+                          Tipe Materi
+                        </label>
+                        <select class="form-select" aria-label="Default select example">
+  <option selected>video</option>
+  <option value="1">materi</option>
+</select>
+                      </div>
+                      <div className="form-group mb-3">
+                        <label
+                          className="font-weight-normal"
+                          htmlFor="judulmateri"
+                        >
+                          Judul Materi
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Judul materi anda..."
+                          required
+                        />
+                      </div>
+                      <div class="mb-3">
+  <label for="formFile" class="form-label">Unggah Materi</label>
+  <input class="form-control" type="file" id="formFile"/>
+</div>
+                    </form>
+                 
+                 
+              </div>
+              <div className="modal-footer">
+                <a
+                  type="button"
+                  className="btn btn-primary"
+                  href="/buat-kursus"
+                >
+                  Submit
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        {/* Modal Update Modul*/}
+        <div
+          className="modal fade"
+          id="updatemateri"
+          tabIndex={-1}
+          aria-labelledby="updatemateri"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Ubah Materi
+                </h5>
+                <button
+                  type="button"
+                  className="btn"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                    <form action="#" className="p-3">
+                      <div className="form-group mb-3">
+                        <label
+                          className="font-weight-normal"
+                          htmlFor="tipemateri"
+                        >
+                          Tipe Materi
+                        </label>
+                        <select class="form-select" aria-label="Default select example">
+  <option selected>video</option>
+  <option value="1">materi</option>
+</select>
+                      </div>
+                      <div className="form-group mb-3">
+                        <label
+                          className="font-weight-normal"
+                          htmlFor="judulmateri"
+                        >
+                          Judul Materi
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Judul materi anda..."
+                          required
+                        />
+                      </div>
+                      <div class="mb-3">
+  <label for="formFile" class="form-label">Unggah Materi</label>
+  <input class="form-control" type="file" id="formFile"/>
+</div>
+                    </form>
+                 
+              </div>
+              <div className="modal-footer">
+                <a
+                  type="button"
+                  className="btn btn-primary"
+                  href="/buat-kursus"
+                >
+                  Submit
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        {/* Modal Hapus*/}
+        <div
+          className="modal fade"
+          id="hapusmateri"
+          tabIndex={-1}
+          aria-labelledby="hapusmateri"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Hapus
+                </h5>
+                <button
+                  type="button"
+                  className="btn"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                Apakah anda yakin untuk menghapus <b>materi 1</b> ini?
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Tidak
+                </button>
+                <button type="button" className="btn btn-danger">
+                  Ya
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* END MODAL */}
+
+      
     </>
   );
 }
