@@ -45,6 +45,81 @@ export default function KursusPart(props) {
   <div class={tabs === 3 ? "tab-pane fade show active" : "tab-pane fade"} id="publik" role="tabpanel" aria-labelledby="publik-tab">publik</div>
   <div class={tabs === 4 ? "tab-pane fade show active" : "tab-pane fade"} id="draf" role="tabpanel" aria-labelledby="draf-tab">draf</div>
 </div>
+{/* MODAL BUAT COURSE */}
+<div>
+        {/* Modal Hapus*/}
+        <div
+          className="modal fade"
+          id="exampleModalCreate1"
+          tabIndex={-1}
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Buat Kursus
+                </h5>
+                <button
+                  type="button"
+                  className="btn"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="row">
+                  <div className="col-md-6 text-center">
+                    <img
+                      src="https://picsum.photos/200/300"
+                      className="card-img my-3"
+                      alt="..."
+                      height={180}
+                      width={342}
+                      style={{ objectFit: "cover" }}
+                    />
+                    <input type="file" name="" id="file" className="btn btn-thirtiery"/>
+                  </div>
+                  <div className="col-md-6">
+                    <form action="#" className="signin-form">
+                      <div className="form-group mb-3">
+                        <div>
+                          <label htmlFor="exampleFormControlSelect1">
+                            Judul
+                          </label>
+                          <input type="text" class="form-control" id="judul" placeholder="Judul Kursus" required/>
+                        </div>
+                      </div>
+                      <div className="form-group mb-3">
+                        <label
+                          className="font-weight-normal"
+                          htmlFor="deskripsi"
+                        >
+                          Deskripsi
+                        </label>
+                        <textarea class="form-control" id="deskripsi" rows="3" placeholder="Deskripsi Kursus" required></textarea>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <a
+                  type="button"
+                  className="btn btn-thirtiery"
+                  href="/buat-kursus"
+                >
+                  Lanjut
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* END MODAL BUAT COURSE */}
         </div>
         
   );

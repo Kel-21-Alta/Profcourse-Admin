@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import DashboardPart from "../Components/Parts/dashboardPart";
 import AdminTab from "../Components/Usable/adminTab";
 import Sidebar from "../Components/Usable/navbar";
 import Star from "../Components/Usable/Star";
@@ -28,9 +27,7 @@ export default function CreateKursus() {
                       aria-label="Default select example"
                     >
                       <option selected>Draft</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
+                      <option value="1">Publik</option>
                     </select>
                   </div>
                 </div>
