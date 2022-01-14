@@ -13,7 +13,7 @@ export default function KursusPart(props){
             <h2 className="fw-bold">Kursus</h2>
             <div className="d-flex justify-content-end gap-2 me-5 my-2">
                 <button className="btn btn-thirtiery shadow">Buat Kursus</button>
-                <Link to="buat"><button className="btn btn-thirtiery shadow">Buat Spesialisasi</button></Link>
+                <Link to="buat_spesialisasi"><button className="btn btn-thirtiery shadow">Buat Spesialisasi</button></Link>
             </div>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item" role="presentation">
@@ -35,8 +35,6 @@ export default function KursusPart(props){
   <div class={tabs === 3 ? "tab-pane fade show active" : "tab-pane fade"} id="publik" role="tabpanel" aria-labelledby="publik-tab">publik</div>
   <div class={tabs === 4 ? "tab-pane fade show active" : "tab-pane fade"} id="draf" role="tabpanel" aria-labelledby="draf-tab">draf</div>
 </div>
-
-            
         </div>
     );
 }
