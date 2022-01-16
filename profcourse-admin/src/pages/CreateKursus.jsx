@@ -45,26 +45,28 @@ export default function CreateKursus() {
                 <button className="btn btn-thirtiery" data-toggle="modal"
                           data-target="#buatmodul">Tambah Modul</button>
                 <div
-                  className="container py-3 px-4 rounded mt-4"
-                  style={{ width: "100%", backgroundColor: "#DEE2E6" }}
+                className="container py-3 px-3 mt-4"
+                style={{ width: "100%", backgroundColor: "#DEE2E6",'border-radius':'15px','border':'none',}}>
+                <div
+                  className="px-3 py-2"
                 >
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div>
-                        <h3 className="font-weight-bolder">Modul 1</h3>
+                  <div className="d-flex">
+                    <div>
+                    <div>
+                        <h5 className="fw-bolder">Modul 1</h5>
                       </div>
                     </div>
-                    <div className="col-md-6">
-                      <div className="text-end">
+                    <div className="mx-2">
+                      <div className="d-flex gap-1">
                         <button
-                          className="btn mx-4"
+                          className="btn link-thirtiery p-0"
                           data-toggle="modal"
                           data-target="#updatemodul"
                         >
                           Ubah
                         </button>
                         <button
-                          className="btn"
+                          className="btn link-thirtiery p-0"
                           data-toggle="modal"
                           data-target="#hapus"
                         >
@@ -73,88 +75,90 @@ export default function CreateKursus() {
                       </div>
                     </div>
                   </div>
-                  <hr />
                   <div className="row">
                     <div className="col-md-12">
-                      <ul>
-                        <li>
+                      <ul className="list-group">
+                        <li className="list-group-item">
                           <div>
-                            Materi
-                            <div className="text-end">
+                            Materi 1: Fundamental Statistic
+                          </div>
+                            <div className="w-100 d-flex gap-2 justify-content-end">
                             <button
-                          className="btn mx-4"
+                          className="btn link-thirtiery p-0"
                           data-toggle="modal"
                           data-target="#updatemateri"
                         >
                           Ubah
                         </button>
                               <button
-                          className="btn"
+                          className="btn link-thirtiery p-0"
                           data-toggle="modal"
                           data-target="#hapusmateri"
                         >
                           Hapus
                         </button>
                             </div>
-                          </div>
+                         
                         </li>
-                        <hr />
-                        <li>
+                        <li className="list-group-item">
                           <div>
-                            Materi
-                            <div className="text-end">
+                            Materi 2
+                          </div>
+                            <div className="w-100 d-flex gap-2 justify-content-end">
                             <button
-                          className="btn mx-4"
+                          className="btn link-thirtiery p-0"
                           data-toggle="modal"
                           data-target="#updatemateri"
                         >
                           Ubah
                         </button>
                               <button
-                          className="btn"
+                          className="btn link-thirtiery p-0"
                           data-toggle="modal"
                           data-target="#hapusmateri"
                         >
                           Hapus
                         </button>
                             </div>
-                          </div>
+                         
                         </li>
                       </ul>
                     </div>
                   </div>
-                  <div className="text-end">
+                  <div className="text-end my-2">
                     <button className="btn btn-thirtiery" data-toggle="modal"
                           data-target="#buatmateri">Tambah Materi</button>
                   </div>
                 </div>
+                </div>
               </div>
 
-              <div className="col-md-6">
+              <div className="col-md-6 my-3 py-3 pe-3">
+                <div className="d-flex justify-content-center">
                 <img src="https://picsum.photos/200/300" alt="" srcset="" />
-                <div
-                  className=" "
-                  style={{ fontSize: "40px", display: "inline" }}
-                >
-                  {" "}
-                  <p style={{ fontSize: "20px" }}>
-                    {" "}
-                    <i className="fas fa-user-friends	px-3"></i> 13 Orang
-                    mengambil kursus ini
-                  </p>
                 </div>
-                <div>
+                <div className="my-3 mx-lg-5 px-lg-5">
+                <div className="d-flex justify-content-end my-1">
                   <Star value={4} width={35} height={35}></Star>
-                  <h5 className="font-weight-bolder">Rank Nilai</h5>
-                  <ul>
-                    <li>
-                      Agus <div className="text-end">12 pts</div>
+                  <h5 className="my-2 fw-bold">4/5</h5>
+                </div>
+                <div className="d-flex gap-2 my-2">
+                <svg width="32" height="32" viewBox="0 0 47 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M32 13.375C35.5275 13.375 38.3537 10.5275 38.3537 7C38.3537 3.4725 35.5275 0.625 32 0.625C28.4725 0.625 25.625 3.4725 25.625 7C25.625 10.5275 28.4725 13.375 32 13.375ZM15 13.375C18.5275 13.375 21.3538 10.5275 21.3538 7C21.3538 3.4725 18.5275 0.625 15 0.625C11.4725 0.625 8.625 3.4725 8.625 7C8.625 10.5275 11.4725 13.375 15 13.375ZM15 17.625C10.0487 17.625 0.125 20.1112 0.125 25.0625V30.375H29.875V25.0625C29.875 20.1112 19.9513 17.625 15 17.625ZM32 17.625C31.3838 17.625 30.6825 17.6675 29.9387 17.7313C32.4037 19.5163 34.125 21.9175 34.125 25.0625V30.375H46.875V25.0625C46.875 20.1112 36.9513 17.625 32 17.625Z" fill="#3252DF"/>
+</svg>
+ <h6 className="my-2">13 orang mengikuti kursus ini</h6>
+                </div>
+                <div className="my-3"> 
+                  <h5 className="fw-bolder">Rank Nilai</h5>
+                  <ol className="">
+                    <li className="border-bottom mb-2 pb-2">
+                      Agus <div className="text-end fw-bold">12 pts</div>
                     </li>
-                    <hr />
-                    <li>
-                      Agus <div className="text-end">12 pts</div>
+                    <li className="border-bottom mb-2 pb-2">
+                      Adrian Stanislaus Trisetya Siregar <div className="text-end fw-bold">12 pts</div>
                     </li>
-                  </ul>
+                  </ol>
+                  </div>
                 </div>
               </div>
             </div>
@@ -215,7 +219,7 @@ export default function CreateKursus() {
               <div className="modal-footer">
                 <a
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-thirtiery"
                   href="/buat-kursus"
                 >
                   Submit
@@ -277,7 +281,7 @@ export default function CreateKursus() {
               <div className="modal-footer">
                 <a
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-thirtiery"
                   href="/buat-kursus"
                 >
                   Submit
@@ -468,7 +472,7 @@ export default function CreateKursus() {
               <div className="modal-footer">
                 <a
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-thirtiery"
                   href="/buat-kursus"
                 >
                   Submit
