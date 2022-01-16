@@ -18,7 +18,7 @@ function App() {
       <Route path="/kursus/spesialisasi" element={<DetailSpesialisasi />} />
       <Route path="/pengguna/buat" element={<BuatPengguna />} />
       <Route path="/lupa-password" element={<LupaPassword />} />
-      <Route path="/buat-kursus" element={<DetailKursus />} />
+      <Route path="buat-kursus" element={<DetailKursus />} />
     </Routes>
   );
 }
