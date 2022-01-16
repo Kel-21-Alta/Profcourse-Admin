@@ -1,10 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import AdminTab from "../Components/Usable/adminTab";
 import Sidebar from "../Components/Usable/navbar";
 import Star from "../Components/Usable/Star";
 
-export default function CreateKursus() {
+export default function DetailKursus() {
   return (
     <>
       <div className="container-fluid">
