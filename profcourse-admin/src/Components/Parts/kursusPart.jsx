@@ -1,13 +1,77 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 import KursusTab from "../Usable/kursusTab";
 
 export default function KursusPart(props) {
+  const navigate = useNavigate()
+  var newErrorMessage
+  var course_id
   const [tabs,setTabs] = useState(1)
   const toggleTab = (index) => {
     setTabs(index)
     console.log(tabs)
   }
+  const [cookies] = useCookies();
+  var jwtToken = cookies.userData.token
+ //axios fetching
+ function addCourse() {
+  axios.post('http://3.133.85.122:9090/api/v1/courses', {
+    "title": course.title,
+    "description": course.description,
+    "file_image": course.file_image,
+  }, {
+    headers: {
+       Authorization: `Bearer ${jwtToken}`
+    }
+ })
+  .then(function (response) {
+    course_id = response.data.data.id
+    setIsLoading(false)
+    setIsCreated({"state": true,"id": course_id})
+  })
+  .catch(function (error) {
+    newErrorMessage = error.response.data.message
+    setErrorMessage(newErrorMessage)
+    console.log(errorMessage)
+    alert(errorMessage.message)
+    setIsLoading(false)
+  });;
+}
+//hooks
+const [course, setCourse] = useState({
+  title : "",
+  description: "",
+  file_image: "https://www.incimages.com/uploaded_files/image/1024x576/software-computer-code-1940x900_35196.jpg",
+});
+const [errorMessage, setErrorMessage] = useState("");
+const [isLoading, setIsLoading] = useState(false);
+const [isCreated, setIsCreated] = useState({
+  state : false,
+  id: ""
+});
+
+//functions
+const onChange = (e) => {
+console.log(e)
+setCourse({
+  ...course,
+  [e.target.name]: e.target.value,
+})
+
+};
+
+const handleSubmit = (e) => {
+    setIsLoading(true)
+    addCourse()
+    e.preventDefault();
+};
+
+const goTo = (course_id) => {
+  navigate(`${course_id}`)
+}
+
   return (
       <div className="mx-5 my-3">
         <h2 className="fw-bold">Kursus</h2>
@@ -19,7 +83,7 @@ export default function KursusPart(props) {
           >
             Buat Kursus
           </button>
-          <Link to="spesialisasi">
+          <Link to="buat_spesialisasi">
             <button className="btn btn-thirtiery shadow">
               Buat Spesialisasi
             </button>
@@ -47,7 +111,7 @@ export default function KursusPart(props) {
 </div>
 {/* MODAL BUAT COURSE */}
 <div>
-        {/* Modal Hapus*/}
+        {/* Modal Buat Course*/}
         <div
           className="modal fade"
           id="exampleModalCreate1"
@@ -57,6 +121,7 @@ export default function KursusPart(props) {
         >
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content">
+            <form onSubmit={handleSubmit} className="signin-form">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
                   Buat Kursus
@@ -81,16 +146,16 @@ export default function KursusPart(props) {
                       width={342}
                       style={{ objectFit: "cover" }}
                     />
-                    <input type="file" name="file" id="file" className="btn btn-thirtiery"/>
+                    {isCreated.state? <input type="file" name="file" id="file" className="btn btn-thirtiery" disabled/>:<input type="file" name="file" id="file" className="btn btn-thirtiery"/>}
                   </div>
                   <div className="col-md-6">
-                    <form action="#" className="signin-form">
+                    
                       <div className="form-group mb-3">
                         <div>
                           <label htmlFor="exampleFormControlSelect1">
                             Judul
                           </label>
-                          <input type="text" class="form-control" id="judul" placeholder="Judul Kursus" required/>
+                         {isCreated.state?<input onChange={onChange}  name="title" type="text" class="form-control" id="judul" placeholder="Judul Kursus" value={course.title} disabled/> :<input onChange={onChange}  name="title" type="text" class="form-control" id="judul" placeholder="Judul Kursus" value={course.title} required/> }
                         </div>
                       </div>
                       <div className="form-group mb-3">
@@ -100,21 +165,25 @@ export default function KursusPart(props) {
                         >
                           Deskripsi
                         </label>
-                        <textarea class="form-control" id="deskripsi" rows="3" placeholder="Deskripsi Kursus" required></textarea>
+                        {isCreated.state? <textarea onChange={onChange} name="description" class="form-control" id="deskripsi" rows="3" placeholder="Deskripsi Kursus" value={course.description} disabled></textarea>:<textarea onChange={onChange} name="description" class="form-control" id="deskripsi" rows="3" placeholder="Deskripsi Kursus" value={course.description} required></textarea>}
                       </div>
-                    </form>
+                    
                   </div>
                 </div>
               </div>
-              <div className="modal-footer">
-                <a
-                  type="button"
+              <div className="modal-footer d-flex">
+                {!(errorMessage==="")? <div>{errorMessage.message}</div>: isCreated.state? <div>course <b>{course.title}</b> berhasil dibuat</div>:<></>}
+                <button
+                  
+                  type="submit"
                   className="btn btn-thirtiery"
-                  href="buat-kursus"
                 >
-                  Lanjut
-                </a>
+                  {isLoading ? <div>Sedang diunggah...<div class="spinner-border spinner-border-sm text-white" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div></div> :isCreated.state? <div>lanjut isi kursus</div>:<div>Submit</div>}
+                </button>
               </div>
+              </form>
             </div>
           </div>
         </div>
