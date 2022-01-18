@@ -173,15 +173,34 @@ const goTo = (course_id) => {
               </div>
               <div className="modal-footer d-flex">
                 {!(errorMessage==="")? <div>{errorMessage.message}</div>: isCreated.state? <div>course <b>{course.title}</b> berhasil dibuat</div>:<></>}
+                {isLoading?
+                
                 <button
-                  
                   type="submit"
                   className="btn btn-thirtiery"
+                  disabled
                 >
-                  {isLoading ? <div>Sedang diunggah...<div class="spinner-border spinner-border-sm text-white" role="status">
+                  <div>Sedang diunggah...<div class="spinner-border spinner-border-sm text-white" role="status">
                 <span class="visually-hidden">Loading...</span>
-              </div></div> :isCreated.state? <div>lanjut isi kursus</div>:<div>Submit</div>}
-                </button>
+              </div></div>
+                </button>: isCreated.state? 
+                <button
+                type="submit"
+                className="btn btn-thirtiery"
+                data-dismiss="modal"
+                aria-label="Close"
+                onClick={()=>goTo(isCreated.id)}
+              >
+                Lanjut Mengisi Modul dan materi Kursus
+              </button>
+                :
+                <button
+                  type="submit"
+                  className="btn btn-thirtiery"
+      
+                >
+                 Submit
+                </button>}
               </div>
               </form>
             </div>
