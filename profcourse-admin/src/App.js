@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import BuatPengguna from "./pages/buat-pengguna";
 import BuatSpesialisasi from "./pages/buatSpesialisasi";
-import DetailKursus from "./pages/CreateKursus";
+import DetailKursus from "./pages/detailKursus";
 import Dashboard from "./pages/dashboard";
 import DetailSpesialisasi from "./pages/detailSpesialisasi";
 import Kursus from "./pages/kursus";
@@ -16,11 +16,11 @@ function App() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/pengguna" element={<Pengguna />} />
       <Route path="/kursus" element={<Kursus />} />
-      <Route path="/kursus/spesialisasi" element={<DetailSpesialisasi />} />
-      <Route path="/kursus/spesialisasi/buat" element={<BuatSpesialisasi />} />
+      <Route path="/kursus/spesialisasi/:id" element={<DetailSpesialisasi />} />
+      <Route path="/kursus/buat_spesialisasi" element={<BuatSpesialisasi />} />
       <Route path="/pengguna/buat" element={<BuatPengguna />} />
       <Route path="/lupa-password" element={<LupaPassword />} />
-      <Route path="buat-kursus" element={<DetailKursus />} />
+      <Route path="/kursus/:id" element={<DetailKursus />} />
     </Routes>
   );
 }
