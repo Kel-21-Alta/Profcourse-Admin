@@ -63,6 +63,23 @@ axios.get('http://3.133.85.122:9090/api/v1/courses',{
   });
 }
 
+function deleteCourse(course_id){
+  axios.get(`http://3.133.85.122:9090/api/v1/courses/${course_id}`,{
+    headers: {
+       Authorization: `Bearer ${jwtToken}`
+    }})
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      checkCookie(error.response.data.code)
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
+  }
+
 //hooks
 const [course, setCourse] = useState({
   title : "",
