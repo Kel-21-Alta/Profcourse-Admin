@@ -4,9 +4,9 @@ export default function DeleteModal(props){
         {/* Modal Hapus*/}
         <div
           className="modal fade"
-          id="hapuscourse"
+          id={`hapus_${props.data.course_id}`}
           tabIndex={-1}
-          aria-labelledby="hapuscourse"
+          aria-labelledby={`hapus_${props.data.course_id}`}
           aria-hidden="true"
         >
           <div className="modal-dialog modal-dialog-centered">
@@ -25,7 +25,7 @@ export default function DeleteModal(props){
                 </button>
               </div>
               <div className="modal-body text-start">
-                Apakah anda yakin untuk menghapus <b></b> ini?
+                Apakah anda yakin untuk menghapus <b>{props.data.title}</b> ini?
               </div>
               <div className="modal-footer">
                 <button
@@ -35,7 +35,7 @@ export default function DeleteModal(props){
                 >
                   Tidak
                 </button>
-                <button type="button" className="btn btn-danger" >
+                <button type="button" className="btn btn-danger" onClick={()=>{props.del(props.data.course_id)}} data-dismiss="modal" >
                   Ya
                 </button>
               </div>

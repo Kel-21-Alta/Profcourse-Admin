@@ -21,7 +21,7 @@ export default function KursusCard(props){
 <Link to={linkDetailKursus} class="btn btn-thirtiery align-self-end">Detail Kursus</Link>
 <UpdateButton id={course_id}/>
 <DeleteButton data={props.data} 
-// deleteAction={props.deleteAction}
+del={props.del}
 />
 
 </div>

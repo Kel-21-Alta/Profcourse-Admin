@@ -27,6 +27,7 @@ export default function KursusTab(props){
                 <KursusCard
                     key={item.course_id}
                     data={item}
+                    del={props.del}
             />))}
 </div>
 </div>
