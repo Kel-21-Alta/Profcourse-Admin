@@ -79,7 +79,7 @@ const [isCreated, setIsCreated] = useState({
 //functions
 function checkCookie(code){
   if (code===403){
-      removeCookie(["userData"])
+      removeCookie("userData")
   }
 }
 

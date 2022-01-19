@@ -25,7 +25,7 @@ export default function DeleteModal(props){
                 </button>
               </div>
               <div className="modal-body text-start">
-                Apakah anda yakin untuk menghapus <b>modul 1</b> ini?
+                Apakah anda yakin untuk menghapus <b></b> ini?
               </div>
               <div className="modal-footer">
                 <button
@@ -35,7 +35,7 @@ export default function DeleteModal(props){
                 >
                   Tidak
                 </button>
-                <button type="button" className="btn btn-danger">
+                <button type="button" className="btn btn-danger" >
                   Ya
                 </button>
               </div>
