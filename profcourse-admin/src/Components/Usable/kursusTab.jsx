@@ -1,6 +1,7 @@
 import KursusCard from "../cards/kursusCard";
 
 export default function KursusTab(props){
+    console.log(props.data)
     return(
 <div>
 <div className="d-flex my-2">
@@ -11,18 +12,22 @@ export default function KursusTab(props){
                 <div className="mx-2">urutkan:</div>
                 <div>
                 <select className="form-select form-select-sm d-block" aria-label=".form-select-sm example" style={{'border-radius':'30px',}}>
-                    <option selected>A-Z</option>
-                    <option value="1">Z-A</option>
-                    <option value="2">Terpopuler</option>
-                    <option value="3">Terbaru</option>
-                    <option value="3">Ulasan Tinggi</option>
+                    <option value={1}>A-Z</option>
+                    <option value={2}>Z-A</option>
+                    <option value={3}>Terpopuler</option>
+                    <option value={4}>Terbaru</option>
+                    <option value={5}>Ulasan Tinggi</option>
                 </select>
                 </div>
                 </div>
             </div>
             <div className="container mx-3 p-0">
             <div className="row row-cols-1 row-cols-md-3 gap-5 text-center">
-         <KursusCard/>
+            {props.data?.map((item)=>(
+                <KursusCard
+                    key={item.course_id}
+                    data={item}
+            />))}
 </div>
 </div>
 </div>

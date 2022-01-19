@@ -3,18 +3,24 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import KursusTab from "../Usable/kursusTab";
+import { useEffect } from "react";
+
 
 export default function KursusPart(props) {
-  const navigate = useNavigate()
+  //Variables and states
+  
   var newErrorMessage
   var course_id
+  const [dataKursus, setDataKursus] = useState([]);
+
   const [tabs,setTabs] = useState(1)
   const toggleTab = (index) => {
     setTabs(index)
     console.log(tabs)
   }
-  const [cookies] = useCookies();
+  const [cookies, removeCookie] = useCookies();
   var jwtToken = cookies.userData.token
+
  //axios fetching
  function addCourse() {
   axios.post('http://3.133.85.122:9090/api/v1/courses', {
@@ -39,6 +45,24 @@ export default function KursusPart(props) {
     setIsLoading(false)
   });;
 }
+function getCourse(){
+axios.get('http://3.133.85.122:9090/api/v1/courses',{
+  headers: {
+     Authorization: `Bearer ${jwtToken}`
+  }})
+  .then(function (response) {
+    setDataKursus(response.data.data)
+    console.log("[]dataKursus",dataKursus);
+  })
+  .catch(function (error) {
+    checkCookie(error.response.data.code)
+    console.log(error);
+  })
+  .then(function () {
+    // always executed
+  });
+}
+
 //hooks
 const [course, setCourse] = useState({
   title : "",
@@ -53,6 +77,14 @@ const [isCreated, setIsCreated] = useState({
 });
 
 //functions
+function checkCookie(code){
+  if (code===403){
+      removeCookie(["userData"])
+  }
+}
+
+const navigate = useNavigate()
+
 const onChange = (e) => {
 console.log(e)
 setCourse({
@@ -71,6 +103,10 @@ const handleSubmit = (e) => {
 const goTo = (course_id) => {
   navigate(`${course_id}`)
 }
+
+useEffect(()=>{
+  getCourse()
+},[])
 
   return (
       <div className="mx-5 my-3">
@@ -104,7 +140,10 @@ const goTo = (course_id) => {
   </li>
 </ul>
 <div class="tab-content" id="myTabContent">
-  <div class={tabs === 1 ? "tab-pane fade show active" : "tab-pane fade"} id="kursus" role="tabpanel" aria-labelledby="kursus-tab"><KursusTab/></div>
+  <div class={tabs === 1 ? "tab-pane fade show active" : "tab-pane fade"} id="kursus" role="tabpanel" aria-labelledby="kursus-tab">
+    <KursusTab
+      data={dataKursus}
+      /></div>
   <div class={tabs === 2 ? "tab-pane fade show active" : "tab-pane fade"} id="spesialisasi" role="tabpanel" aria-labelledby="spesialisasi-tab">spesialisasi</div>
   <div class={tabs === 3 ? "tab-pane fade show active" : "tab-pane fade"} id="publik" role="tabpanel" aria-labelledby="publik-tab">publik</div>
   <div class={tabs === 4 ? "tab-pane fade show active" : "tab-pane fade"} id="draf" role="tabpanel" aria-labelledby="draf-tab">draf</div>
