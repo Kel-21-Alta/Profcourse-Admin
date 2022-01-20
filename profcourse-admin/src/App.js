@@ -1,15 +1,29 @@
-import { Routes, Route } from "react-router-dom";
+/** @format */
+import { Route, Routes } from "react-router-dom";
 import BuatPengguna from "./pages/buat-pengguna";
 import BuatSpesialisasi from "./pages/buatSpesialisasi";
-import DetailKursus from "./pages/detailKursus";
 import Dashboard from "./pages/dashboard";
+import DetailKursus from "./pages/detailKursus";
 import DetailSpesialisasi from "./pages/detailSpesialisasi";
 import Kursus from "./pages/kursus";
 import Login from "./pages/login";
 import LupaPassword from "./pages/lupa-password";
 import Pengguna from "./pages/pengguna";
+import { AuthProvider, useAuth } from "./providers/auth.context";
+
+//message variables
+const newErrorMessage = {
+  email: "",
+  password: "",
+};
 
 function App() {
+  const auth = useAuth();
+
+  if (auth.isLoading === true) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Routes>
       <Route path="/" element={<Login />} />
