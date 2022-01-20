@@ -101,12 +101,6 @@ export default function Login() {
     }
   });
 
-  useEffect(() => {
-    if (cookies.userData && cookies.userData !== "undefined") {
-      goTo(`/dashboard`);
-    }
-  });
-
   return (
     <div
       className=" bg-thirtiery m-0 d-flex justify-content-center align-items-center"

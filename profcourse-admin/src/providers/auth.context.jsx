@@ -63,7 +63,10 @@ export const AuthProvider = ({ children }) => {
         });
       })
       .catch((err) => {
-        setCookie("userData", "/");
+        setCookie("userData", undefined, {
+          path: "/",
+          sameSite: "lax",
+        });
         setAuth({
           ...auth,
           isAuthenticated: false,
@@ -77,6 +80,8 @@ export const AuthProvider = ({ children }) => {
     const userInProtectedRoute = !nonAuthPath.includes(location.pathname);
     if (notAuthorized && userInProtectedRoute) {
       redirectToLogin();
+    } else if (!userInProtectedRoute && !notAuthorized) {
+      navigate("/dashboard");
     }
   }, [auth]);
 
