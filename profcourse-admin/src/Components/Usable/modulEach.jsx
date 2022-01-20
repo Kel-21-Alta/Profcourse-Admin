@@ -1,7 +1,7 @@
 /** @format */
 
 export default function ModulEach(props) {
-  console.log("modul each", props.data.name_modul);
+  console.log("modul each", props.judul);
   //const [modul_id, name_modul, order] = props.data;
   return (
     <div className="px-3 py-2">
@@ -9,7 +9,7 @@ export default function ModulEach(props) {
         <div>
           <div>
             <h5 className="fw-bolder">
-              Modul {props.data.order}: {props.data.name_modul}
+              Modul {props.order}: {props.judul}
             </h5>
           </div>
         </div>
