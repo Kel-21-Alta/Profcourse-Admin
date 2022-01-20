@@ -1,8 +1,50 @@
 /** @format */
 
+import { useCookies } from "react-cookie";
+import { BACKEND_URL } from "../../config/env";
 import Star from "../Usable/Star";
 
-export default function DetailKursusEdit() {
+export default function DetailKursusEdit(props) {
+  //state
+  var courseDefault = {
+    info_user: {
+      current_user: "",
+      isRegister: false,
+      progress: 0,
+    },
+    course_id: "",
+    name_course: "",
+    description: "",
+    url_image: "",
+    teacher: "",
+    moduls: [],
+    user_taken_course: 0,
+    rangking: [],
+  };
+  const [course, setCourse] = useState(courseDefault);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [cookie] = useCookies();
+
+  function getAndSetCourseData(course_id) {
+    axios
+      .get(`${BACKEND_URL}/api/v1/courses/${course_id}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then(function (response) {
+        setDataKursus(response.data.data);
+        console.log("[]dataKursus", dataKursus);
+      })
+      .catch(function (error) {
+        checkCookie(error.response.data.code);
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }
   return (
     <>
       <div className="row mx-4">
