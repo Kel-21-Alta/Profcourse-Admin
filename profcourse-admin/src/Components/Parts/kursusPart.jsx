@@ -62,7 +62,6 @@ export default function KursusPart(props) {
         console.log("[]dataKursus", dataKursus);
       })
       .catch(function (error) {
-        checkCookie(error.response.data.code);
         console.log(error);
       })
       .then(function () {
@@ -106,11 +105,6 @@ export default function KursusPart(props) {
   const [isCreated, setIsCreated] = useState(createdZero);
 
   //functions
-  function checkCookie(code) {
-    if (code === 403) {
-      removeCookie("userData");
-    }
-  }
 
   const dismisal = () => {
     setCourse(courseZero);

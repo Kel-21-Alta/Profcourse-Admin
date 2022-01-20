@@ -3,6 +3,9 @@
 import { useCookies } from "react-cookie";
 import { BACKEND_URL } from "../../config/env";
 import Star from "../Usable/Star";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import ModulBox from "../Usable/modul";
 
 export default function DetailKursusEdit(props) {
   //state
@@ -26,25 +29,29 @@ export default function DetailKursusEdit(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [cookie] = useCookies();
 
+  //functions
   function getAndSetCourseData(course_id) {
     axios
       .get(`${BACKEND_URL}/api/v1/courses/${course_id}`, {
         headers: {
-          Authorization: `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${cookie.userData.token}`,
         },
       })
       .then(function (response) {
-        setDataKursus(response.data.data);
-        console.log("[]dataKursus", dataKursus);
+        setCourse(response.data.data);
+        console.log("[]dataKursus", course);
       })
       .catch(function (error) {
-        checkCookie(error.response.data.code);
         console.log(error);
       })
       .then(function () {
         // always executed
       });
   }
+  useEffect(() => {
+    getAndSetCourseData("333ce029-f383-4229-b786-40d23fa6c587");
+  }, []);
+
   return (
     <>
       <div className="row mx-4">
@@ -52,7 +59,7 @@ export default function DetailKursusEdit(props) {
           <h1 className="fw-bold">Detail Kursus</h1>
           <div className="row">
             <div className="col-md-8">
-              <h3 className="text-thirtiery fw-bolder">Kursus Data Science</h3>
+              <h3 className="text-thirtiery fw-bolder">{course.name_course}</h3>
             </div>
             <div className="col-md-4">
               <select
@@ -63,109 +70,25 @@ export default function DetailKursusEdit(props) {
               </select>
             </div>
           </div>
-          <p className="mt-3">
-            Ilmu data (bahasa Inggris: data science) adalah suatu disiplin ilmu
-            yang khusus mempelajari data, khususnya data kuantitatif (data
-            numerik), baik yang terstruktur maupun tidak terstruktur.[1][2]
-            Berbagai subjek yang dibahas dalam ilmu data meliputi semua proses
-            data, mulai dari pengumpulan data, analisis data, pengolahan data,
-            manajemen data, kearsipan, pengelompokan data, penyajian data,
-            distribusi data, hingga cara mengubah data menjadi kesatuan
-            informasi yang dapat dipahami semua orang.
-          </p>
+          <h6 className="mt-4 mb-0">Teacher: {course.teacher}</h6>
+          <p className="mt-0">{course.description}</p>
           <button
             className="btn btn-thirtiery"
             data-toggle="modal"
             data-target="#buatmodul">
             Tambah Modul
           </button>
-          <div
-            className="container py-3 px-3 mt-4"
-            style={{
-              width: "100%",
-              backgroundColor: "#DEE2E6",
-              "border-radius": "15px",
-              border: "none",
-            }}>
-            <div className="px-3 py-2">
-              <div className="d-flex">
-                <div>
-                  <div>
-                    <h5 className="fw-bolder">Modul 1</h5>
-                  </div>
-                </div>
-                <div className="mx-2">
-                  <div className="d-flex gap-1">
-                    <button
-                      className="btn link-thirtiery p-0"
-                      data-toggle="modal"
-                      data-target="#updatemodul">
-                      Ubah
-                    </button>
-                    <button
-                      className="btn link-thirtiery p-0"
-                      data-toggle="modal"
-                      data-target="#hapus">
-                      Hapus
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-12">
-                  <ul className="list-group">
-                    <li className="list-group-item">
-                      <div>Materi 1: Fundamental Statistic</div>
-                      <div className="w-100 d-flex gap-2 justify-content-end">
-                        <button
-                          className="btn link-thirtiery p-0"
-                          data-toggle="modal"
-                          data-target="#updatemateri">
-                          Ubah
-                        </button>
-                        <button
-                          className="btn link-thirtiery p-0"
-                          data-toggle="modal"
-                          data-target="#hapusmateri">
-                          Hapus
-                        </button>
-                      </div>
-                    </li>
-                    <li className="list-group-item">
-                      <div>Materi 2</div>
-                      <div className="w-100 d-flex gap-2 justify-content-end">
-                        <button
-                          className="btn link-thirtiery p-0"
-                          data-toggle="modal"
-                          data-target="#updatemateri">
-                          Ubah
-                        </button>
-                        <button
-                          className="btn link-thirtiery p-0"
-                          data-toggle="modal"
-                          data-target="#hapusmateri">
-                          Hapus
-                        </button>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="text-end my-2">
-                <button
-                  className="btn btn-thirtiery"
-                  data-toggle="modal"
-                  data-target="#buatmateri">
-                  Tambah Materi
-                </button>
-              </div>
-            </div>
-          </div>
+          <ModulBox data={course?.moduls} />
         </div>
 
         <div className="col-md-6 my-3 py-3 pe-3">
           <div className="d-flex justify-content-center">
-            <img src="https://picsum.photos/200/300" alt="" srcset="" />
+            <img
+              src={course.url_image}
+              alt=""
+              srcset=""
+              style={{ maxWidth: "25rem" }}
+            />
           </div>
           <div className="my-3 mx-lg-5 px-lg-5">
             <div className="d-flex justify-content-end my-1">

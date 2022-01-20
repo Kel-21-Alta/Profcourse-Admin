@@ -22,20 +22,31 @@ export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(defaultAuthState);
   const location = useLocation();
   const navigate = useNavigate();
-  const [cookie, removeCookies] = useCookies();
+  const [cookie, setCookie] = useCookies();
 
   const redirectToLogin = () => {
     navigate("/");
   };
 
   const logout = () => {
-    removeCookies("userData");
+    setCookie("userData", JSON.stringify(undefined), {
+      path: "/",
+      sameSite: "lax",
+    });
     setAuth({ ...defaultAuthState, isLoading: false });
     redirectToLogin();
   };
 
   // dijalanin sekali doang
   useEffect(() => {
+    if (!cookie.userData) {
+      setAuth({
+        ...auth,
+        isAuthenticated: false,
+        isLoading: false,
+      });
+      return;
+    }
     axios
       .get(`${BACKEND_URL}/api/v1/currentuser`, {
         headers: {
@@ -52,6 +63,7 @@ export const AuthProvider = ({ children }) => {
         });
       })
       .catch((err) => {
+        setCookie("userData", "/");
         setAuth({
           ...auth,
           isAuthenticated: false,
