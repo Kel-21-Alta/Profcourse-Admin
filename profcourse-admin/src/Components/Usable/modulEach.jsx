@@ -65,7 +65,6 @@ export default function ModulEach(props) {
       })
       .then(function (response) {
         setMateri(response.data.data);
-        console.log("[]dataMateri", materi);
       })
       .catch(function (error) {
         console.log(error);

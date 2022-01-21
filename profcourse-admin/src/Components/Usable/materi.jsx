@@ -11,7 +11,7 @@ export default function MateriBox(props) {
   const sortedData = useMemo(() => {
     //   descending
     return props.data.sort((a, b) => a.order > b.order);
-  }, [props.data]);
+  }, [props?.data]);
   const [materis, setMateris] = useState(sortedData);
 
   //drag n drop function
@@ -21,9 +21,6 @@ export default function MateriBox(props) {
     items.splice(result.destination.index, 0, reorderedItem);
     setMateris(items);
   };
-  useEffect(() => {
-    console.log(materis);
-  });
 
   //functions
   //Update materi
