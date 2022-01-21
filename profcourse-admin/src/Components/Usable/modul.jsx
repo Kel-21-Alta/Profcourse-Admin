@@ -45,7 +45,14 @@ export default function ModulBox(props) {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}>
-                      <ModulEach order={order} judul={name_modul} />
+                      <ModulEach
+                        order={order}
+                        course={props.course}
+                        judul={name_modul}
+                        modul_id={modul_id}
+                        delete={props.delete}
+                        update={props.update}
+                      />
                     </li>
                   )}
                 </Draggable>

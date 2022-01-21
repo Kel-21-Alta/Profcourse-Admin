@@ -166,7 +166,12 @@ export default function DetailKursusEdit(props) {
             data-target="#buatmodul">
             Tambah Modul
           </button>
-          <ModulBox data={course?.moduls} update={updateModul} />
+          <ModulBox
+            data={course?.moduls}
+            course="333ce029-f383-4229-b786-40d23fa6c587"
+            update={updateModul}
+            delete={deleteModul}
+          />
         </div>
 
         <div className="col-md-6 my-3 py-3 pe-3">
@@ -264,102 +269,6 @@ export default function DetailKursusEdit(props) {
                   className="btn btn-thirtiery"
                   onClick={handleSubmit}>
                   Submit
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        {/* Modal Update Modul*/}
-        <div
-          className="modal fade"
-          id="updatemodul"
-          tabIndex={-1}
-          aria-labelledby="updatemodul"
-          aria-hidden="true">
-          <div className="modal-dialog modal-dialog-centered modal-lg">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Edit Modul
-                </h5>
-                <button
-                  type="button"
-                  className="btn"
-                  data-dismiss="modal"
-                  aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <form action="#" className="p-3">
-                  <div className="form-group mb-3">
-                    <label className="font-weight-normal" htmlFor="topikKursus">
-                      Judul Modul
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Judul modul anda..."
-                      required
-                    />
-                  </div>
-                  {/* <div className="form-group text-right">
-                          <Button className="btn" isPrimary hasShadow>
-                            Ajukan Kursus
-                          </Button>
-                        </div> */}
-                </form>
-              </div>
-              <div className="modal-footer">
-                <a
-                  type="button"
-                  className="btn btn-thirtiery"
-                  href="/buat-kursus">
-                  Submit
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        {/* Modal Hapus*/}
-        <div
-          className="modal fade"
-          id="hapus"
-          tabIndex={-1}
-          aria-labelledby="hapus"
-          aria-hidden="true">
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Hapus
-                </h5>
-                <button
-                  type="button"
-                  className="btn"
-                  data-dismiss="modal"
-                  aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                Apakah anda yakin untuk menghapus <b>modul 1</b> ini?
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal">
-                  Tidak
-                </button>
-                <button type="button" className="btn btn-danger">
-                  Ya
                 </button>
               </div>
             </div>
