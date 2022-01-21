@@ -54,6 +54,8 @@ export default function ModulEach(props) {
     props.delete(modul_id);
   };
 
+  const video_type = 2;
+  const materi_type = 1;
   //////////////////Manage Materi Functions
   //Get Course information
   function getAndSetMateriData(modul_id) {
@@ -107,22 +109,28 @@ export default function ModulEach(props) {
 
   //onChangeNewMateri
   const onChangeNewMateri = (e) => {
-    console.log(e.target.value);
-    setNewMateri({
-      ...newMateri,
-      [e.target.name]: e.target.value,
-    });
+    console.log(e.target.name, e.target.value);
+    if (e.target.name === "type_materi") {
+      setNewMateri({
+        ...newMateri,
+        [e.target.name]: parseInt(e.target.value),
+      });
+    } else {
+      setNewMateri({
+        ...newMateri,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   //handle submit New Materi
   const handleSubmitNewMateri = (e) => {
-    const [modul_id, title, type_materi, file_materi] = newMateri;
     createMateri(
-      modul_id,
-      title,
+      newMateri.modul_id,
+      newMateri.title,
       materi.materi.length + 1,
-      type_materi,
-      file_materi
+      newMateri.type_materi,
+      newMateri.file_materi
     );
   };
 
@@ -163,7 +171,7 @@ export default function ModulEach(props) {
           <button
             className="btn btn-thirtiery"
             data-toggle="modal"
-            data-target="#buatmateri">
+            data-target={`#buatMateri_${modul_id}`}>
             Tambah Materi
           </button>
         </div>
@@ -278,9 +286,9 @@ export default function ModulEach(props) {
         {/* Modal Buat Materi*/}
         <div
           className="modal fade"
-          id="buatmateri"
+          id={`buatMateri_${modul_id}`}
           tabIndex={-1}
-          aria-labelledby="buatmateri"
+          aria-labelledby={`buatMateri_${modul_id}`}
           aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content">
@@ -307,8 +315,8 @@ export default function ModulEach(props) {
                       class="form-select"
                       aria-label="Default select example"
                       onChange={onChangeNewMateri}>
-                      <option value={2}>video</option>
-                      <option value={1}>materi</option>
+                      <option value={Number(video_type)}>video</option>
+                      <option value={Number(materi_type)}>materi</option>
                     </select>
                   </div>
                   <div className="form-group mb-3">
@@ -340,6 +348,7 @@ export default function ModulEach(props) {
               </div>
               <div className="modal-footer">
                 <button
+                  id={`buatMateriBtn_${modul_id}`}
                   type="button"
                   className="btn btn-primary"
                   onClick={handleSubmitNewMateri}>
