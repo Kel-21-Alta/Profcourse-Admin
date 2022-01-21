@@ -303,6 +303,7 @@ export default function ModulEach(props) {
                       Tipe Materi
                     </label>
                     <select
+                      name="type_materi"
                       class="form-select"
                       aria-label="Default select example"
                       onChange={onChangeNewMateri}>
@@ -315,6 +316,7 @@ export default function ModulEach(props) {
                       Judul Materi
                     </label>
                     <input
+                      name="title"
                       type="text"
                       className="form-control"
                       placeholder="Judul materi anda..."
@@ -327,7 +329,12 @@ export default function ModulEach(props) {
                     <label for="formFile" class="form-label">
                       Unggah Materi
                     </label>
-                    <input class="form-control" type="file" id="formFile" />
+                    <input
+                      class="form-control"
+                      type="file"
+                      id="formFile"
+                      name="file_materi"
+                    />
                   </div>
                 </form>
               </div>

@@ -16,9 +16,6 @@ export default function ModulBox(props) {
     items.splice(result.destination.index, 0, reorderedItem);
     setModul(items);
   };
-  useEffect(() => {
-    console.log(moduls);
-  });
 
   return (
     <>
