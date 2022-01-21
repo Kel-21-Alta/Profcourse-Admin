@@ -35,10 +35,10 @@ export default function ModulBox(props) {
                 "border-radius": "15px",
                 border: "none",
               }}>
-              {moduls.length === 0 && (
+              {sortedData.length === 0 && (
                 <div className="text-center">Belum ada Modul nih :(</div>
               )}
-              {moduls.map(({ modul_id, name_modul, order }, index) => (
+              {sortedData.map(({ modul_id, name_modul, order }, index) => (
                 <Draggable key={modul_id} draggableId={modul_id} index={index}>
                   {(provided) => (
                     <li

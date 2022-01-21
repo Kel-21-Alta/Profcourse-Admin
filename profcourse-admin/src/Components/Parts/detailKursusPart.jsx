@@ -9,7 +9,7 @@ import ModulBox from "../Usable/modul";
 
 export default function DetailKursusEdit(props) {
   //state
-  var courseDefault = {
+  const courseDefault = {
     info_user: {
       current_user: "",
       isRegister: false,
@@ -25,6 +25,11 @@ export default function DetailKursusEdit(props) {
     rangking: [],
   };
   const [course, setCourse] = useState(courseDefault);
+  const [newModul, setNewModul] = useState({
+    course_id: "333ce029-f383-4229-b786-40d23fa6c587",
+    title: "",
+    order: 0,
+  });
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [cookie] = useCookies();
@@ -59,9 +64,9 @@ export default function DetailKursusEdit(props) {
       .post(
         `${BACKEND_URL}/api/v1/moduls`,
         {
-          course_id: course_id,
-          title: title,
-          order: order,
+          course_id,
+          title,
+          order,
         },
         {
           headers: {
@@ -78,6 +83,19 @@ export default function DetailKursusEdit(props) {
         console.log(JSON.stringify(error, 2));
       });
   }
+  //onChangeTitle
+  const onChange = (e) => {
+    console.log(e);
+    setNewModul({
+      ...newModul,
+      [e.target.name]: e.target.value,
+    });
+  };
+  //handleSubmitNewModul
+  const handleSubmit = () => {
+    createModul(newModul.course_id, newModul.title, course.moduls.length + 1);
+  };
+
   //Update modul
   function updateModul(modul_id, course_id, title, order) {
     axios
@@ -225,6 +243,8 @@ export default function DetailKursusEdit(props) {
                       Judul Modul
                     </label>
                     <input
+                      onChange={onChange}
+                      name="title"
                       type="text"
                       className="form-control"
                       placeholder="Judul modul anda..."
@@ -239,12 +259,12 @@ export default function DetailKursusEdit(props) {
                 </form>
               </div>
               <div className="modal-footer">
-                <a
+                <button
                   type="button"
                   className="btn btn-thirtiery"
-                  href="/buat-kursus">
+                  onClick={handleSubmit}>
                   Submit
-                </a>
+                </button>
               </div>
             </div>
           </div>
