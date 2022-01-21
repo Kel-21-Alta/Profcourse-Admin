@@ -125,10 +125,16 @@ export default function ModulEach(props) {
 
   //handle submit New Materi
   const handleSubmitNewMateri = (e) => {
+    let urutan;
+    if (materi.materi === null) {
+      urutan = 0;
+    } else {
+      urutan = materi.materi.length;
+    }
     createMateri(
       newMateri.modul_id,
       newMateri.title,
-      materi.materi.length + 1,
+      urutan + 1,
       newMateri.type_materi,
       newMateri.file_materi
     );
@@ -294,7 +300,7 @@ export default function ModulEach(props) {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
-                  Buat Modul
+                  Buat Materi
                 </h5>
                 <button
                   type="button"
@@ -350,7 +356,7 @@ export default function ModulEach(props) {
                 <button
                   id={`buatMateriBtn_${modul_id}`}
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-thirtiery"
                   onClick={handleSubmitNewMateri}>
                   Submit
                 </button>
