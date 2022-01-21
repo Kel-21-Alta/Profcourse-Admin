@@ -16,6 +16,7 @@ export default function ModulEach(props) {
 
   //state for update judul Modul
   const [updateJudul, setUpdateJudul] = useState(judul);
+  const [updateOrder, setUpdateOrder] = useState(order);
 
   //Default values
   const defaultMateriGet = {
@@ -46,7 +47,7 @@ export default function ModulEach(props) {
 
   //handle Update Modul
   const handleUpdate = (e) => {
-    props.update(modul_id, course_id, updateJudul, order);
+    props.update(modul_id, course_id, updateJudul, updateOrder);
   };
 
   //handle delete Modul

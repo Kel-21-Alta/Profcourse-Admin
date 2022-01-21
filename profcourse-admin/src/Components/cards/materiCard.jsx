@@ -3,46 +3,59 @@
 import { useState } from "react";
 
 export default function MateriCard(props) {
-  //   const [id, url_materi, type, title, order] = props.data;
+  //   const [id, url_materi, type, title, order] = props?.data;
+  const id = props.data.id;
+  const url_materi = props.data.url_materi;
+  const type = props.data.type;
+  const title = props.data.title;
+  const order = props.data.order;
   const modul_id = props.modul_id;
-  //   const [updateMateri, setUpdateMateri] = useState({
-  //     modul_id: modul_id,
-  //     type_materi: type,
-  //     title: title,
-  //     file_materi: url_materi,
-  //     order: order,
-  //   });
-  //   //onChange
-  //   const onChange = (e) => {
-  //     console.log(e.target.value);
-  //     setUpdateMateri({
-  //       ...updateMateri,
-  //       [e.target.name]: e.target.value,
-  //     });
-  //   };
 
-  //   const handleUpdate = (e) => {
-  //     props.update(updateMateri.modul_id, updateMateri.type_materi, updateMateri.title, updateMateri.file_materi, updateMateri.order);
-  //   };
-  //   const handleDelete = (e) => {
-  //     props.delete(id);
-  //   };
+  const [updateMateri, setUpdateMateri] = useState({
+    modul_id: props.data.modul_id,
+    type_materi: props.data.type,
+    title: props.data.title,
+    file_materi: props.data.url_materi,
+    order: props.data.order,
+  });
+  //onChange
+  const onChange = (e) => {
+    console.log(e.target.value);
+    setUpdateMateri({
+      ...updateMateri,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleUpdate = (e) => {
+    props.update(
+      id,
+      modul_id,
+      updateMateri.type_materi,
+      updateMateri.title,
+      updateMateri.order,
+      updateMateri.file_materi
+    );
+  };
+  const handleDelete = (e) => {
+    props.delete(id);
+  };
   return (
     <>
       <div>
-        Materi {props.data.order}: {props.data.title}
+        Materi {order}: {title}
       </div>
       <div className="w-100 d-flex gap-2 justify-content-end">
         <button
           className="btn link-thirtiery p-0"
           data-toggle="modal"
-          data-target={`#updateMateri_${props.data.id}`}>
+          data-target={`#updateMateri_${id}`}>
           Ubah
         </button>
         <button
           className="btn link-thirtiery p-0"
           data-toggle="modal"
-          data-target={`#deleteMateri_${props.data.id}`}>
+          data-target={`#hapusMateri_${id}`}>
           Hapus
         </button>
       </div>
@@ -51,9 +64,9 @@ export default function MateriCard(props) {
         {/* Modal Update Modul*/}
         <div
           className="modal fade"
-          id={`updateMateri_${props.data.id}`}
+          id={`updateMateri_${id}`}
           tabIndex={-1}
-          aria-labelledby={`updateMateri_${props.data.id}`}
+          aria-labelledby={`updateMateri_${id}`}
           aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content">
@@ -76,10 +89,11 @@ export default function MateriCard(props) {
                       Tipe Materi
                     </label>
                     <select
+                      name="type_materi"
                       class="form-select"
                       aria-label="Default select example"
-                      //   onChange={onChange}
-                      value={props.data.type}>
+                      onChange={onChange}
+                      value={updateMateri.type_materi}>
                       <option value={1}>materi</option>
                       <option value={2}>video</option>
                     </select>
@@ -89,11 +103,12 @@ export default function MateriCard(props) {
                       Judul Materi
                     </label>
                     <input
+                      name="title"
                       type="text"
-                      value={props.data.title}
+                      value={updateMateri.title}
                       className="form-control"
                       placeholder="Judul materi anda..."
-                      //   onChange={onChange}
+                      onChange={onChange}
                       required
                     />
                   </div>
@@ -110,8 +125,7 @@ export default function MateriCard(props) {
                   id={`updateMateriButton_${props.data.id}`}
                   type="button"
                   className="btn btn-thirtiery"
-                  //   onClick={handleUpdate}
-                >
+                  onClick={handleUpdate}>
                   Submit
                 </button>
               </div>
@@ -123,9 +137,9 @@ export default function MateriCard(props) {
         {/* Modal Hapus*/}
         <div
           className="modal fade"
-          id={`hapusMateri_${props.data.id}`}
+          id={`hapusMateri_${id}`}
           tabIndex={-1}
-          aria-labelledby={`hapusMateri_${props.data.id}`}
+          aria-labelledby={`hapusMateri_${id}`}
           aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
@@ -142,8 +156,8 @@ export default function MateriCard(props) {
                 </button>
               </div>
               <div className="modal-body">
-                Apakah anda yakin untuk menghapus materi{" "}
-                <b>{props.data.title}</b> ini?
+                Apakah anda yakin untuk menghapus materi
+                <b>{title}</b> ini?
               </div>
               <div className="modal-footer">
                 <button
@@ -156,8 +170,7 @@ export default function MateriCard(props) {
                   id={`hapusMateriButton_${props.data.id}`}
                   type="button"
                   className="btn btn-danger"
-                  //   onClick={handleDelete}
-                >
+                  onClick={handleDelete}>
                   Ya
                 </button>
               </div>
