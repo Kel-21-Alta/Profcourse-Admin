@@ -9,10 +9,20 @@ export default function ModulBox(props) {
     //   descending
     return props.data.sort((a, b) => a.order > b.order);
   }, [props.data]);
-  const [modul, setModul] = useState(sortedData);
+  const [moduls, setModul] = useState(sortedData);
+  const handleOnDragEnd = (result) => {
+    const items = Array.from(moduls);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setModul(items);
+  };
+  useEffect(() => {
+    console.log(moduls);
+  });
+
   return (
     <>
-      <DragDropContext>
+      <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="modul">
           {(provided) => (
             <div
@@ -25,7 +35,10 @@ export default function ModulBox(props) {
                 "border-radius": "15px",
                 border: "none",
               }}>
-              {modul.map(({ modul_id, name_modul, order }, index) => (
+              {moduls.length === 0 && (
+                <div className="text-center">Belum ada Modul nih :(</div>
+              )}
+              {moduls.map(({ modul_id, name_modul, order }, index) => (
                 <Draggable key={modul_id} draggableId={modul_id} index={index}>
                   {(provided) => (
                     <li

@@ -30,6 +30,7 @@ export default function DetailKursusEdit(props) {
   const [cookie] = useCookies();
 
   //functions
+  //Get Course information
   function getAndSetCourseData(course_id) {
     axios
       .get(`${BACKEND_URL}/api/v1/courses/${course_id}`, {
@@ -52,6 +53,75 @@ export default function DetailKursusEdit(props) {
     getAndSetCourseData("333ce029-f383-4229-b786-40d23fa6c587");
   }, []);
 
+  //Create modul
+  function createModul(course_id, title, order) {
+    axios
+      .post(
+        `${BACKEND_URL}/api/v1/moduls`,
+        {
+          course_id: course_id,
+          title: title,
+          order: order,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookie.userData.token}`,
+          },
+        }
+      )
+      .then(function (response) {
+        alert(response.data.data);
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(JSON.stringify(error.message, 2));
+        console.log(JSON.stringify(error, 2));
+      });
+  }
+  //Update modul
+  function updateModul(modul_id, course_id, title, order) {
+    axios
+      .put(
+        `${BACKEND_URL}/api/v1/moduls/${modul_id}`,
+        {
+          course_id: course_id,
+          title: title,
+          order: order,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookie.userData.token}`,
+          },
+        }
+      )
+      .then(function (response) {
+        alert(response.data.data);
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(JSON.stringify(error.message, 2));
+        console.log(JSON.stringify(error, 2));
+      });
+  }
+  //Delete modul
+  function deleteModul(modul_id) {
+    axios
+      .delete(`${BACKEND_URL}/api/v1/moduls/${modul_id}`, {
+        headers: {
+          Authorization: `Bearer ${cookie.userData.token}`,
+        },
+      })
+      .then(function (response) {
+        alert(response.data.data);
+        console.log(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }
   return (
     <>
       <div className="row mx-4">
@@ -78,7 +148,7 @@ export default function DetailKursusEdit(props) {
             data-target="#buatmodul">
             Tambah Modul
           </button>
-          <ModulBox data={course?.moduls} />
+          <ModulBox data={course?.moduls} update={updateModul} />
         </div>
 
         <div className="col-md-6 my-3 py-3 pe-3">
