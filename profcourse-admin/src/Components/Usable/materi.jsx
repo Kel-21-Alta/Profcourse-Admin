@@ -80,43 +80,31 @@ export default function MateriBox(props) {
 
   return (
     <>
-      <ul className="list-Group m-0 p-0">
-        {sortedData?.length === 0 && (
-          <div className="text-center">Belum ada Materi nih :(</div>
-        )}
-        {sortedData?.map((item, index) => (
-          <li className="list-group-item">
-            <MateriCard
-              data={item}
-              modul_id={props.modul_id}
-              delete={deleteMateri}
-              update={updateMateri}
-            />
-          </li>
-        ))}
-      </ul>
-      {/* <DragDropContext onDragEnd={handleOnDragEnd}>
+      <DragDropContext
+      //   onDragEnd={handleOnDragEnd}
+      >
         <Droppable droppableId="materi">
           {(provided) => (
             <ul
-              className="list-Group"
+              className="list-Group m-0 p-0"
               {...provided.droppableProps}
               ref={provided.innerRef}>
-              {sortedData.length === 0 && (
+              {sortedData?.length === 0 && (
                 <div className="text-center">Belum ada Materi nih :(</div>
               )}
-              {sortedData.map(({ item }, index) => (
+              {sortedData?.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided) => (
                     <li
+                      className="list-group-item"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}>
                       <MateriCard
                         data={item}
                         modul_id={props.modul_id}
-                        // delete={deleteMateri}
-                        // update={updateMateri}
+                        delete={deleteMateri}
+                        update={updateMateri}
                       />
                     </li>
                   )}
@@ -126,7 +114,40 @@ export default function MateriBox(props) {
             </ul>
           )}
         </Droppable>
-      </DragDropContext> */}
+      </DragDropContext>
+
+      {/* //   <DragDropContext onDragEnd={handleOnDragEnd}>
+    //     <Droppable droppableId="materi">
+    //       {(provided) => (
+    //         <ul
+    //           className="list-Group"
+    //           {...provided.droppableProps}
+    //           ref={provided.innerRef}>
+    //           {sortedData.length === 0 && (
+    //             <div className="text-center">Belum ada Materi nih :(</div>
+    //           )}
+    //           {sortedData.map(({ item }, index) => (
+    //             <Draggable key={item.id} draggableId={item.id} index={index}>
+    //               {(provided) => (
+    //                 <li
+    //                   ref={provided.innerRef}
+    //                   {...provided.draggableProps}
+    //                   {...provided.dragHandleProps}>
+    //                   <MateriCard
+    //                     data={item}
+    //                     modul_id={props.modul_id}
+    //                     // delete={deleteMateri}
+    //                     // update={updateMateri}
+    //                   />
+    //                 </li>
+    //               )}
+    //             </Draggable>
+    //           ))}
+    //           {provided.placeholder}
+    //         </ul>
+    //       )}
+    //     </Droppable>
+    //   </DragDropContext> */}
     </>
   );
 }
