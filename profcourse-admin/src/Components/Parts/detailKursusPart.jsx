@@ -6,6 +6,7 @@ import Star from "../Usable/Star";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ModulBox from "../Usable/modul";
+import LoadingNormal from "../../assets/loading";
 
 export default function DetailKursusEdit(props) {
   //state
@@ -30,8 +31,8 @@ export default function DetailKursusEdit(props) {
     title: "",
     order: 0,
   });
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [dataChange, setDataChange] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [cookie] = useCookies();
 
   //functions
@@ -45,6 +46,7 @@ export default function DetailKursusEdit(props) {
       })
       .then(function (response) {
         setCourse(response.data.data);
+        setIsLoading(false);
         console.log("[]dataKursus", course);
       })
       .catch(function (error) {
@@ -56,7 +58,8 @@ export default function DetailKursusEdit(props) {
   }
   useEffect(() => {
     getAndSetCourseData("333ce029-f383-4229-b786-40d23fa6c587");
-  }, []);
+    setDataChange(false);
+  }, [dataChange]);
 
   //Create modul
   function createModul(course_id, title, order) {
@@ -77,6 +80,8 @@ export default function DetailKursusEdit(props) {
       .then(function (response) {
         alert(response.data.data);
         console.log(response.data);
+        setDataChange(true);
+        setIsLoading(false);
       })
       .catch(function (error) {
         console.log(JSON.stringify(error.message, 2));
@@ -93,6 +98,7 @@ export default function DetailKursusEdit(props) {
   };
   //handleSubmitNewModul
   const handleSubmit = () => {
+    setIsLoading(true);
     createModul(newModul.course_id, newModul.title, course.moduls.length + 1);
   };
 
@@ -140,6 +146,7 @@ export default function DetailKursusEdit(props) {
         // always executed
       });
   }
+
   return (
     <>
       <div className="row mx-4">
@@ -147,34 +154,68 @@ export default function DetailKursusEdit(props) {
           <h1 className="fw-bold">Detail Kursus</h1>
           <div className="row">
             <div className="col-md-8">
-              <h3 className="text-thirtiery fw-bolder">{course.name_course}</h3>
+              {isLoading ? (
+                <p class="placeholder-wave">
+                  <span class="placeholder col-6 btn btn-thirtiery disabled"></span>
+                </p>
+              ) : (
+                <h3 className="text-thirtiery fw-bolder">
+                  {course.name_course}
+                </h3>
+              )}
             </div>
             <div className="col-md-4">
               <select
                 className="form-select"
                 aria-label="Default select example">
-                <option selected>Draft</option>
-                <option value="1">Publik</option>
+                <option value={2}>Draft</option>
+                <option value={1}>Publik</option>
               </select>
             </div>
           </div>
-          <h6 className="mt-4 mb-0">Teacher: {course.teacher}</h6>
-          <p className="mt-0">{course.description}</p>
+          {isLoading ? (
+            <p class="placeholder-wave">
+              <span class="placeholder col-6"></span>
+            </p>
+          ) : (
+            <h6 className="mt-4 mb-0">Teacher: {course.teacher}</h6>
+          )}
+          {isLoading ? (
+            <p class="placeholder-wave">
+              <span class="placeholder col-12"></span>
+            </p>
+          ) : (
+            <p className="mt-0">{course.description}</p>
+          )}
+
           <button
             className="btn btn-thirtiery"
             data-toggle="modal"
             data-target="#buatmodul">
             Tambah Modul
           </button>
-          <ModulBox
-            data={course?.moduls}
-            course="333ce029-f383-4229-b786-40d23fa6c587"
-            update={updateModul}
-            delete={deleteModul}
-          />
+          {isLoading ? (
+            <div className="text-center">
+              <LoadingNormal></LoadingNormal>
+            </div>
+          ) : (
+            <ModulBox
+              data={course?.moduls}
+              course="333ce029-f383-4229-b786-40d23fa6c587"
+              update={updateModul}
+              delete={deleteModul}
+            />
+          )}
         </div>
 
         <div className="col-md-6 my-3 py-3 pe-3">
+          {isLoading && (
+            <p class="placeholder-wave text-center">
+              <span
+                class="placeholder col-6 btn btn-primary disabled"
+                style={{ height: "15rem", width: "20rem" }}></span>
+            </p>
+          )}
           <div className="d-flex justify-content-center">
             <img
               src={course.url_image}
@@ -200,18 +241,59 @@ export default function DetailKursusEdit(props) {
                   fill="#3252DF"
                 />
               </svg>
-              <h6 className="my-2">13 orang mengikuti kursus ini</h6>
+              {isLoading ? (
+                <p class="placeholder-wave">
+                  <span class="placeholder col-12"></span>
+                </p>
+              ) : (
+                <h6 className="my-2">
+                  {course.user_taken_course} orang mengikuti kursus ini
+                </h6>
+              )}
             </div>
             <div className="my-3">
               <h5 className="fw-bolder">Rank Nilai</h5>
+              {isLoading && (
+                <>
+                  <li className="border-bottom mb-2 pb-2">
+                    <p class="placeholder-wave">
+                      <span class="placeholder col-12"></span>
+                    </p>
+                    <div className="text-end fw-bold">
+                      <p class="placeholder-wave">
+                        <span class="placeholder col-1"></span>
+                      </p>
+                    </div>
+                  </li>
+                  <li className="border-bottom mb-2 pb-2">
+                    <p class="placeholder-wave">
+                      <span class="placeholder col-12"></span>
+                    </p>
+                    <div className="text-end fw-bold">
+                      <p class="placeholder-wave">
+                        <span class="placeholder col-1"></span>
+                      </p>
+                    </div>
+                  </li>
+                  <li className="border-bottom mb-2 pb-2">
+                    <p class="placeholder-wave">
+                      <span class="placeholder col-12"></span>
+                    </p>
+                    <div className="text-end fw-bold">
+                      <p class="placeholder-wave">
+                        <span class="placeholder col-1"></span>
+                      </p>
+                    </div>
+                  </li>
+                </>
+              )}
               <ol className="">
-                <li className="border-bottom mb-2 pb-2">
-                  Agus <div className="text-end fw-bold">12 pts</div>
-                </li>
-                <li className="border-bottom mb-2 pb-2">
-                  Adrian Stanislaus Trisetya Siregar{" "}
-                  <div className="text-end fw-bold">12 pts</div>
-                </li>
+                {course?.rangking.map((item) => (
+                  <li className="border-bottom mb-2 pb-2">
+                    {item.name_user}{" "}
+                    <div className="text-end fw-bold">{item.skor} pts</div>
+                  </li>
+                ))}
               </ol>
             </div>
           </div>
@@ -267,7 +349,8 @@ export default function DetailKursusEdit(props) {
                 <button
                   type="button"
                   className="btn btn-thirtiery"
-                  onClick={handleSubmit}>
+                  onClick={handleSubmit}
+                  data-dismiss="modal">
                   Submit
                 </button>
               </div>
