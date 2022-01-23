@@ -53,6 +53,7 @@ export default function ModulEach(props) {
   //handle delete Modul
   const handleDelete = (e) => {
     props.delete(modul_id);
+    props.setDataChange(true);
   };
 
   const video_type = 2;

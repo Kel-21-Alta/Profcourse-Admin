@@ -137,6 +137,7 @@ export default function DetailKursusEdit(props) {
       })
       .then(function (response) {
         alert(response.data.data);
+        setDataChange(true);
         console.log(response.data.data);
       })
       .catch(function (error) {
@@ -200,6 +201,7 @@ export default function DetailKursusEdit(props) {
             </div>
           ) : (
             <ModulBox
+              setDataChange={setDataChange}
               data={course?.moduls}
               course="333ce029-f383-4229-b786-40d23fa6c587"
               update={updateModul}

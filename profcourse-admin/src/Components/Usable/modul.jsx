@@ -13,13 +13,47 @@ export default function ModulBox(props) {
 
   const handleOnDragEnd = (result) => {
     const items = Array.from(moduls);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setModul(items);
+    console.log("destinasi", result.destination.index + 1);
+    console.log("source", result.source.index + 1);
+    if (result.destination.index > result.source.index) {
+      console.log("ganti data di backend");
+      props.update(
+        items[result.source.index].modul_id,
+        props.course,
+        items[result.source.index].name_modul,
+        result.destination.index + 1
+      );
+      for (let i = result.destination.index; i > result.source.index; i--) {
+        console.log("Posisi sekarang", i + 1);
+        props.update(items[i].modul_id, props.course, items[i].name_modul, i);
+      }
+    } else {
+      console.log("ganti data di backend");
+      props.update(
+        items[result.source.index].modul_id,
+        props.course,
+        items[result.source.index].name_modul,
+        result.destination.index + 1
+      );
+      for (let i = result.destination.index; i < result.source.index; i++) {
+        console.log("Posisi berganti", i + 1);
+        props.update(
+          items[i].modul_id,
+          props.course,
+          items[i].name_modul,
+          i + 2
+        );
+      }
+      const [reorderedItem] = items.splice(result.source.index, 1);
+
+      items.splice(result.destination.index, 0, reorderedItem);
+      setModul(items);
+      // props.setDataChange(true);
+    }
   };
-  //   useEffect(() => {
-  //     console.log(moduls);
-  //   }, []);
+  // useEffect(() => {
+  //   console.log(moduls);
+  // }, [moduls]);
   return (
     <>
       {moduls === null ? (
@@ -41,7 +75,7 @@ export default function ModulBox(props) {
                 {sortedData.length === 0 && (
                   <div className="text-center">Belum ada Modul nih :(</div>
                 )}
-                {sortedData?.map(({ modul_id, name_modul, order }, index) => (
+                {moduls?.map(({ modul_id, name_modul, order }, index) => (
                   <Draggable
                     key={modul_id}
                     draggableId={modul_id}
@@ -53,6 +87,7 @@ export default function ModulBox(props) {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}>
                         <ModulEach
+                          setDataChange={props.setDataChange}
                           order={order}
                           course={props.course}
                           judul={name_modul}
