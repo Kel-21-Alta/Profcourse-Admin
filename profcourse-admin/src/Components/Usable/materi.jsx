@@ -10,14 +10,66 @@ export default function MateriBox(props) {
   const [cookie] = useCookies();
   const sortedData = useMemo(() => {
     //   descending
-    return props.data?.sort((a, b) => a.order > b.order);
+    return props?.data?.sort((a, b) => a.order > b.order);
   }, [props?.data]);
 
   const [materis, setMateris] = useState(sortedData);
 
+  const handleOnDragEnd = (result) => {
+    const items = Array.from(sortedData);
+    console.log("destinasi", result.destination.index + 1);
+    console.log("source", result.source.index + 1);
+    if (result.destination.index > result.source.index) {
+      console.log("ganti data di backend");
+      updateMateri(
+        items[result.source.index].id,
+        props.modul_id,
+        items[result.source.index].type,
+        items[result.source.index].title,
+        result.destination.index + 1,
+        items[result.source.index].url_materi
+      );
+      for (let i = result.destination.index; i > result.source.index; i--) {
+        console.log("Posisi sekarang", i + 1);
+        updateMateri(
+          items[i].id,
+          props.modul_id,
+          items[i].type,
+          items[i].title,
+          i,
+          items[i].url_materi
+        );
+      }
+    } else {
+      console.log("ganti data di backend");
+      updateMateri(
+        items[result.source.index].id,
+        props.modul_id,
+        items[result.source.index].type,
+        items[result.source.index].title,
+        result.destination.index + 1,
+        items[result.source.index].url_materi
+      );
+      for (let i = result.destination.index; i < result.source.index; i++) {
+        console.log("Posisi berganti", i + 1);
+        updateMateri(
+          items[i].id,
+          props.modul_id,
+          items[i].type,
+          items[i].title,
+          i + 2,
+          items[i].url_materi
+        );
+      }
+      const [reorderedItem] = items.splice(result.source.index, 1);
+
+      items.splice(result.destination.index, 0, reorderedItem);
+    }
+  };
+
   //   //drag n drop function
   //   const handleOnDragEnd = (result) => {
-  //     const items = Array.from(materis);
+  //     const items = Array.from(sortedData);
   //     const [reorderedItem] = items.splice(result.source.index, 1);
   //     items.splice(result.destination.index, 0, reorderedItem);
   //     setMateris(items);
@@ -80,9 +132,7 @@ export default function MateriBox(props) {
 
   return (
     <>
-      <DragDropContext
-      //   onDragEnd={handleOnDragEnd}
-      >
+      <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="materi">
           {(provided) => (
             <ul

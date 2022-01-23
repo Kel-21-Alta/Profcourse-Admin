@@ -172,7 +172,7 @@ export default function ModulEach(props) {
         </div>
         <div className="row">
           <div className="col-md-12">
-            <MateriBox modul_id={modul_id} data={materi.materi} />
+            <MateriBox modul_id={modul_id} data={materi?.materi} />
           </div>
         </div>
         <div className="text-end my-2">

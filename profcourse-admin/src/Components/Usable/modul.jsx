@@ -48,7 +48,7 @@ export default function ModulBox(props) {
 
       items.splice(result.destination.index, 0, reorderedItem);
       setModul(items);
-      // props.setDataChange(true);
+      props.setDataChange(true);
     }
   };
   // useEffect(() => {
