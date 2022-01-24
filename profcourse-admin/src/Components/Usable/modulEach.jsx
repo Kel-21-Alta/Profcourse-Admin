@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import { BACKEND_URL } from "../../config/env";
 import axios from "axios";
 import MateriBox from "./materi";
+import Quiz from "./quiz";
 
 export default function ModulEach(props) {
   const [cookie] = useCookies();
@@ -173,6 +174,10 @@ export default function ModulEach(props) {
         <div className="row">
           <div className="col-md-12">
             <MateriBox modul_id={modul_id} data={materi?.materi} />
+          </div>
+          <div>
+            {" "}
+            <Quiz modul_id={modul_id} />
           </div>
         </div>
         <div className="text-end my-2">

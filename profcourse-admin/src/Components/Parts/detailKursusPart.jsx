@@ -7,8 +7,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ModulBox from "../Usable/modul";
 import LoadingNormal from "../../assets/loading";
+import { useParams } from "react-router-dom";
 
 export default function DetailKursusEdit(props) {
+  const param = useParams();
   //state
   const courseDefault = {
     info_user: {
@@ -27,7 +29,7 @@ export default function DetailKursusEdit(props) {
   };
   const [course, setCourse] = useState(courseDefault);
   const [newModul, setNewModul] = useState({
-    course_id: "333ce029-f383-4229-b786-40d23fa6c587",
+    course_id: param.id,
     title: "",
     order: 0,
   });
@@ -57,7 +59,7 @@ export default function DetailKursusEdit(props) {
       });
   }
   useEffect(() => {
-    getAndSetCourseData("333ce029-f383-4229-b786-40d23fa6c587");
+    getAndSetCourseData(param.id);
     setDataChange(false);
   }, [dataChange]);
 
@@ -203,7 +205,7 @@ export default function DetailKursusEdit(props) {
             <ModulBox
               setDataChange={setDataChange}
               data={course?.moduls}
-              course="333ce029-f383-4229-b786-40d23fa6c587"
+              course={param.id}
               update={updateModul}
               delete={deleteModul}
             />
