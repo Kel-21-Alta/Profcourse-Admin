@@ -1,5 +1,6 @@
 /** @format */
 import { Route, Routes } from "react-router-dom";
+import LoadingNormal from "./assets/loading";
 import BuatPengguna from "./pages/buat-pengguna";
 import BuatSpesialisasi from "./pages/buatSpesialisasi";
 import Dashboard from "./pages/dashboard";
@@ -21,7 +22,11 @@ function App() {
   const auth = useAuth();
 
   if (auth.isLoading === true) {
-    return <div>Loading...</div>;
+    return (
+      <div className="d-flex justify-content-center border vh-100 align-items-center">
+        <LoadingNormal></LoadingNormal>
+      </div>
+    );
   }
 
   return (
