@@ -9,7 +9,13 @@ export default function ModulBox(props) {
     //   descending
     return props?.data?.sort((a, b) => a.order > b.order);
   }, [props.data]);
-  const [moduls, setModul] = useState(sortedData);
+  var defaultModuls = [];
+  if (sortedData === undefined) {
+    defaultModuls = [];
+  } else {
+    defaultModuls = sortedData;
+  }
+  const [moduls, setModul] = useState(defaultModuls);
 
   const handleOnDragEnd = (result) => {
     const items = Array.from(moduls);
@@ -51,13 +57,20 @@ export default function ModulBox(props) {
       props.setDataChange(true);
     }
   };
-  // useEffect(() => {
-  //   console.log(moduls);
-  // }, [moduls]);
+
   return (
     <>
-      {moduls === null ? (
-        <div>Belum ada modul</div>
+      {moduls === null || moduls.length === 0 ? (
+        <div
+          className="container py-3 px-3 mt-4 text-center"
+          style={{
+            width: "100%",
+            backgroundColor: "#DEE2E6",
+            "border-radius": "15px",
+            border: "none",
+          }}>
+          Belum ada Modul nih :(
+        </div>
       ) : (
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="modul">
