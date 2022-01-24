@@ -27,14 +27,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: |
-          npm install
+        run: npm install
       - name: Build
-        run: |
-          npm run build
+        run: npm run build
       - name: build docker
-        run: |
-          docker build -t -t adrianstanislaus/profcourse_admin:1.0.0 .
+        run: docker build -t -t adrianstanislaus/profcourse_admin:1.0.0 .
       - name: login registry docker hub
         uses: docker/login-action@v1
         with:
