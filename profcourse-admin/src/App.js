@@ -11,13 +11,9 @@ import Kursus from "./pages/kursus";
 import Login from "./pages/login";
 import LupaPassword from "./pages/lupa-password";
 import Pengguna from "./pages/pengguna";
-import { AuthProvider, useAuth } from "./providers/auth.context";
+import { useAuth } from "./providers/auth.context";
 
 //message variables
-const newErrorMessage = {
-  email: "",
-  password: "",
-};
 
 function App() {
   const auth = useAuth();

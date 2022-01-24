@@ -17,7 +17,7 @@ export default function ModulEach(props) {
 
   //state for update judul Modul
   const [updateJudul, setUpdateJudul] = useState(judul);
-  const [updateOrder, setUpdateOrder] = useState(order);
+  const [updateOrder] = useState(order);
 
   //Default values
   const defaultMateriGet = {
