@@ -31,9 +31,7 @@ jobs:
           cd profcourse-admin
           npm install
       - name: Build
-        run: |
-          cd profcourse_admin
-          npm run build
+        run: npm run build
       - name: build docker
         run: docker build -t -t adrianstanislaus/profcourse_admin:1.0.0 .
       - name: login registry docker hub
