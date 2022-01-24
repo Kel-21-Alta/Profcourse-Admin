@@ -18,7 +18,7 @@ export default function KursusPart(props) {
     setTabs(index);
     console.log(tabs);
   };
-  const [cookies, removeCookie] = useCookies();
+  const [cookies] = useCookies();
   var jwtToken = cookies.userData.token;
 
   //axios fetching

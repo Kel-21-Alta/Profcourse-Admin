@@ -5,8 +5,8 @@ import { useState } from "react";
 export default function MateriCard(props) {
   //   const [id, url_materi, type, title, order] = props?.data;
   const id = props.data.id;
-  const url_materi = props.data.url_materi;
-  const type = props.data.type;
+  // const url_materi = props.data.url_materi;
+  // const type = props.data.type;
   const title = props.data.title;
   const order = props.data.order;
   const modul_id = props.modul_id;

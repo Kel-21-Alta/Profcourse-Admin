@@ -15,7 +15,7 @@ export default function Login() {
     password: "",
   };
   //cookies
-  const [cookies, setCookie] = useCookies(["user"]);
+  const [, setCookie] = useCookies(["user"]);
   //axios fetching
   function loginAdmin(email, password) {
     axios
