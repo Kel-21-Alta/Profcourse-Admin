@@ -30,6 +30,8 @@ jobs:
         run: |
           cd profcourse-admin
           npm install
+        env:
+          CI: false
       - name: Build
         run: |
           cd profcourse-admin
