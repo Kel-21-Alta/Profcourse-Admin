@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import LoadingNormal from "../../assets/loading";
 
 export default function EditQuizPart() {
   const param = useParams();
@@ -22,6 +23,24 @@ export default function EditQuizPart() {
         console.log(response);
         setIsLoading(false);
         setQuizzes(response.data.data);
+      })
+      .catch(function (error) {
+        setIsLoading(false);
+        alert(error.response.data.message);
+      });
+  }
+
+  function deleteQuiz(quiz_id) {
+    axios
+      .delete(`http://3.133.85.122:9090/api/v1/quizs/${quiz_id}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+        setIsLoading(false);
+        setDataChange(true);
       })
       .catch(function (error) {
         setIsLoading(false);
@@ -67,9 +86,8 @@ export default function EditQuizPart() {
   const pilihanDefault = [];
   const [quizzes, setQuizzes] = useState(quizzezDefault);
   const [question, setQuestion] = useState(questionDefault);
-  const [pilihan, setPilihan] = useState(pilihanDefault);
   const [pilihanSatuan, setPilihanSatuan] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [dataChange, setDataChange] = useState(false);
 
   useEffect(() => {
@@ -78,11 +96,11 @@ export default function EditQuizPart() {
 
   useEffect(() => {
     getQuiz();
+    setDataChange(false);
   }, [dataChange]);
 
   //functions
   const onChangeQuestion = (e) => {
-    console.log(e);
     setQuestion({
       ...question,
       [e.target.name]: e.target.value,
@@ -90,12 +108,27 @@ export default function EditQuizPart() {
   };
 
   const onChangePlihanSatuan = (e) => {
-    console.log(e);
     setPilihanSatuan(e.target.value);
   };
 
   const handleTambahPilihan = (e) => {
     setQuestion({ ...question, pilihan: [...question.pilihan, pilihanSatuan] });
+  };
+
+  const handleDeletePilihan = (pilih) => {
+    console.log(pilih);
+    const pilihanBaru = question.pilihan.filter((_, i) => i !== pilih);
+    console.log("pilihan baru", pilihanBaru);
+    setQuestion({
+      ...question,
+      pilihan: pilihanBaru,
+    });
+  };
+
+  const handleDelete = (quiz_id) => {
+    setIsLoading(true);
+    deleteQuiz(quiz_id);
+    setDataChange(true);
   };
 
   const handleSubmit = (e) => {
@@ -115,26 +148,48 @@ export default function EditQuizPart() {
           "border-radius": "15px",
           border: "none",
         }}>
-        <ol>
-          {quizzes?.map((item) => (
-            <li className="border p-3">
-              <div className="my-1">
-                <div className="fw-bold">Pertanyaan:</div>
-                <div>{item.pertanyaan}</div>
-              </div>
-              <div className="my-1">
-                <div className="fw-bold">Pilihan:</div>
-                {item.pilihan.map((item) => {
-                  return <div>- {item}</div>;
-                })}
-              </div>
-              <div>
-                <div className="fw-bold">Jawaban:</div>
-                <div>{item.jawaban}</div>
-              </div>
-            </li>
-          ))}
-        </ol>
+        {isLoading ? (
+          <div className="text-center">
+            {" "}
+            <LoadingNormal></LoadingNormal>
+          </div>
+        ) : (
+          <ol>
+            {quizzes?.map((item) => (
+              <li className="border p-3">
+                <div className="my-1">
+                  <div className="fw-bold">Pertanyaan:</div>
+                  <div>{item.pertanyaan}</div>
+                </div>
+                <div className="my-1">
+                  <div className="fw-bold">Pilihan:</div>
+                  <ul>
+                    {item.pilihan.map((item) => {
+                      return <li className="list">{item}</li>;
+                    })}
+                  </ul>
+                </div>
+                <div>
+                  <div className="fw-bold">Jawaban:</div>
+                  <div>{item.jawaban}</div>
+                </div>
+                <div className="d-flex gap-1 justify-content-end">
+                  <button
+                    className="btn btn-thirtiery"
+                    data-toggle="modal"
+                    data-target={`#ubahQuestion_${item.id}`}>
+                    Ubah
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleDelete(item.id)}>
+                    Hapus
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ol>
+        )}
       </div>
 
       <form onSubmit={handleSubmit} className="my-3">
@@ -192,8 +247,20 @@ export default function EditQuizPart() {
           </div>
           <div>
             <div className="fw-bold">Pilihan:</div>
-            {question.pilihan.map((item) => {
-              return <div>{item}</div>;
+            {question.pilihan.map((item, index) => {
+              return (
+                <div className="d-flex ms-3">
+                  <li className="list">
+                    <div>{item}</div>
+                  </li>
+                  <button
+                    type="button"
+                    className="text-danger ms-5"
+                    onClick={() => handleDeletePilihan(index)}>
+                    hapus
+                  </button>
+                </div>
+              );
             })}
           </div>
 
