@@ -49,7 +49,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: push docker hub
         run: |
-          cd profcourse_admin
+          cd profcourse-admin
           docker push adrianstanislaus/profcourse_admin
   deployment-ec2:
     name: "Deploy to ec2 from registry docker hub"
