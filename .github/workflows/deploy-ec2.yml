@@ -41,7 +41,7 @@ jobs:
       - name: build docker
         run: |
           cd profcourse-admin
-          docker build -t adrianstanislaus/profcourse_admin:1.0.0 .
+          docker build -t adrianstanislaus/profcourse_admin .
       - name: login registry docker hub
         uses: docker/login-action@v1
         with:
