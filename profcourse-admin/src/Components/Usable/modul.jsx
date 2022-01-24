@@ -101,6 +101,7 @@ export default function ModulBox(props) {
                         {...provided.dragHandleProps}>
                         <ModulEach
                           setDataChange={props.setDataChange}
+                          key={modul_id}
                           order={order}
                           course={props.course}
                           judul={name_modul}
