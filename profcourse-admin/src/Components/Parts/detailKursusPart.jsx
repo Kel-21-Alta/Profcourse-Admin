@@ -6,10 +6,13 @@ import Star from "../Usable/Star";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ModulBox from "../Usable/modul";
+import LoadingNormal from "../../assets/loading";
+import { useParams } from "react-router-dom";
 
 export default function DetailKursusEdit(props) {
+  const param = useParams();
   //state
-  var courseDefault = {
+  const courseDefault = {
     info_user: {
       current_user: "",
       isRegister: false,
@@ -25,11 +28,17 @@ export default function DetailKursusEdit(props) {
     rangking: [],
   };
   const [course, setCourse] = useState(courseDefault);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [newModul, setNewModul] = useState({
+    course_id: param.id,
+    title: "",
+    order: 0,
+  });
+  const [dataChange, setDataChange] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [cookie] = useCookies();
 
   //functions
+  //Get Course information
   function getAndSetCourseData(course_id) {
     axios
       .get(`${BACKEND_URL}/api/v1/courses/${course_id}`, {
@@ -39,6 +48,7 @@ export default function DetailKursusEdit(props) {
       })
       .then(function (response) {
         setCourse(response.data.data);
+        setIsLoading(false);
         console.log("[]dataKursus", course);
       })
       .catch(function (error) {
@@ -49,8 +59,96 @@ export default function DetailKursusEdit(props) {
       });
   }
   useEffect(() => {
-    getAndSetCourseData("333ce029-f383-4229-b786-40d23fa6c587");
-  }, []);
+    getAndSetCourseData(param.id);
+    setDataChange(false);
+  }, [dataChange]);
+
+  //Create modul
+  function createModul(course_id, title, order) {
+    axios
+      .post(
+        `${BACKEND_URL}/api/v1/moduls`,
+        {
+          course_id,
+          title,
+          order,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookie.userData.token}`,
+          },
+        }
+      )
+      .then(function (response) {
+        alert(response.data.data);
+        console.log(response.data);
+        setDataChange(true);
+        setIsLoading(false);
+      })
+      .catch(function (error) {
+        console.log(JSON.stringify(error.message, 2));
+        console.log(JSON.stringify(error, 2));
+      });
+  }
+  //onChangeTitle
+  const onChange = (e) => {
+    console.log(e);
+    setNewModul({
+      ...newModul,
+      [e.target.name]: e.target.value,
+    });
+  };
+  //handleSubmitNewModul
+  const handleSubmit = () => {
+    setIsLoading(true);
+    createModul(newModul.course_id, newModul.title, course.moduls.length + 1);
+  };
+
+  //Update modul
+  function updateModul(modul_id, course_id, title, order) {
+    axios
+      .put(
+        `${BACKEND_URL}/api/v1/moduls/${modul_id}`,
+        {
+          course_id: course_id,
+          title: title,
+          order: order,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookie.userData.token}`,
+          },
+        }
+      )
+      .then(function (response) {
+        alert(response.data.data);
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(JSON.stringify(error.message, 2));
+        console.log(JSON.stringify(error, 2));
+      });
+  }
+  //Delete modul
+  function deleteModul(modul_id) {
+    axios
+      .delete(`${BACKEND_URL}/api/v1/moduls/${modul_id}`, {
+        headers: {
+          Authorization: `Bearer ${cookie.userData.token}`,
+        },
+      })
+      .then(function (response) {
+        alert(response.data.data);
+        setDataChange(true);
+        console.log(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }
 
   return (
     <>
@@ -59,29 +157,69 @@ export default function DetailKursusEdit(props) {
           <h1 className="fw-bold">Detail Kursus</h1>
           <div className="row">
             <div className="col-md-8">
-              <h3 className="text-thirtiery fw-bolder">{course.name_course}</h3>
+              {isLoading ? (
+                <p class="placeholder-wave">
+                  <span class="placeholder col-6 btn btn-thirtiery disabled"></span>
+                </p>
+              ) : (
+                <h3 className="text-thirtiery fw-bolder">
+                  {course.name_course}
+                </h3>
+              )}
             </div>
             <div className="col-md-4">
               <select
                 className="form-select"
                 aria-label="Default select example">
-                <option selected>Draft</option>
-                <option value="1">Publik</option>
+                <option value={2}>Draft</option>
+                <option value={1}>Publik</option>
               </select>
             </div>
           </div>
-          <h6 className="mt-4 mb-0">Teacher: {course.teacher}</h6>
-          <p className="mt-0">{course.description}</p>
+          {isLoading ? (
+            <p class="placeholder-wave">
+              <span class="placeholder col-6"></span>
+            </p>
+          ) : (
+            <h6 className="mt-4 mb-0">Teacher: {course.teacher}</h6>
+          )}
+          {isLoading ? (
+            <p class="placeholder-wave">
+              <span class="placeholder col-12"></span>
+            </p>
+          ) : (
+            <p className="mt-0">{course.description}</p>
+          )}
+
           <button
             className="btn btn-thirtiery"
             data-toggle="modal"
             data-target="#buatmodul">
             Tambah Modul
           </button>
-          <ModulBox data={course?.moduls} />
+          {isLoading ? (
+            <div className="text-center">
+              <LoadingNormal></LoadingNormal>
+            </div>
+          ) : (
+            <ModulBox
+              setDataChange={setDataChange}
+              data={course?.moduls}
+              course={param.id}
+              update={updateModul}
+              delete={deleteModul}
+            />
+          )}
         </div>
 
         <div className="col-md-6 my-3 py-3 pe-3">
+          {isLoading && (
+            <p class="placeholder-wave text-center">
+              <span
+                class="placeholder col-6 btn btn-primary disabled"
+                style={{ height: "15rem", width: "20rem" }}></span>
+            </p>
+          )}
           <div className="d-flex justify-content-center">
             <img
               src={course.url_image}
@@ -107,18 +245,59 @@ export default function DetailKursusEdit(props) {
                   fill="#3252DF"
                 />
               </svg>
-              <h6 className="my-2">13 orang mengikuti kursus ini</h6>
+              {isLoading ? (
+                <p class="placeholder-wave">
+                  <span class="placeholder col-12"></span>
+                </p>
+              ) : (
+                <h6 className="my-2">
+                  {course.user_taken_course} orang mengikuti kursus ini
+                </h6>
+              )}
             </div>
             <div className="my-3">
               <h5 className="fw-bolder">Rank Nilai</h5>
+              {isLoading && (
+                <>
+                  <li className="border-bottom mb-2 pb-2">
+                    <p class="placeholder-wave">
+                      <span class="placeholder col-12"></span>
+                    </p>
+                    <div className="text-end fw-bold">
+                      <p class="placeholder-wave">
+                        <span class="placeholder col-1"></span>
+                      </p>
+                    </div>
+                  </li>
+                  <li className="border-bottom mb-2 pb-2">
+                    <p class="placeholder-wave">
+                      <span class="placeholder col-12"></span>
+                    </p>
+                    <div className="text-end fw-bold">
+                      <p class="placeholder-wave">
+                        <span class="placeholder col-1"></span>
+                      </p>
+                    </div>
+                  </li>
+                  <li className="border-bottom mb-2 pb-2">
+                    <p class="placeholder-wave">
+                      <span class="placeholder col-12"></span>
+                    </p>
+                    <div className="text-end fw-bold">
+                      <p class="placeholder-wave">
+                        <span class="placeholder col-1"></span>
+                      </p>
+                    </div>
+                  </li>
+                </>
+              )}
               <ol className="">
-                <li className="border-bottom mb-2 pb-2">
-                  Agus <div className="text-end fw-bold">12 pts</div>
-                </li>
-                <li className="border-bottom mb-2 pb-2">
-                  Adrian Stanislaus Trisetya Siregar{" "}
-                  <div className="text-end fw-bold">12 pts</div>
-                </li>
+                {course?.rangking.map((item) => (
+                  <li className="border-bottom mb-2 pb-2">
+                    {item.name_user}{" "}
+                    <div className="text-end fw-bold">{item.skor} pts</div>
+                  </li>
+                ))}
               </ol>
             </div>
           </div>
@@ -155,6 +334,8 @@ export default function DetailKursusEdit(props) {
                       Judul Modul
                     </label>
                     <input
+                      onChange={onChange}
+                      name="title"
                       type="text"
                       className="form-control"
                       placeholder="Judul modul anda..."
@@ -169,289 +350,18 @@ export default function DetailKursusEdit(props) {
                 </form>
               </div>
               <div className="modal-footer">
-                <a
+                <button
                   type="button"
                   className="btn btn-thirtiery"
-                  href="/buat-kursus">
-                  Submit
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        {/* Modal Update Modul*/}
-        <div
-          className="modal fade"
-          id="updatemodul"
-          tabIndex={-1}
-          aria-labelledby="updatemodul"
-          aria-hidden="true">
-          <div className="modal-dialog modal-dialog-centered modal-lg">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Edit Modul
-                </h5>
-                <button
-                  type="button"
-                  className="btn"
-                  data-dismiss="modal"
-                  aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <form action="#" className="p-3">
-                  <div className="form-group mb-3">
-                    <label className="font-weight-normal" htmlFor="topikKursus">
-                      Judul Modul
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Judul modul anda..."
-                      required
-                    />
-                  </div>
-                  {/* <div className="form-group text-right">
-                          <Button className="btn" isPrimary hasShadow>
-                            Ajukan Kursus
-                          </Button>
-                        </div> */}
-                </form>
-              </div>
-              <div className="modal-footer">
-                <a
-                  type="button"
-                  className="btn btn-thirtiery"
-                  href="/buat-kursus">
-                  Submit
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        {/* Modal Hapus*/}
-        <div
-          className="modal fade"
-          id="hapus"
-          tabIndex={-1}
-          aria-labelledby="hapus"
-          aria-hidden="true">
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Hapus
-                </h5>
-                <button
-                  type="button"
-                  className="btn"
-                  data-dismiss="modal"
-                  aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                Apakah anda yakin untuk menghapus <b>modul 1</b> ini?
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
+                  onClick={handleSubmit}
                   data-dismiss="modal">
-                  Tidak
-                </button>
-                <button type="button" className="btn btn-danger">
-                  Ya
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        {/* Modal Buat Modul*/}
-        <div
-          className="modal fade"
-          id="buatmateri"
-          tabIndex={-1}
-          aria-labelledby="buatmateri"
-          aria-hidden="true">
-          <div className="modal-dialog modal-dialog-centered modal-lg">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Buat Modul
-                </h5>
-                <button
-                  type="button"
-                  className="btn"
-                  data-dismiss="modal"
-                  aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <form action="#" className="p-3">
-                  <div className="form-group mb-3">
-                    <label className="font-weight-normal" htmlFor="tipemateri">
-                      Tipe Materi
-                    </label>
-                    <select
-                      class="form-select"
-                      aria-label="Default select example">
-                      <option selected>video</option>
-                      <option value="1">materi</option>
-                    </select>
-                  </div>
-                  <div className="form-group mb-3">
-                    <label className="font-weight-normal" htmlFor="judulmateri">
-                      Judul Materi
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Judul materi anda..."
-                      required
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <label for="formFile" class="form-label">
-                      Unggah Materi
-                    </label>
-                    <input class="form-control" type="file" id="formFile" />
-                  </div>
-                </form>
-              </div>
-              <div className="modal-footer">
-                <a
-                  type="button"
-                  className="btn btn-primary"
-                  href="/buat-kursus">
                   Submit
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        {/* Modal Update Modul*/}
-        <div
-          className="modal fade"
-          id="updatemateri"
-          tabIndex={-1}
-          aria-labelledby="updatemateri"
-          aria-hidden="true">
-          <div className="modal-dialog modal-dialog-centered modal-lg">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Ubah Materi
-                </h5>
-                <button
-                  type="button"
-                  className="btn"
-                  data-dismiss="modal"
-                  aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <form action="#" className="p-3">
-                  <div className="form-group mb-3">
-                    <label className="font-weight-normal" htmlFor="tipemateri">
-                      Tipe Materi
-                    </label>
-                    <select
-                      class="form-select"
-                      aria-label="Default select example">
-                      <option selected>video</option>
-                      <option value="1">materi</option>
-                    </select>
-                  </div>
-                  <div className="form-group mb-3">
-                    <label className="font-weight-normal" htmlFor="judulmateri">
-                      Judul Materi
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Judul materi anda..."
-                      required
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <label for="formFile" class="form-label">
-                      Unggah Materi
-                    </label>
-                    <input class="form-control" type="file" id="formFile" />
-                  </div>
-                </form>
-              </div>
-              <div className="modal-footer">
-                <a
-                  type="button"
-                  className="btn btn-thirtiery"
-                  href="/buat-kursus">
-                  Submit
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        {/* Modal Hapus*/}
-        <div
-          className="modal fade"
-          id="hapusmateri"
-          tabIndex={-1}
-          aria-labelledby="hapusmateri"
-          aria-hidden="true">
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Hapus
-                </h5>
-                <button
-                  type="button"
-                  className="btn"
-                  data-dismiss="modal"
-                  aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                Apakah anda yakin untuk menghapus <b>materi 1</b> ini?
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal">
-                  Tidak
-                </button>
-                <button type="button" className="btn btn-danger">
-                  Ya
                 </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {/* END MODAL */}
     </>
   );
 }
