@@ -36,6 +36,8 @@ jobs:
         run: |
           cd profcourse-admin
           npm run build
+        env:
+          CI: false
       - name: build docker
         run: docker build -t -t adrianstanislaus/profcourse_admin:1.0.0 .
       - name: login registry docker hub
