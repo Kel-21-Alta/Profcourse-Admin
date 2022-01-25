@@ -8,7 +8,7 @@ export default function Kursus(props) {
   return (
     <div class="container-fluid">
       <div class="row flex-nowrap">
-        <Sidebar />
+        <Sidebar active={2} />
         <div class="col py-3">
           <AdminTab />
           <KursusPart />
