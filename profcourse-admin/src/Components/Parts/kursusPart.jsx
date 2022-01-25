@@ -6,7 +6,6 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import KursusTab from "../Usable/kursusTab";
 import { useEffect } from "react";
-import LoadingNormal from "../../assets/loading";
 import KursusLoadingCard from "../cards/kursusCardLoading";
 
 export default function KursusPart(props) {
@@ -14,10 +13,10 @@ export default function KursusPart(props) {
 
   const [dataKursus, setDataKursus] = useState([]);
   const [limit, setLimit] = useState(12);
-  const [status, setStatus] = useState();
-  const [sort, setSort] = useState();
-  const [sortBy, setSortBy] = useState();
-  const [search, setSearch] = useState();
+  const [status, setStatus] = useState("");
+  const [sort, setSort] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [search, setSearch] = useState("");
 
   const [tabs, setTabs] = useState(1);
   const toggleTab = (index) => {
@@ -58,7 +57,7 @@ export default function KursusPart(props) {
   function getAndSetCourseData() {
     axios
       .get(
-        `http://3.133.85.122:9090/api/v1/courses?limit=${limit}&status=${status}`,
+        `http://3.133.85.122:9090/api/v1/courses?limit=${limit}${status}${search}`,
         {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -150,26 +149,47 @@ export default function KursusPart(props) {
   //TABS HANDLING
 
   const clickPublishTab = () => {
-    setStatus(1);
+    setStatus("&status=1");
     setLimit(12);
     setIsLoading(true);
   };
 
   const clickDrafTab = () => {
-    setStatus(2);
+    setStatus("&status=2");
     setLimit(12);
     setIsLoading(true);
   };
 
   const clickKursusTab = () => {
-    setStatus("()");
+    setStatus("");
     setLimit(12);
+    setIsLoading(true);
+  };
+
+  //SORT HANDLING
+
+  // const onChangeSort = (e) => {
+  //   console.log(e);
+  //   if (e.target.value === 1) {
+  //     setSortBy("title");
+  //   }
+  // };
+
+  //SEARCH HANDLING
+  const onChangeSearch = (e) => {
+    console.log(e.target.value);
+    const search = e.target.value;
+    if (e.target.value === null || e.target.value === "") {
+      setSearch();
+    } else {
+      setSearch(`&s=${search}`);
+    }
     setIsLoading(true);
   };
 
   useEffect(() => {
     getAndSetCourseData();
-  }, [limit, status]);
+  }, [limit, status, search]);
 
   useEffect(() => {}, [course, isLoading]);
 
@@ -258,6 +278,38 @@ export default function KursusPart(props) {
           </button>
         </li>
       </ul>
+      <div className="d-flex my-2">
+        <div className="py-2">
+          <input
+            type="text"
+            className="form-control-sm px-3"
+            id="searchPengguna"
+            name="searchPengguna"
+            placeholder="Cari Kursus"
+            style={{
+              "border-radius": "30px",
+              "background-color": "#E5E5E5",
+              border: "none",
+            }}
+            onChange={onChangeSearch}
+          />
+        </div>
+        <div class="d-flex justify-content-end w-100 py-2 px-5">
+          <div className="mx-2">urutkan:</div>
+          <div>
+            <select
+              className="form-select form-select-sm d-block"
+              aria-label=".form-select-sm example"
+              style={{ "border-radius": "30px" }}>
+              <option value={1}>A-Z</option>
+              <option value={2}>Z-A</option>
+              <option value={3}>Terpopuler</option>
+              <option value={4}>Terbaru</option>
+              <option value={5}>Ulasan Tinggi</option>
+            </select>
+          </div>
+        </div>
+      </div>
       <div class="tab-content" id="myTabContent">
         <div
           class={tabs === 1 ? "tab-pane fade show active" : "tab-pane fade"}
