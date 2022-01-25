@@ -14,6 +14,10 @@ export default function KursusPart(props) {
 
   const [dataKursus, setDataKursus] = useState([]);
   const [limit, setLimit] = useState(12);
+  const [status, setStatus] = useState();
+  const [sort, setSort] = useState();
+  const [sortBy, setSortBy] = useState();
+  const [search, setSearch] = useState();
 
   const [tabs, setTabs] = useState(1);
   const toggleTab = (index) => {
@@ -53,11 +57,14 @@ export default function KursusPart(props) {
   }
   function getAndSetCourseData() {
     axios
-      .get(`http://3.133.85.122:9090/api/v1/courses?limit=${limit}`, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
+      .get(
+        `http://3.133.85.122:9090/api/v1/courses?limit=${limit}&status=${status}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
       .then(function (response) {
         setDataKursus(response.data.data);
         setIsLoading(false);
@@ -140,9 +147,29 @@ export default function KursusPart(props) {
     navigate(`${course_id}`);
   };
 
+  //TABS HANDLING
+
+  const clickPublishTab = () => {
+    setStatus(1);
+    setLimit(12);
+    setIsLoading(true);
+  };
+
+  const clickDrafTab = () => {
+    setStatus(2);
+    setLimit(12);
+    setIsLoading(true);
+  };
+
+  const clickKursusTab = () => {
+    setStatus("()");
+    setLimit(12);
+    setIsLoading(true);
+  };
+
   useEffect(() => {
     getAndSetCourseData();
-  }, [limit]);
+  }, [limit, status]);
 
   useEffect(() => {}, [course, isLoading]);
 
@@ -165,7 +192,10 @@ export default function KursusPart(props) {
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <button
-            onClick={() => toggleTab(1)}
+            onClick={() => {
+              toggleTab(1);
+              clickKursusTab();
+            }}
             class={tabs === 1 ? "nav-link active" : "nav-link"}
             id="kursus-tab"
             data-bs-toggle="tab"
@@ -179,7 +209,9 @@ export default function KursusPart(props) {
         </li>
         <li class="nav-item" role="presentation">
           <button
-            onClick={() => toggleTab(2)}
+            onClick={() => {
+              toggleTab(2);
+            }}
             class={tabs === 2 ? "nav-link active" : "nav-link"}
             id="spesialisasi-tab"
             data-bs-toggle="tab"
@@ -193,7 +225,10 @@ export default function KursusPart(props) {
         </li>
         <li class="nav-item" role="presentation">
           <button
-            onClick={() => toggleTab(3)}
+            onClick={() => {
+              toggleTab(3);
+              clickPublishTab();
+            }}
             class={tabs === 3 ? "nav-link active" : "nav-link"}
             id="publik-tab"
             data-bs-toggle="tab"
@@ -207,7 +242,10 @@ export default function KursusPart(props) {
         </li>
         <li class="nav-item" role="presentation">
           <button
-            onClick={() => toggleTab(4)}
+            onClick={() => {
+              toggleTab(4);
+              clickDrafTab();
+            }}
             class={tabs === 4 ? "nav-link active" : "nav-link"}
             id="draf-tab"
             data-bs-toggle="tab"
@@ -237,21 +275,33 @@ export default function KursusPart(props) {
           id="spesialisasi"
           role="tabpanel"
           aria-labelledby="spesialisasi-tab">
-          spesialisasi
+          {isLoading ? (
+            <KursusLoadingCard />
+          ) : (
+            <KursusTab data={dataKursus} del={deleteCourse} />
+          )}
         </div>
         <div
           class={tabs === 3 ? "tab-pane fade show active" : "tab-pane fade"}
           id="publik"
           role="tabpanel"
           aria-labelledby="publik-tab">
-          publik
+          {isLoading ? (
+            <KursusLoadingCard />
+          ) : (
+            <KursusTab data={dataKursus} del={deleteCourse} />
+          )}
         </div>
         <div
           class={tabs === 4 ? "tab-pane fade show active" : "tab-pane fade"}
           id="draf"
           role="tabpanel"
           aria-labelledby="draf-tab">
-          draf
+          {isLoading ? (
+            <KursusLoadingCard />
+          ) : (
+            <KursusTab data={dataKursus} del={deleteCourse} />
+          )}
         </div>
       </div>
       <div className="d-flex justify-content-center my-3">

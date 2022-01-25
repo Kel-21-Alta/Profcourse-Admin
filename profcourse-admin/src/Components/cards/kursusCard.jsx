@@ -5,7 +5,7 @@ import UpdateButton from "../buttons/update";
 import { Link } from "react-router-dom";
 
 export default function KursusCard(props) {
-  const { course_id, title, url_image } = props.data;
+  const { course_id, title, url_image, status } = props.data;
   const linkDetailKursus = "/kursus/" + course_id;
   return (
     <div
@@ -28,7 +28,8 @@ export default function KursusCard(props) {
           <select
             className="form-select form-select-sm d-block my-3 w-50"
             aria-label=".form-select-sm example"
-            style={{ "border-radius": "30px" }}>
+            style={{ "border-radius": "30px" }}
+            value={status}>
             <option value={2}>Draft</option>
             <option value={1}>Publish</option>
           </select>
