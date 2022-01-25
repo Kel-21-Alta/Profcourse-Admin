@@ -2,7 +2,7 @@
 
 import ModulEach from "./modulEach";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 export default function ModulBox(props) {
   const sortedData = useMemo(() => {

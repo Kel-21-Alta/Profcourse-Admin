@@ -1,6 +1,6 @@
 /** @format */
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useCookies } from "react-cookie";
 import { BACKEND_URL } from "../../config/env";
 import axios from "axios";
@@ -13,7 +13,7 @@ export default function MateriBox(props) {
     return props?.data?.sort((a, b) => a.order > b.order);
   }, [props?.data]);
 
-  const [materis, setMateris] = useState(sortedData);
+  // const [materis, setMateris] = useState(sortedData);
 
   const handleOnDragEnd = (result) => {
     const items = Array.from(sortedData);
