@@ -40,7 +40,7 @@ export default function KursusPart(props) {
       .then(function (response) {
         setCourseId(response.data.data.id);
         setIsLoading(false);
-        setIsCreated({ state: true, id: course_id });
+        setIsCreated({ state: true, id: response.data.data.id });
       })
       .catch(function (error) {
         const newErrorMessage = error.response.data.message;
@@ -128,6 +128,7 @@ export default function KursusPart(props) {
   };
 
   const goTo = (course_id) => {
+    console.log(course_id);
     navigate(`${course_id}`);
   };
 
@@ -388,7 +389,7 @@ export default function KursusPart(props) {
                       className="btn btn-thirtiery"
                       data-dismiss="modal"
                       aria-label="Close"
-                      onClick={() => goTo(isCreated.id)}>
+                      onClick={() => goTo(isCreated?.id)}>
                       Lanjut Mengisi Modul dan materi Kursus
                     </button>
                   ) : (
