@@ -12,6 +12,7 @@ const defaultAuthState = {
   isAuthenticated: false,
   isLoading: true,
   logout: () => {},
+  setAuth: () => {},
 };
 
 const AuthContext = createContext(defaultAuthState);
@@ -86,7 +87,7 @@ export const AuthProvider = ({ children }) => {
   }, [auth]);
 
   return (
-    <AuthContext.Provider value={{ ...auth, logout }}>
+    <AuthContext.Provider value={{ ...auth, logout, setAuth }}>
       {children}
     </AuthContext.Provider>
   );

@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { BACKEND_URL } from "../config/env";
+import { useAuth } from "../providers/auth.context";
 
 export default function Login() {
+  const auth = useAuth();
   const navigate = useNavigate();
   //message variables
   var newErrorMessage = {
@@ -28,6 +30,13 @@ export default function Login() {
           path: "/",
           sameSite: "lax",
         });
+
+        auth.setAuth({
+          ...auth,
+          name: response.data.data.name,
+          email: response.data.data.email,
+        });
+
         setIsLoading(false);
         goTo(`/dashboard`);
       })
