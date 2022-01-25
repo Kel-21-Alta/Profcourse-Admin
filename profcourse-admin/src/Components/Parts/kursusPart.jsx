@@ -6,12 +6,14 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import KursusTab from "../Usable/kursusTab";
 import { useEffect } from "react";
+import LoadingNormal from "../../assets/loading";
+import KursusLoadingCard from "../cards/kursusCardLoading";
 
 export default function KursusPart(props) {
   //Variables and states
 
-  const [course_id, setCourseId] = useState(undefined);
   const [dataKursus, setDataKursus] = useState([]);
+  const [limit, setLimit] = useState(12);
 
   const [tabs, setTabs] = useState(1);
   const toggleTab = (index) => {
@@ -38,7 +40,6 @@ export default function KursusPart(props) {
         }
       )
       .then(function (response) {
-        setCourseId(response.data.data.id);
         setIsLoading(false);
         setIsCreated({ state: true, id: response.data.data.id });
       })
@@ -52,13 +53,14 @@ export default function KursusPart(props) {
   }
   function getAndSetCourseData() {
     axios
-      .get("http://3.133.85.122:9090/api/v1/courses", {
+      .get(`http://3.133.85.122:9090/api/v1/courses?limit=${limit}`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
       })
       .then(function (response) {
         setDataKursus(response.data.data);
+        setIsLoading(false);
         console.log("[]dataKursus", dataKursus);
       })
       .catch(function (error) {
@@ -79,6 +81,7 @@ export default function KursusPart(props) {
       .then(function (response) {
         alert(response.data);
         console.log(response);
+        setIsLoading(false);
       })
       .catch(function (error) {
         console.log(error);
@@ -97,7 +100,7 @@ export default function KursusPart(props) {
   };
   const [course, setCourse] = useState(courseZero);
   const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   var createdZero = {
     state: false,
     id: "",
@@ -127,6 +130,11 @@ export default function KursusPart(props) {
     e.preventDefault();
   };
 
+  const handleLebih = (e) => {
+    setIsLoading(true);
+    setLimit(limit + 12);
+  };
+
   const goTo = (course_id) => {
     console.log(course_id);
     navigate(`${course_id}`);
@@ -134,7 +142,9 @@ export default function KursusPart(props) {
 
   useEffect(() => {
     getAndSetCourseData();
-  }, []);
+  }, [limit]);
+
+  useEffect(() => {}, [course, isLoading]);
 
   return (
     <div className="mx-5 my-3">
@@ -211,17 +221,17 @@ export default function KursusPart(props) {
         </li>
       </ul>
       <div class="tab-content" id="myTabContent">
-        {isLoading ? (
-          <div>loading...</div>
-        ) : (
-          <div
-            class={tabs === 1 ? "tab-pane fade show active" : "tab-pane fade"}
-            id="kursus"
-            role="tabpanel"
-            aria-labelledby="kursus-tab">
+        <div
+          class={tabs === 1 ? "tab-pane fade show active" : "tab-pane fade"}
+          id="kursus"
+          role="tabpanel"
+          aria-labelledby="kursus-tab">
+          {isLoading ? (
+            <KursusLoadingCard />
+          ) : (
             <KursusTab data={dataKursus} del={deleteCourse} />
-          </div>
-        )}
+          )}
+        </div>
         <div
           class={tabs === 2 ? "tab-pane fade show active" : "tab-pane fade"}
           id="spesialisasi"
@@ -243,6 +253,11 @@ export default function KursusPart(props) {
           aria-labelledby="draf-tab">
           draf
         </div>
+      </div>
+      <div className="d-flex justify-content-center my-3">
+        <button onClick={handleLebih} className="btn btn-thirtiery shadow">
+          Lihat lebih
+        </button>
       </div>
       {/* MODAL BUAT COURSE */}
       <div>
