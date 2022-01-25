@@ -292,7 +292,7 @@ export default function DetailKursusEdit(props) {
                 </>
               )}
               <ol className="">
-                {course?.rangking.map((item) => (
+                {course?.rangking?.map((item) => (
                   <li className="border-bottom mb-2 pb-2">
                     {item.name_user}{" "}
                     <div className="text-end fw-bold">{item.skor} pts</div>
