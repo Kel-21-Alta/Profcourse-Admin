@@ -54,6 +54,34 @@ export default function KursusPart(props) {
         setIsLoading(false);
       });
   }
+
+  function editCourse(course_id, editedCourse) {
+    axios
+      .put(
+        `http://3.133.85.122:9090/api/v1/courses/${course_id}`,
+        {
+          title: editedCourse.name_course,
+          description: editedCourse.description,
+          file_image: editedCourse.url_image,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
+      .then(function (response) {
+        setIsLoading(false);
+      })
+      .catch(function (error) {
+        const newErrorMessage = error.response.data.message;
+        setErrorMessage(newErrorMessage);
+        console.log(errorMessage);
+        alert(errorMessage.message);
+        setIsLoading(false);
+      });
+  }
+
   function getAndSetCourseData() {
     axios
       .get(
@@ -189,7 +217,7 @@ export default function KursusPart(props) {
 
   useEffect(() => {
     getAndSetCourseData();
-  }, [limit, status, search]);
+  }, [limit, status, search, isCreated]);
 
   useEffect(() => {}, [course, isLoading]);
 
@@ -319,7 +347,7 @@ export default function KursusPart(props) {
           {isLoading ? (
             <KursusLoadingCard />
           ) : (
-            <KursusTab data={dataKursus} del={deleteCourse} />
+            <KursusTab data={dataKursus} del={deleteCourse} edit={editCourse} />
           )}
         </div>
         <div
@@ -330,7 +358,7 @@ export default function KursusPart(props) {
           {isLoading ? (
             <KursusLoadingCard />
           ) : (
-            <KursusTab data={dataKursus} del={deleteCourse} />
+            <KursusTab data={dataKursus} del={deleteCourse} edit={editCourse} />
           )}
         </div>
         <div
@@ -341,7 +369,7 @@ export default function KursusPart(props) {
           {isLoading ? (
             <KursusLoadingCard />
           ) : (
-            <KursusTab data={dataKursus} del={deleteCourse} />
+            <KursusTab data={dataKursus} del={deleteCourse} edit={editCourse} />
           )}
         </div>
         <div
@@ -352,7 +380,7 @@ export default function KursusPart(props) {
           {isLoading ? (
             <KursusLoadingCard />
           ) : (
-            <KursusTab data={dataKursus} del={deleteCourse} />
+            <KursusTab data={dataKursus} del={deleteCourse} edit={editCourse} />
           )}
         </div>
       </div>

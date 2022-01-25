@@ -5,7 +5,7 @@ import UpdateButton from "../buttons/update";
 import { Link } from "react-router-dom";
 
 export default function KursusCard(props) {
-  const { course_id, title, url_image, status } = props.data;
+  const { course_id, title, url_image, status } = props?.data;
   const linkDetailKursus = "/kursus/" + course_id;
   return (
     <div
@@ -34,12 +34,12 @@ export default function KursusCard(props) {
             <option value={1}>Publish</option>
           </select>
         </div>
-        <div className="">
+        <div className="d-flex justify-content-center">
           <Link to={linkDetailKursus} class="btn btn-thirtiery align-self-end">
             Detail Kursus
           </Link>
-          <UpdateButton id={course_id} />
-          <DeleteButton data={props.data} del={props.del} />
+          <UpdateButton data={props?.data} edit={props?.edit} />
+          <DeleteButton data={props?.data} del={props?.del} />
         </div>
       </div>
     </div>
