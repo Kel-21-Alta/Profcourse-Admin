@@ -11,6 +11,7 @@ import Kursus from "./pages/kursus";
 import Login from "./pages/login";
 import LupaPassword from "./pages/lupa-password";
 import Pengguna from "./pages/pengguna";
+import Permintaan from "./pages/permintaan";
 import { useAuth } from "./providers/auth.context";
 
 //message variables
@@ -32,6 +33,7 @@ function App() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/pengguna" element={<Pengguna />} />
       <Route path="/kursus" element={<Kursus />} />
+      <Route path="/permintaan" element={<Permintaan />} />
       <Route path="/kursus/spesialisasi/:id" element={<DetailSpesialisasi />} />
       <Route path="/kursus/buat_spesialisasi" element={<BuatSpesialisasi />} />
       <Route path="/pengguna/buat" element={<BuatPengguna />} />
