@@ -1,8 +1,8 @@
 /** @format */
 
-import Logo from "../../assets/profcourseLogo.png";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Logo from "../../assets/profcourseLogo.png";
 export default function Sidebar(props) {
   const [active] = useState(props?.active);
   console.log(active);
@@ -18,7 +18,7 @@ export default function Sidebar(props) {
         <ul
           className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start mt-3"
           id="menu">
-          <li classNameName="nav-item">
+          <li className="nav-item">
             <Link to="/dashboard" className="nav-link px-0 align-middle">
               <i className="fs-4 bi-speedometer2">
                 <svg
