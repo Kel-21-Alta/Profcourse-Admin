@@ -1,15 +1,13 @@
 /** @format */
 
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useCookies } from "react-cookie";
+import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
 import axios from "axios";
-import KursusTab from "../Usable/kursusTab";
-import { useEffect } from "react";
-import KursusLoadingCard from "../cards/kursusCardLoading";
-
-import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { Link, useNavigate } from "react-router-dom";
 import { storage } from "../../firebase";
+import KursusLoadingCard from "../cards/kursusCardLoading";
+import KursusTab from "../Usable/kursusTab";
 
 export default function KursusPart(props) {
   const [progress, setProgress] = useState(0);
@@ -47,7 +45,7 @@ export default function KursusPart(props) {
         }
       )
       .then(function (response) {
-        setIsLoading(false);
+        getAndSetCourseData();
         setIsCreated({ state: true, id: response.data.data.id });
       })
       .catch(function (error) {
@@ -75,7 +73,7 @@ export default function KursusPart(props) {
         }
       )
       .then(function (response) {
-        setIsLoading(false);
+        getAndSetCourseData();
       })
       .catch(function (error) {
         const newErrorMessage = error.response.data.message;
@@ -87,6 +85,7 @@ export default function KursusPart(props) {
   }
 
   function getAndSetCourseData() {
+    setIsLoading(true);
     axios
       .get(
         `http://3.133.85.122:9090/api/v1/courses?limit=${limit}${status}${search}${sort}${sortBy}`,
@@ -117,15 +116,38 @@ export default function KursusPart(props) {
         },
       })
       .then(function (response) {
-        alert(response.data);
-        console.log(response);
-        setIsLoading(false);
+        getAndSetCourseData();
       })
       .catch(function (error) {
         console.log(error);
       })
       .then(function () {
         // always executed
+      });
+  }
+
+  function editStatus(course_id, status) {
+    axios
+      .put(
+        `http://3.133.85.122:9090/api/v1/status/courses/${course_id}`,
+        {
+          status,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
+      .then(function (response) {
+        getAndSetCourseData();
+      })
+      .catch(function (error) {
+        const newErrorMessage = error.response.data.message;
+        setErrorMessage(newErrorMessage);
+        console.log(errorMessage);
+        alert(errorMessage.message);
+        setIsLoading(false);
       });
   }
 
@@ -396,7 +418,12 @@ export default function KursusPart(props) {
           {isLoading ? (
             <KursusLoadingCard />
           ) : (
-            <KursusTab data={dataKursus} del={deleteCourse} edit={editCourse} />
+            <KursusTab
+              data={dataKursus}
+              del={deleteCourse}
+              edit={editCourse}
+              status={editStatus}
+            />
           )}
         </div>
         <div
@@ -407,7 +434,12 @@ export default function KursusPart(props) {
           {isLoading ? (
             <KursusLoadingCard />
           ) : (
-            <KursusTab data={dataKursus} del={deleteCourse} edit={editCourse} />
+            <KursusTab
+              data={dataKursus}
+              del={deleteCourse}
+              edit={editCourse}
+              status={editStatus}
+            />
           )}
         </div>
         <div
@@ -418,7 +450,12 @@ export default function KursusPart(props) {
           {isLoading ? (
             <KursusLoadingCard />
           ) : (
-            <KursusTab data={dataKursus} del={deleteCourse} edit={editCourse} />
+            <KursusTab
+              data={dataKursus}
+              del={deleteCourse}
+              edit={editCourse}
+              status={editStatus}
+            />
           )}
         </div>
         <div
@@ -429,7 +466,12 @@ export default function KursusPart(props) {
           {isLoading ? (
             <KursusLoadingCard />
           ) : (
-            <KursusTab data={dataKursus} del={deleteCourse} edit={editCourse} />
+            <KursusTab
+              data={dataKursus}
+              del={deleteCourse}
+              edit={editCourse}
+              status={editStatus}
+            />
           )}
         </div>
       </div>

@@ -14,6 +14,7 @@ export default function KursusTab(props) {
               data={item}
               del={props?.del}
               edit={props?.edit}
+              status={props?.status}
             />
           ))}
         </div>

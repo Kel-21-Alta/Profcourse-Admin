@@ -86,49 +86,6 @@ export default function DashboardPart(props) {
           </div>
         </div>
       )}
-
-      <div className="mt-4">
-        <h6 className="fw-bold">Leaderboards</h6>
-        <div>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">Rank</th>
-                <th scope="col">Nama</th>
-                <th scope="col">Kelas Diambil</th>
-                <th scope="col">Total Point</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>5</td>
-                <td>50</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>6</td>
-                <td>45</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry the Bird</td>
-                <td>4</td>
-                <td>30</td>
-              </tr>
-            </tbody>
-          </table>
-          <div className="d-flex justify-content-end">
-            <button
-              type="button"
-              class="btn btn-thirtiery align-item-end shadow">
-              lebih banyak
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
