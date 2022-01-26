@@ -6,6 +6,7 @@ import BuatSpesialisasi from "./pages/buatSpesialisasi";
 import Dashboard from "./pages/dashboard";
 import DetailKursus from "./pages/detailKursus";
 import DetailSpesialisasi from "./pages/detailSpesialisasi";
+import DetailPengguna from "./pages/detailUser";
 import QuizEdit from "./pages/editQuiz";
 import Kursus from "./pages/kursus";
 import Login from "./pages/login";
@@ -32,6 +33,7 @@ function App() {
       <Route path="/" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/pengguna" element={<Pengguna />} />
+      <Route path="/pengguna/:user_id" element={<DetailPengguna />} />
       <Route path="/kursus" element={<Kursus />} />
       <Route path="/permintaan" element={<Permintaan />} />
       <Route path="/kursus/spesialisasi/:id" element={<DetailSpesialisasi />} />
