@@ -14,8 +14,8 @@ export default function KursusPart(props) {
   const [dataKursus, setDataKursus] = useState([]);
   const [limit, setLimit] = useState(12);
   const [status, setStatus] = useState("");
-  const [sort, setSort] = useState("");
-  const [sortBy, setSortBy] = useState("");
+  const [sort, setSort] = useState("&sort=title");
+  const [sortBy, setSortBy] = useState("&sortby=asc");
   const [search, setSearch] = useState("");
 
   const [tabs, setTabs] = useState(1);
@@ -85,7 +85,7 @@ export default function KursusPart(props) {
   function getAndSetCourseData() {
     axios
       .get(
-        `http://3.133.85.122:9090/api/v1/courses?limit=${limit}${status}${search}`,
+        `http://3.133.85.122:9090/api/v1/courses?limit=${limit}${status}${search}${sort}${sortBy}`,
         {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -95,10 +95,10 @@ export default function KursusPart(props) {
       .then(function (response) {
         setDataKursus(response.data.data);
         setIsLoading(false);
-        console.log("[]dataKursus", dataKursus);
       })
       .catch(function (error) {
         console.log(error);
+        setIsLoading(false);
       })
       .then(function () {
         // always executed
@@ -196,12 +196,26 @@ export default function KursusPart(props) {
 
   //SORT HANDLING
 
-  // const onChangeSort = (e) => {
-  //   console.log(e);
-  //   if (e.target.value === 1) {
-  //     setSortBy("title");
-  //   }
-  // };
+  const onChangeSort = (e) => {
+    console.log(e.target.value);
+    if (e.target.value === "1") {
+      setSortBy("&sortby=asc");
+      setSort("&sort=title");
+    } else if (e.target.value === "2") {
+      setSortBy("&sortby=desc");
+      setSort("&sort=title");
+    } else if (e.target.value === "3") {
+      setSort("&sort=asc");
+      setSortBy("&sortby=populer");
+    } else if (e.target.value === "4") {
+      setSortBy("&sortby=desc");
+      setSort("");
+    } else if (e.target.value === "5") {
+      setSortBy("");
+      setSort("&sort=review");
+    }
+    setIsLoading(true);
+  };
 
   //SEARCH HANDLING
   const onChangeSearch = (e) => {
@@ -217,7 +231,7 @@ export default function KursusPart(props) {
 
   useEffect(() => {
     getAndSetCourseData();
-  }, [limit, status, search, isCreated]);
+  }, [limit, status, search, isCreated, sort, sortBy]);
 
   useEffect(() => {}, [course, isLoading]);
 
@@ -328,7 +342,8 @@ export default function KursusPart(props) {
             <select
               className="form-select form-select-sm d-block"
               aria-label=".form-select-sm example"
-              style={{ "border-radius": "30px" }}>
+              style={{ "border-radius": "30px" }}
+              onChange={onChangeSort}>
               <option value={1}>A-Z</option>
               <option value={2}>Z-A</option>
               <option value={3}>Terpopuler</option>
