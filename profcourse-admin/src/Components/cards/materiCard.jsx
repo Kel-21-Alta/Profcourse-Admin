@@ -1,7 +1,7 @@
 /** @format */
 
+import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
 import { useState } from "react";
-import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
 import { storage } from "../../firebase";
 
 export default function MateriCard(props) {
@@ -41,7 +41,7 @@ export default function MateriCard(props) {
     );
   };
   const handleDelete = (e) => {
-    props.delete(id);
+    props.delete(id, modul_id);
   };
 
   //upload file firebase
@@ -162,6 +162,7 @@ export default function MateriCard(props) {
                   id={`updateMateriButton_${props.data.id}`}
                   type="button"
                   className="btn btn-thirtiery"
+                  data-dismiss="modal"
                   onClick={handleUpdate}>
                   Submit
                 </button>
@@ -193,8 +194,7 @@ export default function MateriCard(props) {
                 </button>
               </div>
               <div className="modal-body">
-                Apakah anda yakin untuk menghapus materi
-                <b>{title}</b> ini?
+                Apakah anda yakin untuk menghapus materi <b>{title}</b> ini?
               </div>
               <div className="modal-footer">
                 <button
@@ -207,6 +207,7 @@ export default function MateriCard(props) {
                   id={`hapusMateriButton_${props.data.id}`}
                   type="button"
                   className="btn btn-danger"
+                  data-dismiss="modal"
                   onClick={handleDelete}>
                   Ya
                 </button>

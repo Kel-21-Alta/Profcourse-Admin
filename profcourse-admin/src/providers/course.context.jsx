@@ -3,8 +3,8 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { useParams } from "react-router-dom";
 import { BACKEND_URL } from "../config/env";
-
 const defaultCourseState = {
   course: {
     info_user: {
@@ -32,6 +32,7 @@ export const CourseProvider = ({ children }) => {
   const [course, setCourse] = useState(defaultCourseState);
   const [isLoading, setIsLoading] = useState(true);
   const [cookie] = useCookies();
+  const param = useParams();
 
   const getAndSetCourseData = (course_id) => {
     setIsLoading(true);
@@ -53,7 +54,7 @@ export const CourseProvider = ({ children }) => {
       });
   };
   useEffect(() => {
-    getAndSetCourseData();
+    getAndSetCourseData(param.id);
   }, []);
 
   return (

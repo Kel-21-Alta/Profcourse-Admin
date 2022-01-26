@@ -1,7 +1,7 @@
 /** @format */
 
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
 import LoadingNormal from "../../assets/loading";
@@ -12,35 +12,15 @@ import Star from "../Usable/Star";
 
 export default function DetailKursusEdit(props) {
   const param = useParams();
-  //state
-  const courseDefault = {
-    info_user: {
-      current_user: "",
-      isRegister: false,
-      progress: 0,
-    },
-    course_id: "",
-    name_course: "",
-    description: "",
-    url_image: "",
-    teacher: "",
-    moduls: [],
-    user_taken_course: 0,
-    rangking: [],
-  };
+
   const { course, isLoading, getAndSetCourseData, setIsLoading } = useCourse();
   const [newModul, setNewModul] = useState({
     course_id: param.id,
     title: "",
     order: 0,
   });
-  const [dataChange, setDataChange] = useState(false);
-  const [cookie] = useCookies();
 
-  useEffect(() => {
-    getAndSetCourseData(param.id);
-    setDataChange(false);
-  }, [dataChange]);
+  const [cookie] = useCookies();
 
   //Create modul
   function createModul(course_id, title, order) {
@@ -59,8 +39,7 @@ export default function DetailKursusEdit(props) {
         }
       )
       .then(function (response) {
-        setDataChange(true);
-        setIsLoading(false);
+        getAndSetCourseData(param.id);
       })
       .catch(function (error) {
         console.log(JSON.stringify(error.message, 2));
@@ -119,9 +98,7 @@ export default function DetailKursusEdit(props) {
         },
       })
       .then(function (response) {
-        alert(response.data.data);
-        setDataChange(true);
-        console.log(response.data.data);
+        getAndSetCourseData(param.id);
       })
       .catch(function (error) {
         console.log(error);
@@ -184,7 +161,6 @@ export default function DetailKursusEdit(props) {
             </div>
           ) : (
             <ModulBox
-              setDataChange={setDataChange}
               data={course?.moduls}
               course={param.id}
               update={updateModul}

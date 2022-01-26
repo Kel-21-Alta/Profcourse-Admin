@@ -1,8 +1,8 @@
 /** @format */
 
-import ModulEach from "./modulEach";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useMemo, useState } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import ModulEach from "./modulEach";
 
 export default function ModulBox(props) {
   const sortedData = useMemo(() => {
@@ -33,7 +33,7 @@ export default function ModulBox(props) {
         console.log("Posisi sekarang", i + 1);
         props.update(items[i].modul_id, props.course, items[i].name_modul, i);
       }
-    } else {
+    } else if (result.destination.index < result.source.index) {
       console.log("ganti data di backend");
       props.update(
         items[result.source.index].modul_id,
@@ -50,12 +50,13 @@ export default function ModulBox(props) {
           i + 2
         );
       }
-      const [reorderedItem] = items.splice(result.source.index, 1);
-
-      items.splice(result.destination.index, 0, reorderedItem);
-      setModul(items);
-      props.setDataChange(true);
+    } else {
+      return;
     }
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setModul(items);
+    props.setDataChange(true);
   };
 
   return (

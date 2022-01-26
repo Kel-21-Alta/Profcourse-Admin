@@ -1,14 +1,13 @@
 /** @format */
 
+import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { BACKEND_URL } from "../../config/env";
-import axios from "axios";
+import { storage } from "../../firebase";
 import MateriBox from "./materi";
 import Quiz from "./quiz";
-
-import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
-import { storage } from "../../firebase";
 
 export default function ModulEach(props) {
   const [cookie] = useCookies();
@@ -22,6 +21,7 @@ export default function ModulEach(props) {
   const [updateJudul, setUpdateJudul] = useState(judul);
   const [updateOrder] = useState(order);
   const [progress, setProgress] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   //Default values
   const defaultMateriGet = {
@@ -58,7 +58,6 @@ export default function ModulEach(props) {
   //handle delete Modul
   const handleDelete = (e) => {
     props.delete(modul_id);
-    props.setDataChange(true);
   };
 
   const video_type = 2;
@@ -66,6 +65,7 @@ export default function ModulEach(props) {
   //////////////////Manage Materi Functions
   //Get Course information
   function getAndSetMateriData(modul_id) {
+    setIsLoading(true);
     axios
       .get(`${BACKEND_URL}/api/v1/moduls/${modul_id}`, {
         headers: {
@@ -74,6 +74,7 @@ export default function ModulEach(props) {
       })
       .then(function (response) {
         setMateri(response.data.data);
+        setIsLoading(false);
       })
       .catch(function (error) {
         console.log(error);
@@ -86,9 +87,8 @@ export default function ModulEach(props) {
   useEffect(() => {
     getAndSetMateriData(modul_id);
   }, []);
-  useEffect(() => {
-    console.log(newMateri);
-  }, [newMateri]);
+
+  useEffect(() => {}, [materi, newMateri]);
 
   //Create Materi
   function createMateri(modul_id, title, order, type_materi, file_materi) {
@@ -109,8 +109,7 @@ export default function ModulEach(props) {
         }
       )
       .then(function (response) {
-        alert(response.data.data);
-        console.log(response.data);
+        getAndSetMateriData(modul_id);
       })
       .catch(function (error) {
         console.log(JSON.stringify(error.message, 2));
@@ -209,7 +208,17 @@ export default function ModulEach(props) {
         </div>
         <div className="row">
           <div className="col-md-12">
-            <MateriBox modul_id={modul_id} data={materi?.materi} />
+            {isLoading ? (
+              <p class="placeholder-wave">
+                <span class="placeholder col-6"></span>
+              </p>
+            ) : (
+              <MateriBox
+                modul_id={modul_id}
+                data={materi?.materi}
+                getData={getAndSetMateriData}
+              />
+            )}
           </div>
           <div>
             {" "}
@@ -406,6 +415,7 @@ export default function ModulEach(props) {
                   id={`buatMateriBtn_${modul_id}`}
                   type="button"
                   className="btn btn-thirtiery"
+                  data-dismiss="modal"
                   onClick={handleSubmitNewMateri}>
                   Submit
                 </button>
