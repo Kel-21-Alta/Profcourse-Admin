@@ -14,7 +14,7 @@ export default function PermintaanPart(props) {
   //Variables and states
 
   const [dataRequest, setDataRequest] = useState([]);
-  const [limit, setLimit] = useState(12);
+  const [limit, setLimit] = useState(5);
   const [sort, setSort] = useState("&sort=asc");
   const [search, setSearch] = useState("");
 
@@ -51,6 +51,12 @@ export default function PermintaanPart(props) {
   }
 
   const [isLoading, setIsLoading] = useState(true);
+
+  //LIMIT HANDLING
+  const handleLebih = (e) => {
+    setIsLoading(true);
+    setLimit(limit + 5);
+  };
 
   //SORT HANDLING
 
@@ -230,7 +236,9 @@ export default function PermintaanPart(props) {
         </div>
       </div>
       <div className="d-flex justify-content-center my-3">
-        <button className="btn btn-thirtiery shadow">Lihat lebih</button>
+        <button className="btn btn-thirtiery shadow" onClick={handleLebih}>
+          Lihat lebih
+        </button>
       </div>
     </div>
   );
