@@ -8,7 +8,11 @@ import KursusTab from "../Usable/kursusTab";
 import { useEffect } from "react";
 import KursusLoadingCard from "../cards/kursusCardLoading";
 
+import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
+import { storage } from "../../firebase";
+
 export default function KursusPart(props) {
+  const [progress, setProgress] = useState(0);
   //Variables and states
 
   const [dataKursus, setDataKursus] = useState([]);
@@ -229,11 +233,41 @@ export default function KursusPart(props) {
     setIsLoading(true);
   };
 
+  //upload file firebase
+  const uploadFiles = (file) => {
+    if (!file) return;
+    const storageRef = ref(storage, `/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(prog);
+      },
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) =>
+          setCourse({ ...course, file_image: url })
+        );
+      }
+    );
+  };
+
+  const fileHandler = (e) => {
+    e.preventDefault();
+    const file = e.target[0].files[0];
+    uploadFiles(file);
+  };
+
   useEffect(() => {
     getAndSetCourseData();
   }, [limit, status, search, isCreated, sort, sortBy]);
 
-  useEffect(() => {}, [course, isLoading]);
+  useEffect(() => {
+    console.log("isi", course);
+  }, [course, isLoading]);
 
   return (
     <div className="mx-5 my-3">
@@ -415,7 +449,7 @@ export default function KursusPart(props) {
           aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content">
-              <form onSubmit={handleSubmit} className="signin-form">
+              <div className="signin-form">
                 <div className="modal-header">
                   <h5 className="modal-title" id="exampleModalLabel">
                     Buat Kursus
@@ -433,7 +467,7 @@ export default function KursusPart(props) {
                   <div className="row">
                     <div className="col-md-6 text-center">
                       <img
-                        src="https://picsum.photos/200/300"
+                        src={course.file_image}
                         className="card-img my-3"
                         alt="..."
                         height={180}
@@ -449,12 +483,21 @@ export default function KursusPart(props) {
                           disabled
                         />
                       ) : (
-                        <input
-                          type="file"
-                          name="file"
-                          id="file"
-                          className="btn btn-thirtiery"
-                        />
+                        <>
+                          {" "}
+                          <form onSubmit={fileHandler}>
+                            <input
+                              type="file"
+                              name="file"
+                              id="file"
+                              className="btn btn-thirtiery"
+                            />
+                            <button type="submit" className="btn btn-thirtiery">
+                              Upload
+                            </button>
+                            <div>Upload Progress {progress}%</div>
+                          </form>
+                        </>
                       )}
                     </div>
                     <div className="col-md-6">
@@ -553,12 +596,14 @@ export default function KursusPart(props) {
                       Lanjut Mengisi Modul dan materi Kursus
                     </button>
                   ) : (
-                    <button type="submit" className="btn btn-thirtiery">
+                    <button
+                      onClick={handleSubmit}
+                      className="btn btn-thirtiery">
                       Submit
                     </button>
                   )}
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>

@@ -34,7 +34,6 @@ export default function PenggunaPart(props) {
       .then(function (response) {
         setDataUser(response.data.data);
         setIsLoading(false);
-        console.log("[]dataUser", dataUser);
       })
       .catch(function (error) {
         console.log(error);

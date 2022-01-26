@@ -1,6 +1,8 @@
 /** @format */
 
 import { useState } from "react";
+import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
+import { storage } from "../../firebase";
 
 export default function MateriCard(props) {
   //   const [id, url_materi, type, title, order] = props?.data;
@@ -10,6 +12,7 @@ export default function MateriCard(props) {
   const title = props.data.title;
   const order = props.data.order;
   const modul_id = props.modul_id;
+  const [progress, setProgress] = useState(0);
 
   const [updateMateri, setUpdateMateri] = useState({
     modul_id: props.data.modul_id,
@@ -40,6 +43,35 @@ export default function MateriCard(props) {
   const handleDelete = (e) => {
     props.delete(id);
   };
+
+  //upload file firebase
+  const uploadFiles = (file) => {
+    if (!file) return;
+    const storageRef = ref(storage, `/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(prog);
+      },
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) =>
+          setUpdateMateri({ ...updateMateri, file_materi: url })
+        );
+      }
+    );
+  };
+
+  const fileHandler = (e) => {
+    e.preventDefault();
+    const file = e.target[0].files[0];
+    uploadFiles(file);
+  };
+
   return (
     <>
       <div>
@@ -83,7 +115,7 @@ export default function MateriCard(props) {
                 </button>
               </div>
               <div className="modal-body">
-                <form action="#" className="p-3">
+                <div action="#" className="p-3">
                   <div className="form-group mb-3">
                     <label className="font-weight-normal" htmlFor="tipemateri">
                       Tipe Materi
@@ -112,13 +144,18 @@ export default function MateriCard(props) {
                       required
                     />
                   </div>
-                  <div class="mb-3">
+                  <form onSubmit={fileHandler} class="mb-3">
                     <label for="formFile" class="form-label">
                       Unggah Materi
                     </label>
                     <input class="form-control" type="file" id="formFile" />
-                  </div>
-                </form>
+                    <button type="submit" className="btn btn-thirtiery">
+                      Upload
+                    </button>
+                    <div>Upload progress {progress}%</div>
+                    <div>Current File:{updateMateri.file_materi}</div>
+                  </form>
+                </div>
               </div>
               <div className="modal-footer">
                 <button

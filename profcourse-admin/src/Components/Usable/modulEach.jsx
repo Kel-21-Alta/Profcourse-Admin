@@ -7,6 +7,9 @@ import axios from "axios";
 import MateriBox from "./materi";
 import Quiz from "./quiz";
 
+import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
+import { storage } from "../../firebase";
+
 export default function ModulEach(props) {
   const [cookie] = useCookies();
   //Set data from props
@@ -18,6 +21,7 @@ export default function ModulEach(props) {
   //state for update judul Modul
   const [updateJudul, setUpdateJudul] = useState(judul);
   const [updateOrder] = useState(order);
+  const [progress, setProgress] = useState(0);
 
   //Default values
   const defaultMateriGet = {
@@ -78,9 +82,13 @@ export default function ModulEach(props) {
         // always executed
       });
   }
+
   useEffect(() => {
     getAndSetMateriData(modul_id);
   }, []);
+  useEffect(() => {
+    console.log(newMateri);
+  }, [newMateri]);
 
   //Create Materi
   function createMateri(modul_id, title, order, type_materi, file_materi) {
@@ -141,6 +149,34 @@ export default function ModulEach(props) {
       newMateri.type_materi,
       newMateri.file_materi
     );
+  };
+
+  //upload file firebase
+  const uploadFiles = (file) => {
+    if (!file) return;
+    const storageRef = ref(storage, `/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(prog);
+      },
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) =>
+          setNewMateri({ ...newMateri, file_materi: url })
+        );
+      }
+    );
+  };
+
+  const fileHandler = (e) => {
+    e.preventDefault();
+    const file = e.target[0].files[0];
+    uploadFiles(file);
   };
 
   return (
@@ -318,7 +354,7 @@ export default function ModulEach(props) {
                 </button>
               </div>
               <div className="modal-body">
-                <form action="#" className="p-3">
+                <div className="p-3">
                   <div className="form-group mb-3">
                     <label className="font-weight-normal" htmlFor="tipemateri">
                       Tipe Materi
@@ -346,18 +382,24 @@ export default function ModulEach(props) {
                       required
                     />
                   </div>
-                  <div class="mb-3">
-                    <label for="formFile" class="form-label">
-                      Unggah Materi
-                    </label>
-                    <input
-                      class="form-control"
-                      type="file"
-                      id="formFile"
-                      name="file_materi"
-                    />
-                  </div>
-                </form>
+                  <form onSubmit={fileHandler}>
+                    <div class="mb-3">
+                      <label for="formFile" class="form-label">
+                        Unggah Materi
+                      </label>
+                      <input
+                        class="form-control"
+                        type="file"
+                        id="formFile"
+                        name="file_materi"
+                      />
+                      <button className="btn btn-thirtiery" type="submit">
+                        Upload
+                      </button>
+                      <div>Uploaded {progress}%</div>
+                    </div>
+                  </form>
+                </div>
               </div>
               <div className="modal-footer">
                 <button
