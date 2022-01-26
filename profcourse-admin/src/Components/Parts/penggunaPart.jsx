@@ -11,8 +11,8 @@ import LoadingNormal from "../../assets/loading";
 export default function PenggunaPart(props) {
   const [dataUser, setDataUser] = useState([]);
   const [limit, setLimit] = useState(12);
-  const [sort, setSort] = useState("");
-  const [sortBy, setSortBy] = useState("");
+  const [sort, setSort] = useState("&sort=asc");
+  const [sortBy, setSortBy] = useState("&sortby=name");
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [dataChange, setDataChange] = useState(false);
@@ -22,11 +22,14 @@ export default function PenggunaPart(props) {
 
   function getAndSetUserData() {
     axios
-      .get(`http://3.133.85.122:9090/api/v1/users?limit=${limit}${search}`, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
+      .get(
+        `http://3.133.85.122:9090/api/v1/users?limit=${limit}${search}${sort}${sortBy}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
       .then(function (response) {
         setDataUser(response.data.data);
         setIsLoading(false);
@@ -72,9 +75,32 @@ export default function PenggunaPart(props) {
     setIsLoading(true);
   };
 
+  //SORT HANDLING
+
+  const onChangeSort = (e) => {
+    console.log(e.target.value);
+    if (e.target.value === "1") {
+      setSortBy("&sortby=name");
+      setSort("&sort=asc");
+    } else if (e.target.value === "2") {
+      setSortBy("&sortby=name");
+      setSort("&sort=desc");
+    } else if (e.target.value === "3") {
+      setSort("&sort=desc");
+      setSortBy("&sortby=point");
+    } else if (e.target.value === "4") {
+      setSortBy("&sortby=point");
+      setSort("&sort=asc");
+    } else if (e.target.value === "5") {
+      setSortBy("");
+      setSort("&sort=desc");
+    }
+    setIsLoading(true);
+  };
+
   useEffect(() => {
     getAndSetUserData();
-  }, [dataChange, limit, search]);
+  }, [dataChange, limit, search, sortBy, sort]);
 
   useEffect(() => {
     setDataChange(false);
@@ -113,12 +139,13 @@ export default function PenggunaPart(props) {
             <select
               className="form-select form-select-sm d-block"
               aria-label=".form-select-sm example"
-              style={{ "border-radius": "30px" }}>
-              <option selected>A-Z</option>
-              <option value="1">Z-A</option>
-              <option value="2">Poin Tertinggi</option>
-              <option value="3">Poin Terendah</option>
-              <option value="3">Terbaru</option>
+              style={{ "border-radius": "30px" }}
+              onChange={onChangeSort}>
+              <option value="1">A-Z</option>
+              <option value="2">Z-A</option>
+              <option value="3">Poin Tertinggi</option>
+              <option value="4">Poin Terendah</option>
+              <option value="5">Terbaru</option>
             </select>
           </div>
         </div>
@@ -130,7 +157,7 @@ export default function PenggunaPart(props) {
         </div>
       ) : (
         <div className="">
-          {dataUser.map((item) => (
+          {dataUser?.map((item) => (
             <UserCard key={item.id} data={item} del={deleteUser} />
           ))}
         </div>
