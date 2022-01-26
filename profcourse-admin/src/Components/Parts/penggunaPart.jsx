@@ -1,7 +1,7 @@
 /** @format */
 
 import User from "../../assets/carbon_user-avatar-filled.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -9,6 +9,7 @@ import UserCard from "../cards/userCard";
 import LoadingNormal from "../../assets/loading";
 
 export default function PenggunaPart(props) {
+  const navigate = useNavigate();
   const [dataUser, setDataUser] = useState([]);
   const [limit, setLimit] = useState(12);
   const [sort, setSort] = useState("&sort=asc");
@@ -42,6 +43,26 @@ export default function PenggunaPart(props) {
         // always executed
       });
   }
+
+  function generateReport(user_id) {
+    axios
+      .get(`http://3.133.85.122:9090/api/v1/users/reports/${user_id}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then(function (response) {
+        console.log(response.data.message);
+        window.open(`http://3.133.85.122:9090${response.data.data.FileReport}`);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }
+
   function deleteUser(user_id) {
     axios
       .delete(`http://3.133.85.122:9090/api/v1/users/${user_id}`, {
@@ -110,9 +131,6 @@ export default function PenggunaPart(props) {
     <div className="mx-5 my-3">
       <h2 className="fw-bold">Pengguna</h2>
       <div className="d-flex justify-content-end gap-2 me-5 my-2">
-        <button className="btn btn-thirtiery shadow">
-          Unduh Report Pengguna
-        </button>
         <Link to="buat">
           <button className="btn btn-thirtiery shadow">Buat Pengguna</button>
         </Link>
@@ -158,7 +176,12 @@ export default function PenggunaPart(props) {
       ) : (
         <div className="">
           {dataUser?.map((item) => (
-            <UserCard key={item.id} data={item} del={deleteUser} />
+            <UserCard
+              key={item.id}
+              data={item}
+              del={deleteUser}
+              report={generateReport}
+            />
           ))}
         </div>
       )}

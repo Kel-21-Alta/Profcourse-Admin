@@ -20,8 +20,8 @@ export default function UserCard(props) {
         ) : (
           <img className="m-0 p-0" src={User} alt="user"></img>
         )}
-        <div className="d-flex w-100">
-          <div className="fw-bold my-2 mx-2 w-50">{props?.data?.name}</div>
+        <div className="d-flex w-75">
+          <div className="fw-bold my-2 mx-2 w-25">{props?.data?.name}</div>
           <div className="my-2 mx-2">
             Course diambil: <b>{props?.data?.taken_course}</b>
           </div>
@@ -30,6 +30,11 @@ export default function UserCard(props) {
           </div>
         </div>
         <div className="d-flex justify-content-end m-0 p-0">
+          <button
+            className="btn btn-thirtiery shadow "
+            onClick={() => props.report(props?.data?.id)}>
+            Unduh Report
+          </button>
           <DeleteButtonUser data={props?.data} del={props.del} />
         </div>
       </div>
