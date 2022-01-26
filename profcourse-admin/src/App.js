@@ -14,6 +14,7 @@ import LupaPassword from "./pages/lupa-password";
 import Pengguna from "./pages/pengguna";
 import Permintaan from "./pages/permintaan";
 import { useAuth } from "./providers/auth.context";
+import { storage } from "./firebase";
 
 //message variables
 
