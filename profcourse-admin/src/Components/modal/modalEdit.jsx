@@ -30,8 +30,6 @@ export default function EditModal(props) {
       })
       .then(function (response) {
         setCourse(response.data.data);
-
-        console.log("[]dataKursus", course);
       })
       .catch(function (error) {
         console.log(error);

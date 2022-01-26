@@ -49,7 +49,6 @@ export default function DetailKursusEdit(props) {
       .then(function (response) {
         setCourse(response.data.data);
         setIsLoading(false);
-        console.log("[]dataKursus", course);
       })
       .catch(function (error) {
         console.log(error);
