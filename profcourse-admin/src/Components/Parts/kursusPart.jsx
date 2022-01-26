@@ -14,8 +14,8 @@ export default function KursusPart(props) {
   const [dataKursus, setDataKursus] = useState([]);
   const [limit, setLimit] = useState(12);
   const [status, setStatus] = useState("");
-  const [sort, setSort] = useState("");
-  const [sortBy, setSortBy] = useState("");
+  const [sort, setSort] = useState("&sort=title");
+  const [sortBy, setSortBy] = useState("&sortby=asc");
   const [search, setSearch] = useState("");
 
   const [tabs, setTabs] = useState(1);
@@ -85,7 +85,7 @@ export default function KursusPart(props) {
   function getAndSetCourseData() {
     axios
       .get(
-        `http://3.133.85.122:9090/api/v1/courses?limit=${limit}${status}${search}`,
+        `http://3.133.85.122:9090/api/v1/courses?limit=${limit}${status}${search}&sort=title&sortby=asc`,
         {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -196,12 +196,25 @@ export default function KursusPart(props) {
 
   //SORT HANDLING
 
-  // const onChangeSort = (e) => {
-  //   console.log(e);
-  //   if (e.target.value === 1) {
-  //     setSortBy("title");
-  //   }
-  // };
+  const onChangeSort = (e) => {
+    console.log(e);
+    if (e.target.value === 1) {
+      setSortBy("&sortby=asc");
+      setSort("&sort=title");
+    } else if (e.target.value === 2) {
+      setSortBy("&sortby=desc");
+      setSort("&sort=title");
+    } else if (e.target.value === 3) {
+      setSortBy("&sortby=asc");
+      setSort("&sort=populer");
+    } else if (e.target.value === 4) {
+      setSortBy("&sortby=asc");
+      setSort("");
+    } else if (e.target.value === 5) {
+      setSortBy("&sortby=asc");
+      setSort("&sort=review");
+    }
+  };
 
   //SEARCH HANDLING
   const onChangeSearch = (e) => {
