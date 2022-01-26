@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../../config/env";
 import { useCookies } from "react-cookie";
+import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
+import { storage } from "../../firebase";
+
 export default function EditModal(props) {
+  const [progress, setProgress] = useState(0);
   const [course, setCourse] = useState(props?.data);
   const [cookie] = useCookies();
 
@@ -38,6 +42,34 @@ export default function EditModal(props) {
         // always executed
       });
   }
+  //upload file firebase
+  const uploadFiles = (file) => {
+    if (!file) return;
+    const storageRef = ref(storage, `/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(prog);
+      },
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) =>
+          setCourse({ ...course, url_image: url })
+        );
+      }
+    );
+  };
+
+  const fileHandler = (e) => {
+    e.preventDefault();
+    const file = e.target[0].files[0];
+    uploadFiles(file);
+  };
+
   useEffect(() => {}, [course]);
   useEffect(() => {
     getAndSetCourseData(props?.data?.course_id);
@@ -54,7 +86,7 @@ export default function EditModal(props) {
         aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered modal-lg">
           <div className="modal-content">
-            <form onSubmit={handleSubmit} className="signin-form">
+            <div className="signin-form">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
                   Edit Kursus
@@ -78,13 +110,16 @@ export default function EditModal(props) {
                       width={342}
                       style={{ objectFit: "cover" }}
                     />
-
-                    <input
-                      type="file"
-                      name="file"
-                      id="file"
-                      className="btn btn-thirtiery"
-                    />
+                    <form onSubmit={fileHandler}>
+                      <input
+                        type="file"
+                        name="file"
+                        id="file"
+                        className="btn btn-thirtiery"
+                      />
+                      <button className="btn btn-thirtiery">Upload</button>
+                      <div>Upload Progress {progress}%</div>
+                    </form>
                   </div>
                   <div className="col-md-6 text-start">
                     <div className="form-group mb-3">
@@ -130,7 +165,7 @@ export default function EditModal(props) {
                   Submit
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
