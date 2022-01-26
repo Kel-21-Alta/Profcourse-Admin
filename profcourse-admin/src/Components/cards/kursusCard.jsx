@@ -1,12 +1,22 @@
 /** @format */
 
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import DeleteButton from "../buttons/delete";
 import UpdateButton from "../buttons/update";
-import { Link } from "react-router-dom";
 
 export default function KursusCard(props) {
-  const { course_id, title, url_image, status } = props?.data;
+  const { course_id, title, url_image } = props?.data;
   const linkDetailKursus = "/kursus/" + course_id;
+  const [status, setStatus] = useState(props?.data?.status);
+
+  const onChange = (e) => {
+    console.log(e.target.value);
+    props.status(course_id, e.target.value);
+  };
+
+  useEffect(() => {}, status);
+
   return (
     <div
       class="card shadow col p-0 h-25"
@@ -29,7 +39,8 @@ export default function KursusCard(props) {
             className="form-select form-select-sm d-block my-3 w-50"
             aria-label=".form-select-sm example"
             style={{ "border-radius": "30px" }}
-            value={status}>
+            value={status}
+            onChange={onChange}>
             <option value={2}>Draft</option>
             <option value={1}>Publish</option>
           </select>

@@ -1,12 +1,14 @@
 /** @format */
+import { useNavigate } from "react-router-dom";
 import User from "../../assets/carbon_user-avatar-filled.png";
 import DeleteButtonUser from "../buttons/deleteUser";
 export default function UserCard(props) {
+  const navigate = useNavigate();
   return (
     <div
       class="card border-0 shadow-lg my-1"
       style={{ "border-radius": "30px" }}>
-      <div class="card-body d-flex m-1 p-1">
+      <div className="card-body d-flex m-1 p-1">
         {props.data?.image_url ? (
           <img
             className="m-0 p-0"
@@ -21,7 +23,11 @@ export default function UserCard(props) {
           <img className="m-0 p-0" src={User} alt="user"></img>
         )}
         <div className="d-flex w-75">
-          <div className="fw-bold my-2 mx-2 w-25">{props?.data?.name}</div>
+          <div
+            className="btn  text-start fw-bold p-0 text-thirtiery my-2 mx-2 w-25"
+            onClick={() => navigate(`${props?.data?.id}`)}>
+            {props?.data?.name}
+          </div>
           <div className="my-2 mx-2">
             Course diambil: <b>{props?.data?.taken_course}</b>
           </div>
