@@ -8,7 +8,7 @@ export default function ModulBox(props) {
   const sortedData = useMemo(() => {
     //   descending
     return props?.data?.sort((a, b) => a.order > b.order);
-  }, [props.data]);
+  }, [props?.data]);
   var defaultModuls = [];
   if (sortedData === undefined) {
     defaultModuls = [];

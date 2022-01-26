@@ -13,6 +13,12 @@ export default function MateriBox(props) {
     return props?.data?.sort((a, b) => a.order > b.order);
   }, [props?.data]);
 
+  var defaultModuls = [];
+  if (sortedData === undefined) {
+    defaultModuls = [];
+  } else {
+    defaultModuls = sortedData;
+  }
   // const [materis, setMateris] = useState(sortedData);
 
   const handleOnDragEnd = (result) => {
@@ -139,7 +145,7 @@ export default function MateriBox(props) {
               className="list-Group m-0 p-0"
               {...provided.droppableProps}
               ref={provided.innerRef}>
-              {sortedData?.length === 0 && (
+              {defaultModuls?.length === 0 && (
                 <div className="text-center">Belum ada Materi nih :(</div>
               )}
               {sortedData?.map((item, index) => (

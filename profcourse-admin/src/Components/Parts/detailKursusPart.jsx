@@ -1,13 +1,14 @@
 /** @format */
 
-import { useCookies } from "react-cookie";
-import { BACKEND_URL } from "../../config/env";
-import Star from "../Usable/Star";
-import { useState, useEffect } from "react";
 import axios from "axios";
-import ModulBox from "../Usable/modul";
-import LoadingNormal from "../../assets/loading";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
+import LoadingNormal from "../../assets/loading";
+import { BACKEND_URL } from "../../config/env";
+import { useCourse } from "../../providers/course.context";
+import ModulBox from "../Usable/modul";
+import Star from "../Usable/Star";
 
 export default function DetailKursusEdit(props) {
   const param = useParams();
@@ -27,36 +28,15 @@ export default function DetailKursusEdit(props) {
     user_taken_course: 0,
     rangking: [],
   };
-  const [course, setCourse] = useState(courseDefault);
+  const { course, isLoading, getAndSetCourseData, setIsLoading } = useCourse();
   const [newModul, setNewModul] = useState({
     course_id: param.id,
     title: "",
     order: 0,
   });
   const [dataChange, setDataChange] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [cookie] = useCookies();
 
-  //functions
-  //Get Course information
-  function getAndSetCourseData(course_id) {
-    axios
-      .get(`${BACKEND_URL}/api/v1/courses/${course_id}`, {
-        headers: {
-          Authorization: `Bearer ${cookie.userData.token}`,
-        },
-      })
-      .then(function (response) {
-        setCourse(response.data.data);
-        setIsLoading(false);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      .then(function () {
-        // always executed
-      });
-  }
   useEffect(() => {
     getAndSetCourseData(param.id);
     setDataChange(false);
@@ -79,8 +59,6 @@ export default function DetailKursusEdit(props) {
         }
       )
       .then(function (response) {
-        alert(response.data.data);
-        console.log(response.data);
         setDataChange(true);
         setIsLoading(false);
       })
@@ -100,11 +78,16 @@ export default function DetailKursusEdit(props) {
   //handleSubmitNewModul
   const handleSubmit = () => {
     setIsLoading(true);
-    createModul(newModul.course_id, newModul.title, course.moduls.length + 1);
+    if (course.moduls === null || course.moduls.length === 0) {
+      createModul(newModul.course_id, newModul.title, 1);
+    } else {
+      createModul(newModul.course_id, newModul.title, course.moduls.length + 1);
+    }
   };
 
   //Update modul
   function updateModul(modul_id, course_id, title, order) {
+    setIsLoading(true);
     axios
       .put(
         `${BACKEND_URL}/api/v1/moduls/${modul_id}`,
@@ -120,8 +103,7 @@ export default function DetailKursusEdit(props) {
         }
       )
       .then(function (response) {
-        alert(response.data.data);
-        console.log(response.data);
+        getAndSetCourseData(course_id);
       })
       .catch(function (error) {
         console.log(JSON.stringify(error.message, 2));
