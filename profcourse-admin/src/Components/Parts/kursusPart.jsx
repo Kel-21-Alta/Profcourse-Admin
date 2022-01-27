@@ -15,7 +15,7 @@ export default function KursusPart(props) {
   //Variables and states
 
   const [dataKursus, setDataKursus] = useState([]);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(6);
   const [status, setStatus] = useState("");
   const [sort, setSort] = useState("&sort=title");
   const [sortBy, setSortBy] = useState("&sortby=asc");
@@ -191,7 +191,7 @@ export default function KursusPart(props) {
 
   const handleLebih = (e) => {
     setIsLoading(true);
-    setLimit(limit + 3);
+    setLimit(limit + 6);
   };
 
   const goTo = (course_id) => {
@@ -202,19 +202,19 @@ export default function KursusPart(props) {
 
   const clickPublishTab = () => {
     setStatus("&status=1");
-    setLimit(3);
+    setLimit(6);
     setIsLoading(true);
   };
 
   const clickDrafTab = () => {
     setStatus("&status=2");
-    setLimit(3);
+    setLimit(6);
     setIsLoading(true);
   };
 
   const clickKursusTab = () => {
     setStatus("");
-    setLimit(3);
+    setLimit(6);
     setIsLoading(true);
   };
 
@@ -276,11 +276,14 @@ export default function KursusPart(props) {
   function getAndSetSpesialisasiData() {
     setIsLoading(true);
     axios
-      .get(`http://3.133.85.122:9090/api/v1/spesializations`, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
+      .get(
+        `http://3.133.85.122:9090/api/v1/spesializations?limit=${limit}${search}${sort}${sortBy}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
       .then(function (response) {
         setSpesialisasi(response.data.data);
         setIsLoading(false);

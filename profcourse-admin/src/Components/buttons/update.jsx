@@ -7,7 +7,7 @@ export default function UpdateButton(props) {
     <>
       <svg
         data-toggle="modal"
-        data-target={`#editModal_${props.data.course_id}`}
+        data-target={`#editModal_${props?.data?.course_id}`}
         className="mx-1 mt-1"
         type="button"
         width="32"

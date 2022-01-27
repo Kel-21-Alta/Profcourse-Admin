@@ -19,11 +19,7 @@ export default function EditModal(props) {
     });
   };
 
-  const handleSubmit = (e) => {
-    props.edit(props.data.course_id, course);
-    e.preventDefault();
-  };
-  function getAndSetCourseData(course_id) {
+  function getAndSetData(course_id) {
     axios
       .get(`${BACKEND_URL}/api/v1/courses/${course_id}`, {
         headers: {
@@ -40,6 +36,11 @@ export default function EditModal(props) {
         // always executed
       });
   }
+
+  const handleSubmit = (e) => {
+    props.edit(props.data.course_id, course);
+    e.preventDefault();
+  };
   //upload file firebase
   const uploadFiles = (file) => {
     if (!file) return;
@@ -68,10 +69,7 @@ export default function EditModal(props) {
     uploadFiles(file);
   };
 
-  useEffect(() => {}, [course]);
-  useEffect(() => {
-    getAndSetCourseData(props?.data?.course_id);
-  }, []);
+  useEffect(() => {}, [course, props?.data]);
 
   return (
     <div>
@@ -100,6 +98,11 @@ export default function EditModal(props) {
               <div className="modal-body">
                 <div className="row">
                   <div className="col-md-6 text-center">
+                    <button
+                      className="btn"
+                      onClick={() => getAndSetData(props?.data?.course_id)}>
+                      Ambil data
+                    </button>
                     <img
                       src={course.url_image}
                       className="card-img my-3"
@@ -126,7 +129,7 @@ export default function EditModal(props) {
 
                         <input
                           onChange={onChange}
-                          name="name_course"
+                          name="title"
                           type="text"
                           class="form-control"
                           id="judul"
