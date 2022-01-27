@@ -1,17 +1,17 @@
 /** @format */
 
-import DashboardPart from "../Components/Parts/dashboardPart";
+import PermintaanPart from "../Components/Parts/permintaanPart";
 import AdminTab from "../Components/Usable/adminTab";
 import Sidebar from "../Components/Usable/navbar";
 
-export default function Dashboard(props) {
+export default function Permintaan(props) {
   return (
     <div class="container-fluid">
       <div class="row flex-nowrap">
-        <Sidebar active={1} />
+        <Sidebar active={4} />
         <div class="col py-3">
           <AdminTab />
-          <DashboardPart />
+          <PermintaanPart />
         </div>
       </div>
     </div>
