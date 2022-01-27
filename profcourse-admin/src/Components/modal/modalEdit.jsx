@@ -73,6 +73,7 @@ export default function EditModal(props) {
   useEffect(() => {}, [course]);
   useEffect(() => {
     getAndSetCourseData(props?.data?.course_id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -83,7 +84,8 @@ export default function EditModal(props) {
         id={`editModal_${props.data.course_id}`}
         tabIndex={-1}
         aria-labelledby={`editModal_${props.data.course_id}`}
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered modal-lg">
           <div className="modal-content">
             <div className="signin-form">
@@ -95,7 +97,8 @@ export default function EditModal(props) {
                   type="button"
                   className="btn"
                   data-dismiss="modal"
-                  aria-label="Close">
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
@@ -151,7 +154,8 @@ export default function EditModal(props) {
                         rows="3"
                         placeholder="Deskripsi Kursus"
                         value={course.description}
-                        required></textarea>
+                        required
+                      ></textarea>
                     </div>
                   </div>
                 </div>
@@ -161,7 +165,8 @@ export default function EditModal(props) {
                   type="submit"
                   className="btn btn-thirtiery"
                   data-dismiss="modal"
-                  onClick={handleSubmit}>
+                  onClick={handleSubmit}
+                >
                   Submit
                 </button>
               </div>
