@@ -314,7 +314,7 @@ export default function KursusPart(props) {
     getAndSetCourseData();
     getAndSetSpesialisasiData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [limit, sort, sortBy, search, status]);
 
   return (
     <div className="mx-5 my-3">
