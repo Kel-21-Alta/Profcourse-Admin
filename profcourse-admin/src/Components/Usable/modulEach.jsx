@@ -86,6 +86,7 @@ export default function ModulEach(props) {
 
   useEffect(() => {
     getAndSetMateriData(modul_id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {}, [materi, newMateri]);
@@ -194,13 +195,15 @@ export default function ModulEach(props) {
               <button
                 className="btn link-thirtiery p-0"
                 data-toggle="modal"
-                data-target={`#updateModul_${modul_id}`}>
+                data-target={`#updateModul_${modul_id}`}
+              >
                 Ubah
               </button>
               <button
                 className="btn link-thirtiery p-0"
                 data-toggle="modal"
-                data-target={`#hapusModul_${modul_id}`}>
+                data-target={`#hapusModul_${modul_id}`}
+              >
                 Hapus
               </button>
             </div>
@@ -229,7 +232,8 @@ export default function ModulEach(props) {
           <button
             className="btn btn-thirtiery"
             data-toggle="modal"
-            data-target={`#buatMateri_${modul_id}`}>
+            data-target={`#buatMateri_${modul_id}`}
+          >
             Tambah Materi
           </button>
         </div>
@@ -242,7 +246,8 @@ export default function ModulEach(props) {
           id={`updateModul_${modul_id}`}
           tabIndex={-1}
           aria-labelledby={`updateModul_${modul_id}`}
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content">
               <div className="modal-header">
@@ -253,7 +258,8 @@ export default function ModulEach(props) {
                   type="button"
                   className="btn"
                   data-dismiss="modal"
-                  aria-label="Close">
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
@@ -285,7 +291,8 @@ export default function ModulEach(props) {
                   type="button"
                   className="btn btn-thirtiery"
                   data-dismiss="modal"
-                  onClick={handleUpdate}>
+                  onClick={handleUpdate}
+                >
                   Submit
                 </button>
               </div>
@@ -301,7 +308,8 @@ export default function ModulEach(props) {
           id={`hapusModul_${modul_id}`}
           tabIndex={-1}
           aria-labelledby={`hapusModul_${modul_id}`}
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
@@ -312,7 +320,8 @@ export default function ModulEach(props) {
                   type="button"
                   className="btn"
                   data-dismiss="modal"
-                  aria-label="Close">
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
@@ -323,7 +332,8 @@ export default function ModulEach(props) {
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  data-dismiss="modal">
+                  data-dismiss="modal"
+                >
                   Tidak
                 </button>
                 <button
@@ -331,7 +341,8 @@ export default function ModulEach(props) {
                   type="button"
                   className="btn btn-danger"
                   data-dismiss="modal"
-                  onClick={handleDelete}>
+                  onClick={handleDelete}
+                >
                   Ya
                 </button>
               </div>
@@ -347,7 +358,8 @@ export default function ModulEach(props) {
           id={`buatMateri_${modul_id}`}
           tabIndex={-1}
           aria-labelledby={`buatMateri_${modul_id}`}
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content">
               <div className="modal-header">
@@ -358,7 +370,8 @@ export default function ModulEach(props) {
                   type="button"
                   className="btn"
                   data-dismiss="modal"
-                  aria-label="Close">
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
@@ -372,7 +385,8 @@ export default function ModulEach(props) {
                       name="type_materi"
                       class="form-select"
                       aria-label="Default select example"
-                      onChange={onChangeNewMateri}>
+                      onChange={onChangeNewMateri}
+                    >
                       <option value={Number(video_type)}>video</option>
                       <option value={Number(materi_type)}>materi</option>
                     </select>
@@ -416,7 +430,8 @@ export default function ModulEach(props) {
                   type="button"
                   className="btn btn-thirtiery"
                   data-dismiss="modal"
-                  onClick={handleSubmitNewMateri}>
+                  onClick={handleSubmitNewMateri}
+                >
                   Submit
                 </button>
               </div>

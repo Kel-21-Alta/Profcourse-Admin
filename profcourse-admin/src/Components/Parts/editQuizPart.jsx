@@ -147,6 +147,7 @@ export default function EditQuizPart() {
   useEffect(() => {
     getQuiz();
     setDataChange(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataChange]);
 
   //functions
@@ -210,7 +211,8 @@ export default function EditQuizPart() {
             backgroundColor: "#DEE2E6",
             "border-radius": "15px",
             border: "none",
-          }}>
+          }}
+        >
           {isLoading ? (
             <div className="text-center">
               {" "}
@@ -238,12 +240,14 @@ export default function EditQuizPart() {
                       className="btn btn-thirtiery"
                       data-toggle="modal"
                       data-target={`#ubahQuestion_${item.id}`}
-                      onClick={() => getJawaban(item.id)}>
+                      onClick={() => getJawaban(item.id)}
+                    >
                       Ubah
                     </button>
                     <button
                       className="btn btn-danger"
-                      onClick={() => handleDelete(item.id)}>
+                      onClick={() => handleDelete(item.id)}
+                    >
                       Hapus
                     </button>
                   </div>
@@ -255,7 +259,8 @@ export default function EditQuizPart() {
                       id={`ubahQuestion_${item.id}`}
                       tabIndex={-1}
                       aria-labelledby={`ubahQuestion_${item.id}`}
-                      aria-hidden="true">
+                      aria-hidden="true"
+                    >
                       <div className="modal-dialog modal-dialog-centered modal-lg">
                         <div className="modal-content">
                           <div className="modal-header">
@@ -267,7 +272,8 @@ export default function EditQuizPart() {
                               className="btn"
                               data-dismiss="modal"
                               aria-label="Close"
-                              onClick={() => setQuestion(questionDefault)}>
+                              onClick={() => setQuestion(questionDefault)}
+                            >
                               <span aria-hidden="true">×</span>
                             </button>
                           </div>
@@ -303,7 +309,8 @@ export default function EditQuizPart() {
                                 <button
                                   type="button"
                                   className="btn btn-thirtiery shadow"
-                                  onClick={handleTambahPilihan}>
+                                  onClick={handleTambahPilihan}
+                                >
                                   Tambah Pilihan
                                 </button>
                               </div>
@@ -340,7 +347,8 @@ export default function EditQuizPart() {
                                           className="text-danger ms-5"
                                           onClick={() =>
                                             handleDeletePilihan(index)
-                                          }>
+                                          }
+                                        >
                                           hapus
                                         </button>
                                       </ul>
@@ -360,7 +368,8 @@ export default function EditQuizPart() {
                               type="button"
                               className="btn btn-thirtiery"
                               data-dismiss="modal"
-                              onClick={() => handleSubmitEdit(item.id)}>
+                              onClick={() => handleSubmitEdit(item.id)}
+                            >
                               Submit
                             </button>
                           </div>
@@ -405,7 +414,8 @@ export default function EditQuizPart() {
             <button
               type="button"
               className="btn btn-thirtiery shadow"
-              onClick={handleTambahPilihan}>
+              onClick={handleTambahPilihan}
+            >
               Tambah Pilihan
             </button>
           </div>
@@ -440,7 +450,8 @@ export default function EditQuizPart() {
                     <button
                       type="button"
                       className="text-danger ms-5"
-                      onClick={() => handleDeletePilihan(index)}>
+                      onClick={() => handleDeletePilihan(index)}
+                    >
                       hapus
                     </button>
                   </div>

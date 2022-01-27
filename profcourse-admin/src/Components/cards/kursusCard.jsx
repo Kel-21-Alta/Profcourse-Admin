@@ -9,12 +9,13 @@ export default function KursusCard(props) {
   const { course_id, title, url_image } = props?.data;
   const linkDetailKursus = "/kursus/" + course_id;
   const [status, setStatus] = useState(props?.data?.status);
-
+  setStatus(props?.data?.status);
   const onChange = (e) => {
     console.log(e.target.value);
     props.status(course_id, e.target.value);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {}, status);
 
   return (
@@ -25,7 +26,8 @@ export default function KursusCard(props) {
         border: "none",
         maxWidth: "20rem",
         height: "30rem",
-      }}>
+      }}
+    >
       <img
         src={url_image}
         class="card-img-top p-0 m-0 w-100"
@@ -40,7 +42,8 @@ export default function KursusCard(props) {
             aria-label=".form-select-sm example"
             style={{ "border-radius": "30px" }}
             value={status}
-            onChange={onChange}>
+            onChange={onChange}
+          >
             <option value={2}>Draft</option>
             <option value={1}>Publish</option>
           </select>
