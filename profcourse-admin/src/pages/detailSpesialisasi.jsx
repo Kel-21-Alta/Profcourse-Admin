@@ -3,12 +3,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AdminTab from "../Components/Usable/adminTab";
 import Sidebar from "../Components/Usable/navbar";
 import Star from "../Components/Usable/Star";
 
 export default function DetailSpesialisasi() {
+  const navigate = useNavigate();
   const param = useParams();
   const [spesialisasi, setSpesialisasi] = useState({ spesialisasi: "a" });
   const [isLoading, setIsLoading] = useState(true);
@@ -34,7 +35,26 @@ export default function DetailSpesialisasi() {
         // always executed
       });
   }
-
+  function deleteSpesialisasiData() {
+    setIsLoading(true);
+    axios
+      .delete(`http://3.133.85.122:9090/api/v1/spesializations/${param?.id}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then(function (response) {
+        setIsLoading(false);
+        navigate(`/kursus`);
+      })
+      .catch(function (error) {
+        console.log(error);
+        setIsLoading(false);
+      })
+      .then(function () {
+        // always executed
+      });
+  }
   useEffect(() => {
     getAndSetSpesialisasiData();
   }, []);
@@ -137,8 +157,8 @@ export default function DetailSpesialisasi() {
                 </button>
               </div>
               <div className="modal-body">
-                Apakah anda yakin untuk menghapus{" "}
-                <b>Spesialisasi Data Science</b> ini?
+                Apakah anda yakin untuk menghapus <b>{spesialisasi.title}</b>{" "}
+                ini?
               </div>
               <div className="modal-footer">
                 <button
@@ -147,7 +167,10 @@ export default function DetailSpesialisasi() {
                   data-dismiss="modal">
                   Tidak
                 </button>
-                <button type="button" className="btn btn-danger">
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => deleteSpesialisasiData()}>
                   Ya
                 </button>
               </div>
