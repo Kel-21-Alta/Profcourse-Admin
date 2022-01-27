@@ -1,7 +1,7 @@
 /** @format */
 
-import User from "../../assets/carbon_user-avatar-filled.png";
-import { Link, useNavigate } from "react-router-dom";
+// import User from "../../assets/carbon_user-avatar-filled.png";
+import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -9,7 +9,7 @@ import UserCard from "../cards/userCard";
 import LoadingNormal from "../../assets/loading";
 
 export default function PenggunaPart(props) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [dataUser, setDataUser] = useState([]);
   const [limit, setLimit] = useState(12);
   const [sort, setSort] = useState("&sort=asc");
@@ -20,6 +20,7 @@ export default function PenggunaPart(props) {
 
   const [cookies] = useCookies();
   var jwtToken = cookies.userData.token;
+  setLimit(12);
 
   function getAndSetUserData() {
     axios
@@ -120,6 +121,7 @@ export default function PenggunaPart(props) {
 
   useEffect(() => {
     getAndSetUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataChange, limit, search, sortBy, sort]);
 
   useEffect(() => {
@@ -157,7 +159,8 @@ export default function PenggunaPart(props) {
               className="form-select form-select-sm d-block"
               aria-label=".form-select-sm example"
               style={{ "border-radius": "30px" }}
-              onChange={onChangeSort}>
+              onChange={onChangeSort}
+            >
               <option value="1">A-Z</option>
               <option value="2">Z-A</option>
               <option value="3">Poin Tertinggi</option>

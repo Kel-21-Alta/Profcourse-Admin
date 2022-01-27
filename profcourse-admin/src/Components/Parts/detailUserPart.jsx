@@ -50,6 +50,7 @@ export default function DetailUserPart() {
 
   useEffect(() => {
     getAndSetUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -104,16 +105,19 @@ export default function DetailUserPart() {
                 </div>
                 <div className="col-lg-6">
                   <div className="d-flex justify-content-center">
+                    {/* eslint-disable-next-line jsx-a11y/alt-text */}
                     <img
                       src={dataUser?.url_image}
                       className="w-50"
-                      style={{ "border-radius": "300px" }}></img>
+                      style={{ "border-radius": "300px" }}
+                    ></img>
                   </div>
                   <div className="d-flex justify-content-center my-3">
                     <button
                       className="btn btn-danger"
                       data-toggle="modal"
-                      data-target={`#hapus_${dataUser?.user_id}`}>
+                      data-target={`#hapus_${dataUser?.user_id}`}
+                    >
                       Hapus Pengguna
                     </button>
                   </div>
@@ -131,7 +135,8 @@ export default function DetailUserPart() {
           id={`hapus_${dataUser?.user_id}`}
           tabIndex={-1}
           aria-labelledby={`hapus_${dataUser?.user_id}`}
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
@@ -142,7 +147,8 @@ export default function DetailUserPart() {
                   type="button"
                   className="btn"
                   data-dismiss="modal"
-                  aria-label="Close">
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
@@ -154,7 +160,8 @@ export default function DetailUserPart() {
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  data-dismiss="modal">
+                  data-dismiss="modal"
+                >
                   Tidak
                 </button>
                 <button
@@ -164,7 +171,8 @@ export default function DetailUserPart() {
                     deleteUser(dataUser?.user_id);
                     navigate(`/pengguna`);
                   }}
-                  data-dismiss="modal">
+                  data-dismiss="modal"
+                >
                   Ya
                 </button>
               </div>

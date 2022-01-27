@@ -1,12 +1,12 @@
 /** @format */
 
-import { Link, useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import KursusTab from "../Usable/kursusTab";
+// import KursusTab from "../Usable/kursusTab";
 import { useEffect } from "react";
-import KursusLoadingCard from "../cards/kursusCardLoading";
+// import KursusLoadingCard from "../cards/kursusCardLoading";
 import LoadingNormal from "../../assets/loading";
 import TableRequest from "../cards/tableRequest";
 
@@ -84,6 +84,7 @@ export default function PermintaanPart(props) {
 
   useEffect(() => {
     getAndSetRequestData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [limit, search, sort]);
 
   useEffect(() => {}, [dataRequest, isLoading]);
@@ -104,7 +105,8 @@ export default function PermintaanPart(props) {
             type="button"
             role="tab"
             aria-controls="kursus"
-            aria-selected="true">
+            aria-selected="true"
+          >
             Semua
           </button>
         </li>
@@ -120,7 +122,8 @@ export default function PermintaanPart(props) {
             type="button"
             role="tab"
             aria-controls="spesialisasi"
-            aria-selected="false">
+            aria-selected="false"
+          >
             Kursus Online
           </button>
         </li>
@@ -136,7 +139,8 @@ export default function PermintaanPart(props) {
             type="button"
             role="tab"
             aria-controls="publik"
-            aria-selected="false">
+            aria-selected="false"
+          >
             Training
           </button>
         </li>
@@ -152,7 +156,8 @@ export default function PermintaanPart(props) {
             type="button"
             role="tab"
             aria-controls="draf"
-            aria-selected="false">
+            aria-selected="false"
+          >
             Konseling
           </button>
         </li>
@@ -180,7 +185,8 @@ export default function PermintaanPart(props) {
               className="form-select form-select-sm d-block"
               aria-label=".form-select-sm example"
               style={{ "border-radius": "30px" }}
-              onChange={onChangeSort}>
+              onChange={onChangeSort}
+            >
               <option value={1}>Terbaru</option>
               <option value={2}>Terlama</option>
             </select>
@@ -192,7 +198,8 @@ export default function PermintaanPart(props) {
           class={tabs === 1 ? "tab-pane fade show active" : "tab-pane fade"}
           id="semua"
           role="tabpanel"
-          aria-labelledby="semua">
+          aria-labelledby="semua"
+        >
           {isLoading ? (
             <div className="justify-content-center d-flex my-2">
               <LoadingNormal />
@@ -205,7 +212,8 @@ export default function PermintaanPart(props) {
           class={tabs === 2 ? "tab-pane fade show active" : "tab-pane fade"}
           id="training"
           role="tabpanel"
-          aria-labelledby="spesialisasi-tab">
+          aria-labelledby="spesialisasi-tab"
+        >
           {isLoading ? (
             <LoadingNormal />
           ) : (
@@ -216,7 +224,8 @@ export default function PermintaanPart(props) {
           class={tabs === 3 ? "tab-pane fade show active" : "tab-pane fade"}
           id="publik"
           role="tabpanel"
-          aria-labelledby="publik-tab">
+          aria-labelledby="publik-tab"
+        >
           {isLoading ? (
             <LoadingNormal />
           ) : (
@@ -227,7 +236,8 @@ export default function PermintaanPart(props) {
           class={tabs === 4 ? "tab-pane fade show active" : "tab-pane fade"}
           id="draf"
           role="tabpanel"
-          aria-labelledby="draf-tab">
+          aria-labelledby="draf-tab"
+        >
           {isLoading ? (
             <LoadingNormal />
           ) : (

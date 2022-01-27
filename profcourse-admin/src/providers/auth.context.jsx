@@ -74,6 +74,7 @@ export const AuthProvider = ({ children }) => {
           isLoading: false,
         });
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -84,6 +85,7 @@ export const AuthProvider = ({ children }) => {
     } else if (!userInProtectedRoute && !notAuthorized) {
       navigate("/dashboard");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth]);
 
   return (

@@ -65,7 +65,6 @@ export default function KursusCard(props) {
             Detail Kursus
           </Link>
           <UpdateButton data={course} edit={props?.edit} />
-
           <DeleteButton data={props?.data} del={props?.del} />
         </div>
       </div>

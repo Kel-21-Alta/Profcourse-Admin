@@ -305,6 +305,7 @@ export default function KursusPart(props) {
   useEffect(() => {
     getAndSetCourseData();
     getAndSetSpesialisasiData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [limit, status, search, isCreated, sort, sortBy]);
 
   useEffect(() => {}, [course, isLoading]);
@@ -316,7 +317,8 @@ export default function KursusPart(props) {
         <button
           className="btn btn-thirtiery shadow"
           data-toggle="modal"
-          data-target="#exampleModalCreate1">
+          data-target="#exampleModalCreate1"
+        >
           Buat Kursus
         </button>
         <Link to="buat_spesialisasi">
@@ -339,7 +341,8 @@ export default function KursusPart(props) {
             type="button"
             role="tab"
             aria-controls="kursus"
-            aria-selected="true">
+            aria-selected="true"
+          >
             Kursus
           </button>
         </li>
@@ -355,7 +358,8 @@ export default function KursusPart(props) {
             type="button"
             role="tab"
             aria-controls="spesialisasi"
-            aria-selected="false">
+            aria-selected="false"
+          >
             Spesialisasi
           </button>
         </li>
@@ -372,7 +376,8 @@ export default function KursusPart(props) {
             type="button"
             role="tab"
             aria-controls="publik"
-            aria-selected="false">
+            aria-selected="false"
+          >
             Publik
           </button>
         </li>
@@ -389,7 +394,8 @@ export default function KursusPart(props) {
             type="button"
             role="tab"
             aria-controls="draf"
-            aria-selected="false">
+            aria-selected="false"
+          >
             Draf
           </button>
         </li>
@@ -417,7 +423,8 @@ export default function KursusPart(props) {
               className="form-select form-select-sm d-block"
               aria-label=".form-select-sm example"
               style={{ "border-radius": "30px" }}
-              onChange={onChangeSort}>
+              onChange={onChangeSort}
+            >
               <option value={1}>A-Z</option>
               <option value={2}>Z-A</option>
               <option value={3}>Terpopuler</option>
@@ -432,7 +439,8 @@ export default function KursusPart(props) {
           class={tabs === 1 ? "tab-pane fade show active" : "tab-pane fade"}
           id="kursus"
           role="tabpanel"
-          aria-labelledby="kursus-tab">
+          aria-labelledby="kursus-tab"
+        >
           {isLoading ? (
             <KursusLoadingCard />
           ) : (
@@ -448,7 +456,8 @@ export default function KursusPart(props) {
           class={tabs === 2 ? "tab-pane fade show active" : "tab-pane fade"}
           id="spesialisasi"
           role="tabpanel"
-          aria-labelledby="spesialisasi-tab">
+          aria-labelledby="spesialisasi-tab"
+        >
           {isLoading ? (
             <KursusLoadingCard />
           ) : (
@@ -459,7 +468,8 @@ export default function KursusPart(props) {
           class={tabs === 3 ? "tab-pane fade show active" : "tab-pane fade"}
           id="publik"
           role="tabpanel"
-          aria-labelledby="publik-tab">
+          aria-labelledby="publik-tab"
+        >
           {isLoading ? (
             <KursusLoadingCard />
           ) : (
@@ -475,7 +485,8 @@ export default function KursusPart(props) {
           class={tabs === 4 ? "tab-pane fade show active" : "tab-pane fade"}
           id="draf"
           role="tabpanel"
-          aria-labelledby="draf-tab">
+          aria-labelledby="draf-tab"
+        >
           {isLoading ? (
             <KursusLoadingCard />
           ) : (
@@ -501,7 +512,8 @@ export default function KursusPart(props) {
           id="exampleModalCreate1"
           tabIndex={-1}
           aria-labelledby="exampleModalLabel"
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content">
               <div className="signin-form">
@@ -514,7 +526,8 @@ export default function KursusPart(props) {
                     className="btn"
                     data-dismiss="modal"
                     aria-label="Close"
-                    onClick={() => dismisal()}>
+                    onClick={() => dismisal()}
+                  >
                     <span aria-hidden="true">×</span>
                   </button>
                 </div>
@@ -589,7 +602,8 @@ export default function KursusPart(props) {
                       <div className="form-group mb-3">
                         <label
                           className="font-weight-normal"
-                          htmlFor="deskripsi">
+                          htmlFor="deskripsi"
+                        >
                           Deskripsi
                         </label>
                         {isCreated.state ? (
@@ -601,7 +615,8 @@ export default function KursusPart(props) {
                             rows="3"
                             placeholder="Deskripsi Kursus"
                             value={course.description}
-                            disabled></textarea>
+                            disabled
+                          ></textarea>
                         ) : (
                           <textarea
                             onChange={onChange}
@@ -611,7 +626,8 @@ export default function KursusPart(props) {
                             rows="3"
                             placeholder="Deskripsi Kursus"
                             value={course.description}
-                            required></textarea>
+                            required
+                          ></textarea>
                         )}
                       </div>
                     </div>
@@ -631,12 +647,14 @@ export default function KursusPart(props) {
                     <button
                       type="submit"
                       className="btn btn-thirtiery"
-                      disabled>
+                      disabled
+                    >
                       <div>
                         Sedang diunggah...
                         <div
                           class="spinner-border spinner-border-sm text-white"
-                          role="status">
+                          role="status"
+                        >
                           <span class="visually-hidden">Loading...</span>
                         </div>
                       </div>
@@ -647,13 +665,15 @@ export default function KursusPart(props) {
                       className="btn btn-thirtiery"
                       data-dismiss="modal"
                       aria-label="Close"
-                      onClick={() => goTo(isCreated?.id)}>
+                      onClick={() => goTo(isCreated?.id)}
+                    >
                       Lanjut Mengisi Modul dan materi Kursus
                     </button>
                   ) : (
                     <button
                       onClick={handleSubmit}
-                      className="btn btn-thirtiery">
+                      className="btn btn-thirtiery"
+                    >
                       Submit
                     </button>
                   )}
