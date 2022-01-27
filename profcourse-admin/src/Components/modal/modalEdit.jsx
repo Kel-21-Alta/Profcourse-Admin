@@ -14,10 +14,17 @@ export default function EditModal(props) {
 
   const onChange = (e) => {
     console.log(e);
-    setCourse({
-      ...course,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.name === "status") {
+      setCourse({
+        ...course,
+        [e.target.name]: parseInt(e.target.value),
+      });
+    } else {
+      setCourse({
+        ...course,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -113,6 +120,18 @@ export default function EditModal(props) {
                       style={{ objectFit: "cover" }}
                     />
                     <form onSubmit={fileHandler}>
+                      <div className="d-flex">
+                        <select
+                          name="status"
+                          className="form-select form-select-sm d-block my-3 w-50"
+                          aria-label=".form-select-sm example"
+                          style={{ "border-radius": "30px" }}
+                          value={course.status}
+                          onChange={onChange}>
+                          <option value={2}>Draft</option>
+                          <option value={1}>Publish</option>
+                        </select>
+                      </div>
                       <input
                         type="file"
                         name="file"

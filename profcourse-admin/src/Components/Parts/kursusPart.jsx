@@ -66,6 +66,7 @@ export default function KursusPart(props) {
           title: editedCourse.name_course,
           description: editedCourse.description,
           file_image: editedCourse.url_image,
+          status: editedCourse.status,
         },
         {
           headers: {

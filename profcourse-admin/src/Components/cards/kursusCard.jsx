@@ -1,6 +1,5 @@
 /** @format */
 
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import DeleteButton from "../buttons/delete";
 import UpdateButton from "../buttons/update";
@@ -8,12 +7,6 @@ import UpdateButton from "../buttons/update";
 export default function KursusCard(props) {
   const { course_id, title, url_image } = props?.data;
   const linkDetailKursus = "/kursus/" + course_id;
-  const [status, setStatus] = useState(props?.data?.status);
-
-  const onChange = (e) => {
-    console.log(e.target.value);
-    props.status(course_id, e.target.value);
-  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
@@ -34,17 +27,7 @@ export default function KursusCard(props) {
       />
       <div class="card-body">
         <h5 class="card-title">{title}</h5>
-        <div className="d-flex justify-content-center">
-          <select
-            className="form-select form-select-sm d-block my-3 w-50"
-            aria-label=".form-select-sm example"
-            style={{ "border-radius": "30px" }}
-            value={status}
-            onChange={onChange}>
-            <option value={2}>Draft</option>
-            <option value={1}>Publish</option>
-          </select>
-        </div>
+
         <div className="d-flex justify-content-center">
           <Link to={linkDetailKursus} class="btn btn-thirtiery align-self-end">
             Detail Kursus
