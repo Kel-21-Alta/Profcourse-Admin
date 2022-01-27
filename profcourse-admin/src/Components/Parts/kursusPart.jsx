@@ -15,7 +15,7 @@ export default function KursusPart(props) {
   //Variables and states
 
   const [dataKursus, setDataKursus] = useState([]);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(6);
   const [status, setStatus] = useState("");
   const [sort, setSort] = useState("&sort=title");
   const [sortBy, setSortBy] = useState("&sortby=asc");
@@ -194,7 +194,7 @@ export default function KursusPart(props) {
 
   const handleLebih = (e) => {
     setIsLoading(true);
-    setLimit(limit + 3);
+    setLimit(limit + 6);
   };
 
   const goTo = (course_id) => {
@@ -205,19 +205,19 @@ export default function KursusPart(props) {
   //TABS HANDLING
   const clickPublishTab = () => {
     setStatus("&status=1");
-    setLimit(3);
+    setLimit(6);
     setIsLoading(true);
   };
 
   const clickDrafTab = () => {
     setStatus("&status=2");
-    setLimit(3);
+    setLimit(6);
     setIsLoading(true);
   };
 
   const clickKursusTab = () => {
     setStatus("");
-    setLimit(3);
+    setLimit(6);
     setIsLoading(true);
   };
 
