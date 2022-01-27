@@ -36,7 +36,7 @@ function App() {
       <Route path="/pengguna/:user_id" element={<DetailPengguna />} />
       <Route path="/kursus" element={<Kursus />} />
       <Route path="/permintaan" element={<Permintaan />} />
-      <Route path="/kursus/spesialisasi/:id" element={<DetailSpesialisasi />} />
+      <Route path="/spesialisasi/:id" element={<DetailSpesialisasi />} />
       <Route path="/kursus/buat_spesialisasi" element={<BuatSpesialisasi />} />
       <Route path="/pengguna/buat" element={<BuatPengguna />} />
       <Route path="/lupa-password" element={<LupaPassword />} />
