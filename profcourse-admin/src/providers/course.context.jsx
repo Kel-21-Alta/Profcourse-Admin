@@ -55,11 +55,13 @@ export const CourseProvider = ({ children }) => {
   };
   useEffect(() => {
     getAndSetCourseData(param.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <CourseContext.Provider
-      value={{ course, isLoading, getAndSetCourseData, setIsLoading }}>
+      value={{ course, isLoading, getAndSetCourseData, setIsLoading }}
+    >
       {children}
     </CourseContext.Provider>
   );
