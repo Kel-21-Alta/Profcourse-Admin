@@ -1,12 +1,12 @@
 /** @format */
 
 // import User from "../../assets/carbon_user-avatar-filled.png";
-import { Link } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import { useEffect, useState } from "react";
 import axios from "axios";
-import UserCard from "../cards/userCard";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { Link } from "react-router-dom";
 import LoadingNormal from "../../assets/loading";
+import UserCard from "../cards/userCard";
 
 export default function PenggunaPart(props) {
   // const navigate = useNavigate();
@@ -20,7 +20,6 @@ export default function PenggunaPart(props) {
 
   const [cookies] = useCookies();
   var jwtToken = cookies.userData.token;
-  setLimit(12);
 
   function getAndSetUserData() {
     axios
@@ -124,10 +123,6 @@ export default function PenggunaPart(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataChange, limit, search, sortBy, sort]);
 
-  useEffect(() => {
-    setDataChange(false);
-  }, [dataUser, isLoading]);
-
   return (
     <div className="mx-5 my-3">
       <h2 className="fw-bold">Pengguna</h2>
@@ -159,8 +154,7 @@ export default function PenggunaPart(props) {
               className="form-select form-select-sm d-block"
               aria-label=".form-select-sm example"
               style={{ "border-radius": "30px" }}
-              onChange={onChangeSort}
-            >
+              onChange={onChangeSort}>
               <option value="1">A-Z</option>
               <option value="2">Z-A</option>
               <option value="3">Poin Tertinggi</option>
