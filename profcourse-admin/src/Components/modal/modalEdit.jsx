@@ -1,10 +1,10 @@
 /** @format */
 
-import { useEffect, useState } from "react";
+import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
 import axios from "axios";
-import { BACKEND_URL } from "../../config/env";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
+import { BACKEND_URL } from "../../config/env";
 import { storage } from "../../firebase";
 
 export default function EditModal(props) {
@@ -13,7 +13,6 @@ export default function EditModal(props) {
   const [cookie] = useCookies();
 
   const onChange = (e) => {
-    console.log(e);
     setCourse({
       ...course,
       [e.target.name]: e.target.value,
@@ -22,7 +21,6 @@ export default function EditModal(props) {
 
   const handleSubmit = (e) => {
     props.edit(props.data.course_id, course);
-    console.log("edit");
     e.preventDefault();
   };
   function getAndSetCourseData(course_id) {

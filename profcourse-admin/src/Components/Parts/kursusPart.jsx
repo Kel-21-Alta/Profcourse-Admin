@@ -24,7 +24,6 @@ export default function KursusPart(props) {
   const [tabs, setTabs] = useState(1);
   const toggleTab = (index) => {
     setTabs(index);
-    console.log(tabs);
   };
   const [cookies] = useCookies();
   var jwtToken = cookies.userData.token;
@@ -178,7 +177,6 @@ export default function KursusPart(props) {
   const navigate = useNavigate();
 
   const onChange = (e) => {
-    console.log(e);
     setCourse({
       ...course,
       [e.target.name]: e.target.value,
@@ -197,7 +195,6 @@ export default function KursusPart(props) {
   };
 
   const goTo = (course_id) => {
-    console.log(course_id);
     navigate(`${course_id}`);
   };
 
@@ -224,7 +221,6 @@ export default function KursusPart(props) {
   //SORT HANDLING
 
   const onChangeSort = (e) => {
-    console.log(e.target.value);
     if (e.target.value === "1") {
       setSortBy("&sortby=asc");
       setSort("&sort=title");
@@ -246,7 +242,6 @@ export default function KursusPart(props) {
 
   //SEARCH HANDLING
   const onChangeSearch = (e) => {
-    console.log(e.target.value);
     const search = e.target.value;
     if (e.target.value === null || e.target.value === "") {
       setSearch();
@@ -309,9 +304,7 @@ export default function KursusPart(props) {
     getAndSetSpesialisasiData();
   }, [limit, status, search, isCreated, sort, sortBy]);
 
-  useEffect(() => {
-    console.log("isi", course);
-  }, [course, isLoading]);
+  useEffect(() => {}, [course, isLoading]);
 
   return (
     <div className="mx-5 my-3">

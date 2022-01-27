@@ -39,7 +39,6 @@ export default function DetailUserPart() {
       })
       .then(function (response) {
         alert(response.data.data.message);
-        console.log(response);
       })
       .catch(function (error) {
         console.log(error);

@@ -34,7 +34,6 @@ export default function DashboardPart(props) {
       .then(function (response) {
         setSummary(response.data.data);
         setIsLoading(false);
-        console.log("summary", summary);
       })
       .catch(function (error) {
         console.log(error);

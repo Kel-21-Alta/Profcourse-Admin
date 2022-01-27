@@ -11,7 +11,6 @@ export default function KursusCard(props) {
   const [status, setStatus] = useState(props?.data?.status);
 
   const onChange = (e) => {
-    console.log(e.target.value);
     props.status(course_id, e.target.value);
   };
 

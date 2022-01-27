@@ -3,7 +3,6 @@
 import KursusCard from "../cards/kursusCard";
 
 export default function KursusTab(props) {
-  console.log(props.data);
   return (
     <div>
       <div className="container mx-3 p-0">

@@ -48,7 +48,6 @@ export default function DetailKursusEdit(props) {
   }
   //onChangeTitle
   const onChange = (e) => {
-    console.log(e);
     setNewModul({
       ...newModul,
       [e.target.name]: e.target.value,

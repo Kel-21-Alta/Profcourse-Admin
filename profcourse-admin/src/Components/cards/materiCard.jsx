@@ -23,7 +23,6 @@ export default function MateriCard(props) {
   });
   //onChange
   const onChange = (e) => {
-    console.log(e.target.value);
     setUpdateMateri({
       ...updateMateri,
       [e.target.name]: e.target.value,

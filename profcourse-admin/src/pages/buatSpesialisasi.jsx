@@ -1,10 +1,126 @@
 /** @format */
 
-import React from "react";
+import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
+import axios from "axios";
+import React, { useState } from "react";
+import { useCookies } from "react-cookie";
 import AdminTab from "../Components/Usable/adminTab";
 import Sidebar from "../Components/Usable/navbar";
+import { storage } from "../firebase";
 
 export default function BuatSpesialisasi() {
+  const [cookies] = useCookies();
+  var jwtToken = cookies.userData.token;
+  const [progress, setProgress] = useState(0);
+  //Variables and states
+  const [isLoding, setIsLoading] = useState(true);
+  const [spesialisasi, setSpesialisasi] = useState({ spesialisasi: "test" });
+  const [dataKursus, setDataKursus] = useState([]);
+  const [limit, setLimit] = useState(3);
+  const [status, setStatus] = useState("");
+  const [sort, setSort] = useState("&sort=title");
+  const [sortBy, setSortBy] = useState("&sortby=asc");
+  const [search, setSearch] = useState("");
+  function getAndSetCourseData() {
+    setIsLoading(true);
+    axios
+      .get(
+        `http://3.133.85.122:9090/api/v1/courses?limit=${limit}${status}${search}${sort}${sortBy}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
+      .then(function (response) {
+        setDataKursus(response.data.data);
+        setIsLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        setIsLoading(false);
+      })
+      .then(function () {
+        // always executed
+      });
+  }
+
+  //SORT HANDLING
+
+  const onChangeSort = (e) => {
+    console.log(e.target.value);
+    if (e.target.value === "1") {
+      setSortBy("&sortby=asc");
+      setSort("&sort=title");
+    } else if (e.target.value === "2") {
+      setSortBy("&sortby=desc");
+      setSort("&sort=title");
+    } else if (e.target.value === "3") {
+      setSort("&sort=asc");
+      setSortBy("&sortby=populer");
+    } else if (e.target.value === "4") {
+      setSortBy("&sortby=desc");
+      setSort("");
+    } else if (e.target.value === "5") {
+      setSortBy("");
+      setSort("&sort=review");
+    }
+    setIsLoading(true);
+  };
+
+  //SEARCH HANDLING
+  const onChangeSearch = (e) => {
+    console.log(e.target.value);
+    const search = e.target.value;
+    if (e.target.value === null || e.target.value === "") {
+      setSearch();
+    } else {
+      setSearch(`&s=${search}`);
+    }
+    setIsLoading(true);
+  };
+
+  const onChange = (e) => {
+    console.log(e);
+    setSpesialisasi({
+      ...spesialisasi,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  //upload file firebase
+  const uploadFiles = (file) => {
+    if (!file) return;
+    const storageRef = ref(storage, `/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(prog);
+      },
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) =>
+          setSpesialisasi({ ...spesialisasi, file_image: url })
+        );
+      }
+    );
+  };
+
+  const fileHandler = (e) => {
+    e.preventDefault();
+    const file = e.target[0].files[0];
+    uploadFiles(file);
+  };
+
+  const handleSubmit = (e) => {
+    setIsLoading(true);
+    // addSpesialisasi();
+    e.preventDefault();
+  };
   return (
     <>
       <div className="container-fluid">

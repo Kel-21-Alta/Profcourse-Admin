@@ -1,9 +1,8 @@
 /** @format */
-import { useParams } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { Link, useParams } from "react-router-dom";
 import LoadingNormal from "../../assets/loading";
 
 export default function EditQuizPart() {
@@ -20,7 +19,6 @@ export default function EditQuizPart() {
         },
       })
       .then(function (response) {
-        console.log(response);
         setIsLoading(false);
         setQuizzes(response.data.data);
       })
@@ -38,7 +36,6 @@ export default function EditQuizPart() {
         },
       })
       .then(function (response) {
-        console.log(response);
         setIsLoading(false);
         setQuestion({
           pertanyaan: response.data.data.pertanyaan,
@@ -61,7 +58,6 @@ export default function EditQuizPart() {
         },
       })
       .then(function (response) {
-        console.log(response);
         setIsLoading(false);
         setDataChange(true);
       })
@@ -88,7 +84,6 @@ export default function EditQuizPart() {
         }
       )
       .then(function (response) {
-        console.log(response);
         setIsLoading(false);
         setQuestion(questionDefault);
         setDataChange(true);
@@ -116,7 +111,6 @@ export default function EditQuizPart() {
         }
       )
       .then(function (response) {
-        console.log(response);
         setIsLoading(false);
         setQuestion(questionDefault);
         setDataChange(true);
@@ -140,9 +134,7 @@ export default function EditQuizPart() {
   const [isLoading, setIsLoading] = useState(true);
   const [dataChange, setDataChange] = useState(false);
 
-  useEffect(() => {
-    console.log(question);
-  }, [question]);
+  useEffect(() => {}, [question]);
 
   useEffect(() => {
     getQuiz();
@@ -170,9 +162,7 @@ export default function EditQuizPart() {
   };
 
   const handleDeletePilihan = (pilih) => {
-    console.log(pilih);
     const pilihanBaru = question.pilihan.filter((_, i) => i !== pilih);
-    console.log("pilihan baru", pilihanBaru);
     setQuestion({
       ...question,
       pilihan: pilihanBaru,
