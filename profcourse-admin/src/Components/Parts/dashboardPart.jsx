@@ -62,8 +62,7 @@ export default function DashboardPart(props) {
           <div className="row mx-auto justify-content-center">
             <div
               class="card col-md-3 mx-4 shadow border-0   py-4 my-2"
-              style={{ "border-radius": "15px" }}
-            >
+              style={{ "border-radius": "15px" }}>
               <div class="card-body text-center">
                 <h1 className="fw-bold ">{summary.count_course}</h1>
                 <h3 className="">Kursus</h3>
@@ -71,8 +70,7 @@ export default function DashboardPart(props) {
             </div>
             <div
               class="card col-md-3 mx-4 shadow border-0 py-4 my-2"
-              style={{ "border-radius": "15px" }}
-            >
+              style={{ "border-radius": "15px" }}>
               <div class="card-body text-center">
                 <h1 className="fw-bold">{summary.count_user}</h1>
                 <h3 className="">Pengguna</h3>
@@ -80,10 +78,9 @@ export default function DashboardPart(props) {
             </div>
             <div
               class="card col-md-3 mx-4 shadow border-0 py-4 my-2"
-              style={{ "border-radius": "15px" }}
-            >
+              style={{ "border-radius": "15px" }}>
               <div class="card-body text-center">
-                <h1 className="fw-bold">{summary.count_spesialization}</h1>
+                <h1 className="fw-bold">{summary.count_spesiazation}</h1>
                 <h3 className="">Spesialisasi</h3>
               </div>
             </div>
