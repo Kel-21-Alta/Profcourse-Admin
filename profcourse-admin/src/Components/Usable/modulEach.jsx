@@ -1,9 +1,11 @@
 /** @format */
 
+import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { BACKEND_URL } from "../../config/env";
-import axios from "axios";
+import { storage } from "../../firebase";
 import MateriBox from "./materi";
 import Quiz from "./quiz";
 
@@ -18,6 +20,8 @@ export default function ModulEach(props) {
   //state for update judul Modul
   const [updateJudul, setUpdateJudul] = useState(judul);
   const [updateOrder] = useState(order);
+  const [progress, setProgress] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   //Default values
   const defaultMateriGet = {
@@ -54,7 +58,6 @@ export default function ModulEach(props) {
   //handle delete Modul
   const handleDelete = (e) => {
     props.delete(modul_id);
-    props.setDataChange(true);
   };
 
   const video_type = 2;
@@ -62,6 +65,7 @@ export default function ModulEach(props) {
   //////////////////Manage Materi Functions
   //Get Course information
   function getAndSetMateriData(modul_id) {
+    setIsLoading(true);
     axios
       .get(`${BACKEND_URL}/api/v1/moduls/${modul_id}`, {
         headers: {
@@ -70,6 +74,7 @@ export default function ModulEach(props) {
       })
       .then(function (response) {
         setMateri(response.data.data);
+        setIsLoading(false);
       })
       .catch(function (error) {
         console.log(error);
@@ -78,9 +83,13 @@ export default function ModulEach(props) {
         // always executed
       });
   }
+
   useEffect(() => {
     getAndSetMateriData(modul_id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {}, [materi, newMateri]);
 
   //Create Materi
   function createMateri(modul_id, title, order, type_materi, file_materi) {
@@ -101,8 +110,7 @@ export default function ModulEach(props) {
         }
       )
       .then(function (response) {
-        alert(response.data.data);
-        console.log(response.data);
+        getAndSetMateriData(modul_id);
       })
       .catch(function (error) {
         console.log(JSON.stringify(error.message, 2));
@@ -143,6 +151,34 @@ export default function ModulEach(props) {
     );
   };
 
+  //upload file firebase
+  const uploadFiles = (file) => {
+    if (!file) return;
+    const storageRef = ref(storage, `/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(prog);
+      },
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) =>
+          setNewMateri({ ...newMateri, file_materi: url })
+        );
+      }
+    );
+  };
+
+  const fileHandler = (e) => {
+    e.preventDefault();
+    const file = e.target[0].files[0];
+    uploadFiles(file);
+  };
+
   return (
     <>
       <div className="px-3 py-2">
@@ -159,13 +195,15 @@ export default function ModulEach(props) {
               <button
                 className="btn link-thirtiery p-0"
                 data-toggle="modal"
-                data-target={`#updateModul_${modul_id}`}>
+                data-target={`#updateModul_${modul_id}`}
+              >
                 Ubah
               </button>
               <button
                 className="btn link-thirtiery p-0"
                 data-toggle="modal"
-                data-target={`#hapusModul_${modul_id}`}>
+                data-target={`#hapusModul_${modul_id}`}
+              >
                 Hapus
               </button>
             </div>
@@ -173,7 +211,17 @@ export default function ModulEach(props) {
         </div>
         <div className="row">
           <div className="col-md-12">
-            <MateriBox modul_id={modul_id} data={materi?.materi} />
+            {isLoading ? (
+              <p class="placeholder-wave">
+                <span class="placeholder col-6"></span>
+              </p>
+            ) : (
+              <MateriBox
+                modul_id={modul_id}
+                data={materi?.materi}
+                getData={getAndSetMateriData}
+              />
+            )}
           </div>
           <div>
             {" "}
@@ -184,7 +232,8 @@ export default function ModulEach(props) {
           <button
             className="btn btn-thirtiery"
             data-toggle="modal"
-            data-target={`#buatMateri_${modul_id}`}>
+            data-target={`#buatMateri_${modul_id}`}
+          >
             Tambah Materi
           </button>
         </div>
@@ -197,7 +246,8 @@ export default function ModulEach(props) {
           id={`updateModul_${modul_id}`}
           tabIndex={-1}
           aria-labelledby={`updateModul_${modul_id}`}
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content">
               <div className="modal-header">
@@ -208,7 +258,8 @@ export default function ModulEach(props) {
                   type="button"
                   className="btn"
                   data-dismiss="modal"
-                  aria-label="Close">
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
@@ -240,7 +291,8 @@ export default function ModulEach(props) {
                   type="button"
                   className="btn btn-thirtiery"
                   data-dismiss="modal"
-                  onClick={handleUpdate}>
+                  onClick={handleUpdate}
+                >
                   Submit
                 </button>
               </div>
@@ -256,7 +308,8 @@ export default function ModulEach(props) {
           id={`hapusModul_${modul_id}`}
           tabIndex={-1}
           aria-labelledby={`hapusModul_${modul_id}`}
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
@@ -267,7 +320,8 @@ export default function ModulEach(props) {
                   type="button"
                   className="btn"
                   data-dismiss="modal"
-                  aria-label="Close">
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
@@ -278,7 +332,8 @@ export default function ModulEach(props) {
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  data-dismiss="modal">
+                  data-dismiss="modal"
+                >
                   Tidak
                 </button>
                 <button
@@ -286,7 +341,8 @@ export default function ModulEach(props) {
                   type="button"
                   className="btn btn-danger"
                   data-dismiss="modal"
-                  onClick={handleDelete}>
+                  onClick={handleDelete}
+                >
                   Ya
                 </button>
               </div>
@@ -302,7 +358,8 @@ export default function ModulEach(props) {
           id={`buatMateri_${modul_id}`}
           tabIndex={-1}
           aria-labelledby={`buatMateri_${modul_id}`}
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content">
               <div className="modal-header">
@@ -313,12 +370,13 @@ export default function ModulEach(props) {
                   type="button"
                   className="btn"
                   data-dismiss="modal"
-                  aria-label="Close">
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
               <div className="modal-body">
-                <form action="#" className="p-3">
+                <div className="p-3">
                   <div className="form-group mb-3">
                     <label className="font-weight-normal" htmlFor="tipemateri">
                       Tipe Materi
@@ -327,7 +385,8 @@ export default function ModulEach(props) {
                       name="type_materi"
                       class="form-select"
                       aria-label="Default select example"
-                      onChange={onChangeNewMateri}>
+                      onChange={onChangeNewMateri}
+                    >
                       <option value={Number(video_type)}>video</option>
                       <option value={Number(materi_type)}>materi</option>
                     </select>
@@ -346,25 +405,33 @@ export default function ModulEach(props) {
                       required
                     />
                   </div>
-                  <div class="mb-3">
-                    <label for="formFile" class="form-label">
-                      Unggah Materi
-                    </label>
-                    <input
-                      class="form-control"
-                      type="file"
-                      id="formFile"
-                      name="file_materi"
-                    />
-                  </div>
-                </form>
+                  <form onSubmit={fileHandler}>
+                    <div class="mb-3">
+                      <label for="formFile" class="form-label">
+                        Unggah Materi
+                      </label>
+                      <input
+                        class="form-control"
+                        type="file"
+                        id="formFile"
+                        name="file_materi"
+                      />
+                      <button className="btn btn-thirtiery" type="submit">
+                        Upload
+                      </button>
+                      <div>Uploaded {progress}%</div>
+                    </div>
+                  </form>
+                </div>
               </div>
               <div className="modal-footer">
                 <button
                   id={`buatMateriBtn_${modul_id}`}
                   type="button"
                   className="btn btn-thirtiery"
-                  onClick={handleSubmitNewMateri}>
+                  data-dismiss="modal"
+                  onClick={handleSubmitNewMateri}
+                >
                   Submit
                 </button>
               </div>

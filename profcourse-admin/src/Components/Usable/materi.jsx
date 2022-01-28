@@ -1,9 +1,9 @@
 /** @format */
+import axios from "axios";
+import { useMemo, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { useMemo } from "react";
 import { useCookies } from "react-cookie";
 import { BACKEND_URL } from "../../config/env";
-import axios from "axios";
 import MateriCard from "../cards/materiCard";
 
 export default function MateriBox(props) {
@@ -13,7 +13,13 @@ export default function MateriBox(props) {
     return props?.data?.sort((a, b) => a.order > b.order);
   }, [props?.data]);
 
-  // const [materis, setMateris] = useState(sortedData);
+  var defaultModuls = [];
+  if (sortedData === undefined) {
+    defaultModuls = [];
+  } else {
+    defaultModuls = sortedData;
+  }
+  const [materis, setMateris] = useState(defaultModuls);
 
   const handleOnDragEnd = (result) => {
     const items = Array.from(sortedData);
@@ -40,7 +46,7 @@ export default function MateriBox(props) {
           items[i].url_materi
         );
       }
-    } else {
+    } else if (result.destination.index < result.source.index) {
       console.log("ganti data di backend");
       updateMateri(
         items[result.source.index].id,
@@ -61,10 +67,13 @@ export default function MateriBox(props) {
           items[i].url_materi
         );
       }
-      const [reorderedItem] = items.splice(result.source.index, 1);
-
-      items.splice(result.destination.index, 0, reorderedItem);
+    } else {
+      return;
     }
+    const [reorderedItem] = items.splice(result.source.index, 1);
+
+    items.splice(result.destination.index, 0, reorderedItem);
+    setMateris(items);
   };
 
   //   //drag n drop function
@@ -102,6 +111,7 @@ export default function MateriBox(props) {
         }
       )
       .then(function (response) {
+        props.getData(modul_id);
         alert(response.data.data);
         console.log(response.data);
       })
@@ -111,7 +121,7 @@ export default function MateriBox(props) {
       });
   }
   //   //Delete materi
-  function deleteMateri(materi_id) {
+  function deleteMateri(materi_id, modul_id) {
     axios
       .delete(`${BACKEND_URL}/api/v1/materi/${materi_id}`, {
         headers: {
@@ -119,6 +129,7 @@ export default function MateriBox(props) {
         },
       })
       .then(function (response) {
+        props.getData(modul_id);
         alert(response.data.data);
         console.log(response.data.data);
       })
@@ -139,10 +150,10 @@ export default function MateriBox(props) {
               className="list-Group m-0 p-0"
               {...provided.droppableProps}
               ref={provided.innerRef}>
-              {sortedData?.length === 0 && (
+              {defaultModuls?.length === 0 && (
                 <div className="text-center">Belum ada Materi nih :(</div>
               )}
-              {sortedData?.map((item, index) => (
+              {materis?.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided) => (
                     <li

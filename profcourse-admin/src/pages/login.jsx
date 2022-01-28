@@ -1,13 +1,15 @@
 /** @format */
 
-import LoginImage from "../assets/Group1.png";
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { Link, useNavigate } from "react-router-dom";
+import LoginImage from "../assets/Group1.png";
 import { BACKEND_URL } from "../config/env";
+import { useAuth } from "../providers/auth.context";
 
 export default function Login() {
+  const auth = useAuth();
   const navigate = useNavigate();
   //message variables
   var newErrorMessage = {
@@ -28,6 +30,13 @@ export default function Login() {
           path: "/",
           sameSite: "lax",
         });
+
+        auth.setAuth({
+          ...auth,
+          name: response.data.data.name,
+          email: response.data.data.email,
+        });
+
         setIsLoading(false);
         goTo(`/dashboard`);
       })
@@ -175,7 +184,7 @@ export default function Login() {
                       <div
                         className="w-100 text-right d-flex justify-content-end"
                         style={{ fontSize: "10px" }}>
-                        <Link passHref to="lupa-password">
+                        <Link to="lupa-password">
                           <button
                             type="button"
                             className="btn btn-link"

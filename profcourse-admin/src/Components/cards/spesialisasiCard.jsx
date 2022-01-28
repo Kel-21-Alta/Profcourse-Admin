@@ -1,14 +1,10 @@
 /** @format */
 
 import { Link } from "react-router-dom";
-import DeleteButton from "../buttons/delete";
-import UpdateButton from "../buttons/update";
 
-export default function KursusCard(props) {
-  const { course_id, title, url_image } = props?.data;
-  const linkDetailKursus = "/kursus/" + course_id;
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+export default function SpesialisasiCard(props) {
+  const { id, title, url_image } = props?.data;
+  const linkDetailKursus = "/spesialisasi/" + id;
 
   return (
     <div
@@ -32,8 +28,6 @@ export default function KursusCard(props) {
           <Link to={linkDetailKursus} class="btn btn-thirtiery align-self-end">
             Detail Kursus
           </Link>
-          <UpdateButton data={props?.data} edit={props?.edit} />
-          <DeleteButton data={props?.data} del={props?.del} />
         </div>
       </div>
     </div>

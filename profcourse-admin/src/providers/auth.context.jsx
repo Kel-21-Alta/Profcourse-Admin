@@ -12,6 +12,7 @@ const defaultAuthState = {
   isAuthenticated: false,
   isLoading: true,
   logout: () => {},
+  setAuth: () => {},
 };
 
 const AuthContext = createContext(defaultAuthState);
@@ -73,6 +74,7 @@ export const AuthProvider = ({ children }) => {
           isLoading: false,
         });
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -83,10 +85,11 @@ export const AuthProvider = ({ children }) => {
     } else if (!userInProtectedRoute && !notAuthorized) {
       navigate("/dashboard");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth]);
 
   return (
-    <AuthContext.Provider value={{ ...auth, logout }}>
+    <AuthContext.Provider value={{ ...auth, logout, setAuth }}>
       {children}
     </AuthContext.Provider>
   );

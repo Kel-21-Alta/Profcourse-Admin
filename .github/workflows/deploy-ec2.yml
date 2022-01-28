@@ -5,10 +5,11 @@ on:
   push:
     branches:
       - "development"
+      - "test-nginx"
 
-  # pull_request:
-  #   branches:
-  #     - development
+  pull_request:
+    branches:
+      - development
   #     - main
 
 jobs:

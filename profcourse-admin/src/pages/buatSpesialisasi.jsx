@@ -9,7 +9,7 @@ export default function BuatSpesialisasi() {
     <>
       <div className="container-fluid">
         <div class="row flex-nowrap">
-          <Sidebar />
+          <Sidebar active={2} />
           <div class="col py-3">
             <AdminTab />
             <div className="mx-5 my-3">
